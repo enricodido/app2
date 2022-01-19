@@ -1,8 +1,13 @@
 import 'dart:io';
 
+import 'package:checklist/repositories/section.dart';
 import 'package:checklist/repositories/session.dart';
 import 'package:checklist/repositories/user.dart';
+import 'package:checklist/repositories/selectModel.dart';
 import 'package:http/http.dart' as http;
+
+import 'checklistModel.dart';
+import 'items.dart';
 
 const String HOST = 'https://http://127.0.0.1:8000/api/';
 
@@ -13,11 +18,20 @@ class Repository {
   Repository() {
     http = HttpClient(this);
     userRepository = UserRepository(this);
+    selectModelRepository = SelectModelRepository(this);
+    checklistModelRepository = ChecklistModelRepository(this);
+    itemRepository = ItemRepository(this);
+    sectionRepository = SectionRepository(this);
 
   }
+
   HttpClient? http;
   UserRepository? userRepository;
   SessionRepository? sessionRepository;
+  SelectModelRepository? selectModelRepository;
+  ChecklistModelRepository? checklistModelRepository;
+  ItemRepository? itemRepository;
+  SectionRepository? sectionRepository;
 
 }
 

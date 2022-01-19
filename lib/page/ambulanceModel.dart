@@ -117,6 +117,7 @@ class _SchedaControlloAutomezzoWidgetState
                 ],
               ),
             ),
+
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
               child: Text(

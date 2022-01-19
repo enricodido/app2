@@ -8,6 +8,8 @@ class UserRepository {
 
   Future<String?> login(String username, String password) async {
     try {
+      print(username);
+      print(password);
       final response =
           await repository.http?.post(url: 'auth/login', bodyParameters: {
         'username': username,

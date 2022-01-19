@@ -9,6 +9,7 @@ import 'nurseModel.dart';
 
 class SchedaControlliSceltaWidget extends StatefulWidget {
   static const ROUTE_NAME = '/selectModel';
+
   @override
   _SchedaControlliSceltaWidgetState createState() =>
       _SchedaControlliSceltaWidgetState();
@@ -56,7 +57,7 @@ class _SchedaControlliSceltaWidgetState
                           alignment: AlignmentDirectional(1, 0),
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                            EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                             child: InkWell(
                               onTap: () async {
                                 await showDialog(
@@ -65,7 +66,7 @@ class _SchedaControlliSceltaWidgetState
                                     return AlertDialog(
                                       title: Text('Logout'),
                                       content:
-                                          Text('Vuoi effettuare il logOut?'),
+                                      Text('Vuoi effettuare il logOut?'),
                                       actions: [
                                         TextButton(
                                           onPressed: () =>

@@ -2,11 +2,11 @@ import 'package:checklist/components/customButtonPrimary.dart';
 import 'package:checklist/components/customDialog.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
+import 'package:checklist/page/auth/password.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import '../../main.dart';
-import '../home.dart';
 import '../selectModel.dart';
 
 
@@ -39,9 +39,8 @@ class _LoginPageState extends State<LoginPage> {
             .get<Repository>()
             .userRepository
             !.login(username, password);
-        if (jwt != null) {
-          Navigator.popAndPushNamed(context, HomePage.ROUTE_NAME);
-        }
+          Navigator.popAndPushNamed(context, SchedaControlliSceltaWidget.ROUTE_NAME);
+
         print(jwt);
         setState(() {
           visible = true;
@@ -242,7 +241,8 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
-                      )),
+                      )
+                  ),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                     child: FFButtonWidget(
@@ -250,7 +250,7 @@ class _LoginPageState extends State<LoginPage> {
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SchedaControlliSceltaWidget(),
+                            builder: (context) => RecuperaPasswordWidget(),
                           ),
                         );
                       },

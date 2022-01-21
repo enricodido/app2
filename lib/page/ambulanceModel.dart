@@ -1,7 +1,9 @@
+import 'package:checklist/components/flutter_flow_drop_down.dart';
 import 'package:checklist/components/flutter_flow_icon_button.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_util.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:checklist/page/popupSignature.dart';
 import 'package:checklist/page/sanitaryMaterial.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,6 @@ import 'breakingSistem.dart';
 import 'illuminationControl.dart';
 
 class SchedaControlloAutomezzoWidget extends StatefulWidget {
-
   @override
   _SchedaControlloAutomezzoWidgetState createState() =>
       _SchedaControlloAutomezzoWidgetState();
@@ -20,6 +21,7 @@ class SchedaControlloAutomezzoWidget extends StatefulWidget {
 class _SchedaControlloAutomezzoWidgetState
     extends State<SchedaControlloAutomezzoWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  String dropdownValue = 'One';
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class _SchedaControlloAutomezzoWidgetState
                           alignment: AlignmentDirectional(1, 0),
                           child: Padding(
                             padding:
-                            EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                             child: Text(
                               'Massimiliano\nRossini',
                               textAlign: TextAlign.center,
@@ -117,7 +119,17 @@ class _SchedaControlloAutomezzoWidgetState
                 ],
               ),
             ),
-
+            FlutterFlowDropDown(
+              options: ['Ambulanza', 'Macchina'].toList(),
+              onChanged: (val) => setState(() => dropdownValue = val),
+              width: 290,
+              height: 50,
+              textStyle: FlutterFlowTheme.subtitle2.override(
+                fontFamily: 'Poppins',
+                color: FlutterFlowTheme.secondaryColor,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
               child: Text(

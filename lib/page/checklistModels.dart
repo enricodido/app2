@@ -1,10 +1,12 @@
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
+import 'package:checklist/page/ambulanceModel.dart';
 import 'package:checklist/page/selectModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SchedaControlliChecklistWidget extends StatefulWidget {
+  static const ROUTE_NAME = '/checklistModel';
 
   @override
   _SchedaControlliChecklistWidgetState createState() =>
@@ -146,7 +148,7 @@ class _SchedaControlliChecklistWidgetState
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      SchedaControlliSceltaWidget(),
+                                      SchedaControlloAutomezzoWidget(),
                                 ),
                               );
                             },

@@ -130,7 +130,7 @@ class _RecuperaPasswordWidgetState extends State<RecuperaPasswordWidget> {
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LoginPage(),
+                        builder: (context) => LoginPageWidget(),
                       ),
                     );
                   },

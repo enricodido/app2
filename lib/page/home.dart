@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
           getIt.get<Repository>().sessionRepository!.logout();
           Navigator.pushNamedAndRemoveUntil(
             context,
-            LoginPage.ROUTE_NAME,
+            LoginPageWidget.ROUTE_NAME,
             ModalRoute.withName('/'),
           );
         }

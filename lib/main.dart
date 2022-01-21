@@ -1,4 +1,5 @@
 import 'package:checklist/page/auth/login.dart';
+import 'package:checklist/page/checklistModels.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:checklist/page/selectModel.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:checklist/page/home.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 final getIt = GetIt.instance;
+
 void main() {
   getIt.registerSingleton(Repository());
   initializeDateFormatting().then((_) => runApp(
@@ -26,7 +28,7 @@ class App extends StatelessWidget {
     ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: LoginPage.ROUTE_NAME,
+      initialRoute: LoginPageWidget.ROUTE_NAME,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.lightBlueAccent,
         textTheme: GoogleFonts.montserratTextTheme(),
@@ -42,13 +44,14 @@ class App extends StatelessWidget {
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
               )),
-          unselectedLabelStyle: GoogleFonts.montserrat(),
+
         ),
       ),
       routes: {
         HomePage.ROUTE_NAME: (_) => HomePage(),
-        LoginPage.ROUTE_NAME: (_) => LoginPage(),
+        LoginPageWidget.ROUTE_NAME: (_) => LoginPageWidget(),
         SchedaControlliSceltaWidget.ROUTE_NAME: (_) => SchedaControlliSceltaWidget(),
+        SchedaControlliChecklistWidget.ROUTE_NAME: (_) => SchedaControlliChecklistWidget(),
       },
     );
   }

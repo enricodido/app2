@@ -28,6 +28,8 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   community_material_icon: ^5.9.55
+  flutter_localizations:
+    sdk: flutter
   flutter:
     sdk: flutter
   auto_size_text:

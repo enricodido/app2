@@ -1,34 +1,65 @@
 import 'package:checklist/page/auth/login.dart';
 import 'package:checklist/page/checklistModels.dart';
+import 'package:checklist/page/user_page_widget.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:checklist/page/selectModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:checklist/page/home.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'blocs/get_model.dart';
+import 'blocs/time.dart';
+import 'blocs/user_me.dart';
+
 final getIt = GetIt.instance;
 
 void main() {
   getIt.registerSingleton(Repository());
-  initializeDateFormatting().then((_) => runApp(
-    App(),
-  ));
+  runApp(
+    MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) =>
+                UserMeBloc(
+                    UserMeBlocStateLoading()
+                ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                TimeSlotBloc(
+                    TimeSlotBlocStateLoading()
+                ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                GetModelBloc(
+                    GetModelBlocStateLoading()
+                ),
+          ),
+        ],
+        child: MyApp(),
+  ),);
 }
 
 
-class App extends StatelessWidget {
+
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     return MaterialApp(
+      title: 'Deltacall Checklist',
       debugShowCheckedModeBanner: false,
       initialRoute: LoginPageWidget.ROUTE_NAME,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.lightBlueAccent,
         textTheme: GoogleFonts.montserratTextTheme(),
@@ -48,10 +79,10 @@ class App extends StatelessWidget {
         ),
       ),
       routes: {
-        HomePage.ROUTE_NAME: (_) => HomePage(),
         LoginPageWidget.ROUTE_NAME: (_) => LoginPageWidget(),
+        HomePageWidget.ROUTE_NAME: (_) => HomePageWidget(),
         SchedaControlliSceltaWidget.ROUTE_NAME: (_) => SchedaControlliSceltaWidget(),
-        SchedaControlliChecklistWidget.ROUTE_NAME: (_) => SchedaControlliChecklistWidget(),
+        UserPageWidget.ROUTE_NAME: (_) => UserPageWidget(),
       },
     );
   }

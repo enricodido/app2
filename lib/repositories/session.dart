@@ -1,6 +1,5 @@
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:checklist/model/user.dart';
 import 'package:checklist/repositories/repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class SessionRepository {
@@ -8,8 +7,6 @@ class SessionRepository {
   SessionRepository(this.repository);
 
   String? token;
-  String? fullname;
-  String? username;
 
   Future<void> init() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -23,32 +20,13 @@ class SessionRepository {
     preferences.setString("TOKEN", token);
   }
 
-  void setUser({required String fullname, required String username}) async {
-    this.fullname = fullname;
-    this.username = username;
-
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString("FULLNAME", fullname);
-    preferences.setString("USERNAME", username);
-  }
-
-  Future<UserModel> getUser() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    this.fullname = preferences.getString("FULLNAME");
-    this.username = preferences.getString("USERNAME");
-
-    return UserModel(
-      fullname: this.fullname ?? '-',
-      username: this.username ?? '-',
-    );
-  }
-
   void logout() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove("TOKEN");
   }
 
   bool isLogged() {
-    return this.token != null;
+    return token != null;
   }
+
 }

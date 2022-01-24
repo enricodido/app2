@@ -1,171 +1,293 @@
 
-import 'package:checklist/components/customAppBar.dart';
-import 'package:checklist/model/user.dart';
-import 'package:checklist/repositories/repository.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:checklist/blocs/user_me.dart';
+import 'package:checklist/components/flutter_flow_theme.dart';
+import 'package:checklist/page/selectModel.dart';
+import 'package:checklist/page/user_page_widget.dart';
 import 'package:checklist/theme/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../main.dart';
-import 'auth/login.dart';
 
-class HomePage extends StatefulWidget {
-  static const ROUTE_NAME = '/home';
-  @override
-  _HomePageState createState() => _HomePageState();
+
+class HomePageWidget extends StatefulWidget {
+static const ROUTE_NAME = '/home';
+
+@override
+_HomePageWidgetState createState() => _HomePageWidgetState();
 }
 
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
+class _HomePageWidgetState extends State<HomePageWidget> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Future refreshUserMe(BuildContext context) async {
+    BlocProvider.of<UserMeBloc>(context).add(UserMeBlocRefreshEvent());
+    BlocProvider.of<UserMeBloc>(context).add(UserMeBlocGetEvent());
   }
 
-  void logout() async {
-    await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    child: Text('Logout',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                            color: firstColor)),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Confermi di voler eseguire il logout?",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context, false);
-                    },
-                    color: Colors.transparent,
-                    elevation: 0.0,
-                    minWidth: double.infinity,
-                    height: 40,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    textColor: Colors.black,
-                    child: Text("Annulla"),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Navigator.pop(context, true);
-                    },
-                    color: firstColor,
-                    minWidth: double.infinity,
-                    height: 40,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    textColor: secondColor,
-                    child: Text("Conferma"),
-                  )
-                ],
-              ),
-            ),
-          );
-        }).then((value) {
-      if (value != null) {
-        if (value) {
-          getIt.get<Repository>().sessionRepository!.logout();
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            LoginPageWidget.ROUTE_NAME,
-            ModalRoute.withName('/'),
-          );
-        }
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+    refreshUserMe(context);
     return Scaffold(
-      backgroundColor: secondColor,
-      body: CustomScrollView(slivers: <Widget>[
-        CustomAppBar(
-          title: 'ChecklistApp',
-          leading: IconButton(
-              onPressed: () {
-                logout();
-              },
-              icon: Icon(
-                Icons.logout_rounded,
-                color: secondColor,
-              )),
+      key: scaffoldKey,
+      backgroundColor: Color(0xFFF5F5F5),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: Color(0xFFEEEEEE),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: Image.asset(
+              'images/pittogramma-logo-deltacall-check.png',
+            ).image,
+          ),
         ),
-        user(context),
-      ]),
+        child: BlocBuilder<UserMeBloc, UserMeBlocState>(
+            builder: (context, state) {
+              if (state is UserMeBlocStateLoading)
+                return Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 75,
+                        height: 75,
+                        child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(firstColor),
+                        ),
+                      )
+                    ]
+                );
+               else {
+                final user = (state as UserMeBlocStateLoaded).user;
+                return Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.03,
+                      decoration: BoxDecoration(
+                        color: Color(0x00FFFFFF),
+                      ),
+                      child: Container(),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: MediaQuery.of(context).size.height * 0.17,
+                      decoration: BoxDecoration(
+                        color: Color(0x00FFFFFF),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AutoSizeText(
+                            user.name,
+                            maxLines: 1,
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Poppins',
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context,
+                                  UserPageWidget.ROUTE_NAME,
+                                  arguments: UserPageWidgetArg(user: user)
+                              );
+                            },
+                            child: Icon(
+                              Icons.account_circle,
+                              color: Color(0xFF6E6767),
+                              size: 65,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          GestureDetector(
+                            child: Material(
+                              color: Colors.transparent,
+                              elevation: 10,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.85,
+                                height: MediaQuery.of(context).size.height * 0.09,
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFEEEEEE),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 4,
+                                      color: Color(0xFF80BC01),
+                                    )
+                                  ],
+                                  borderRadius: BorderRadius.circular(8),
+                                  shape: BoxShape.rectangle,
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 8),
+                                      child: Image.asset(
+                                        'images/pittogramma-logo-deltacall-check.png',
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                    AutoSizeText(
+                                      'Checklist',
+                                      maxLines: 1,
+                                      style: FlutterFlowTheme.bodyText1.override(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 22,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context,
+                                  SchedaControlliSceltaWidget.ROUTE_NAME,
+                                  arguments: SchedaControlliSceltaWidgetArg(user: user)
+                              );
+                            },
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              color: Color(0x00EEEEEE),
+                            ),
+                          ),
+                          Material(
+                            color: Colors.transparent,
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.85,
+                              height: MediaQuery.of(context).size.height * 0.09,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFEEEEEE),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 4,
+                                    color: Color(0xFF80BC01),
+                                  )
+                                ],
+                                borderRadius: BorderRadius.circular(8),
+                                shape: BoxShape.rectangle,
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 8),
+                                    child: Image.asset(
+                                      'images/pittogramma-logo-deltacall-check.png',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  AutoSizeText(
+                                    'Checklist iniziate',
+                                    maxLines: 1,
+                                    style: FlutterFlowTheme.bodyText1.override(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 22,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 15,
+                            decoration: BoxDecoration(
+                              color: Color(0x00EEEEEE),
+                            ),
+                          ),
+                          GestureDetector(
+                              child: Material(
+                                color: Colors.transparent,
+                                elevation: 10,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * 0.85,
+                                  height: MediaQuery.of(context).size.height * 0.09,
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFEEEEEE),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 4,
+                                        color: Color(0xFF80BC01),
+                                      )
+                                    ],
+                                    borderRadius: BorderRadius.circular(8),
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 8),
+                                        child: Image.asset(
+                                          'images/pittogramma-logo-deltacall-check.png',
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                      AutoSizeText(
+                                        'Claim',
+                                        maxLines: 1,
+                                        style: FlutterFlowTheme.bodyText1.override(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 22,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context,
+                                    SchedaControlliSceltaWidget.ROUTE_NAME,
+                                    arguments: SchedaControlliSceltaWidgetArg(user: user)
+                                );
+                              }
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                );
+              }
+            }
+        ),
+      ),
     );
   }
-
-  Widget user(BuildContext context) {
-    return FutureBuilder<UserModel>(
-        future: getIt.get<Repository>().userRepository!.me(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return SliverPadding(
-              padding: EdgeInsets.zero,
-              sliver: SliverToBoxAdapter(
-                child: Card(
-                    margin: const EdgeInsets.all(10.0),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        side: BorderSide(color: firstColor, width: 1.0)),
-                    elevation: 3,
-                    semanticContainer: true,
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    color: secondColor,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 20.0),
-                      child: ListTile(
-                        title: Text(
-                          snapshot.data!.username,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25),
-                        ),
-                        subtitle: Text(
-                          snapshot.data!.fullname,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
-                        leading: Icon(Icons.work_outlined,
-                            size: 50.0, color: Colors.black),
-                      ),
-                    )),
-              ),
-            );
-          } else {
-            return SliverPadding(
-              padding: EdgeInsets.all(20.0),
-              sliver: SliverToBoxAdapter(
-                child: Container(
-                  child: Center(
-                      child: CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(secondColor),
-                      )),
-                ),
-              ),
-            );
-          }
-        });
-  }
 }
-

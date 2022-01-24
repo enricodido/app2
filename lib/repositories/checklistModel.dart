@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:core';
+import 'dart:core';
 import 'package:checklist/components/customDialog.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,25 +43,29 @@ class ChecklistModelRepository {
       return false;
     }
   }
-  Future<List> getChecklistModel({
-    required String id,
-    required String model,
-    String? vehicleType,
-    String? status,
-    String? done,
-    required BuildContext context,
-  }) async {
+  Future<String?> getChecklistModel(String id, String model, String vehicleType, String status, String done) async {
     try {
-      final response = await repository.http!.get(url: 'models');
-      var data = json.decode(response.body);
+      final response =
+      await repository.http!.post(url: 'getmodel', bodyParameters: {
+        'id': id,
+        'model': model,
+        'vehicleType': vehicleType,
+        'status': status,
+        'done': done,
+      });
+
+      final data = json.decode(response.body);
+
       if (response.statusCode == 200) {
-        return data['models'];
-      } else {
-        return [];
+        final token = data['access_token'];
+
+        repository.sessionRepository!.setToken(token);
+
+        return token;
       }
     } catch (error) {
-      return [];
+      print(error);
+      return null;
     }
   }
-
 }

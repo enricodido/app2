@@ -3,23 +3,28 @@ import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
 import 'package:checklist/page/auth/resetPassword.dart';
 import 'package:checklist/page/checklistModels.dart';
+import 'package:checklist/page/home.dart';
+import 'package:checklist/page/selectModel.dart';
+import 'package:checklist/page/user_page_widget.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import '../../main.dart';
 
 class LoginPageWidget extends StatefulWidget {
   static const ROUTE_NAME = '/login';
-
   @override
   _LoginPageWidgetState createState() => _LoginPageWidgetState();
 }
 
 class _LoginPageWidgetState extends State<LoginPageWidget> {
-
   bool isLoading = false;
 
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  String emailError = 'email richiesta.';
+  String passwordError = 'Password richiesta.';
 
   bool textFieldPasswordVisibility = false;
   bool _loadingButton = false;
@@ -27,24 +32,27 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   void onSubmit() async {
-    final username = usernameController.text.trim();
+    final email = emailController.text.trim();
     final password = passwordController.text.trim();
+
     print(HOST);
 
-    if (username.isNotEmpty && password.isNotEmpty) {
+    if (email.isNotEmpty && password.isNotEmpty) {
       setState(() {
         isLoading = true;
       });
       try {
+
         final jwt = await getIt
             .get<Repository>()
             .userRepository!
-            .login( username, password);
-        print(jwt);
-          Navigator.popAndPushNamed(context, SchedaControlliChecklistWidget.ROUTE_NAME);
+            .login(email.toString(), password.toString());
 
+
+        print(jwt);
 
         setState(() {
+          Navigator.popAndPushNamed(context, SchedaControlliSceltaWidget.ROUTE_NAME);
           isLoading = true;
         });
       } catch (error) {
@@ -125,15 +133,15 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(30, 50, 30, 50),
                 child: TextFormField(
-                        controller: usernameController,
+                        controller: emailController,
                         obscureText: false,
                         decoration: InputDecoration(
-                          labelText: 'User',
+                          labelText: 'Email',
                           labelStyle: FlutterFlowTheme.bodyText1.override(
                             fontFamily: 'Open Sans',
                             color: Color(0xFF707070),
                           ),
-                          hintText: 'Inserisci Username',
+                          hintText: 'Inserisci Email',
                           hintStyle: FlutterFlowTheme.bodyText1.override(
                             fontFamily: 'Open Sans',
                             color: Color(0xFF707070),

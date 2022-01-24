@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:checklist/repositories/section.dart';
 import 'package:checklist/repositories/session.dart';
+import 'package:checklist/repositories/time.dart';
 import 'package:checklist/repositories/user.dart';
 import 'package:checklist/repositories/selectModel.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +13,6 @@ import 'items.dart';
 const String HOST = 'http://192.168.1.94:8080/api/';
 
 
-const String VERSION = '';
 
 class Repository {
   Repository() {
@@ -32,6 +32,8 @@ class Repository {
   ChecklistModelRepository? checklistModelRepository;
   ItemRepository? itemRepository;
   SectionRepository? sectionRepository;
+  TimeRepository? timeRepository;
+
 
 }
 

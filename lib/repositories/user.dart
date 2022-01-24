@@ -3,25 +3,24 @@ import 'package:checklist/components/customDialog.dart';
 import 'package:checklist/model/user.dart';
 import 'package:checklist/repositories/repository.dart';
 
+
 class UserRepository {
   Repository repository;
-
   UserRepository(this.repository);
 
-  Future<String?> login(String username, String password) async {
+  Future<String?> login(String email, String password) async {
     try {
       final response =
       await repository.http!.post(url: 'auth/login', bodyParameters: {
-        'username': username,
+        'email': email,
         'password': password,
       });
 
       final data = json.decode(response.body);
-      print(data);
-      print(data['access_token']);
+
       if (response.statusCode == 200) {
         final token = data['access_token'];
-
+      print(token);
         repository.sessionRepository!.setToken(token);
 
         return token;
@@ -53,4 +52,5 @@ class UserRepository {
 
     throw RequestError(data);
   }
+
 }

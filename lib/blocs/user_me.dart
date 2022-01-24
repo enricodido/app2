@@ -1,5 +1,3 @@
-
-
 import 'package:checklist/model/user.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,20 +1,24 @@
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
-import 'package:checklist/page/ambulanceModel.dart';
-import 'package:checklist/page/selectModel.dart';
+import 'package:checklist/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SchedaControlliChecklistWidget extends StatefulWidget {
-  static const ROUTE_NAME = '/checklistModel';
+import 'ambulanceModel.dart';
+import 'nurseModel.dart';
+
+
+
+class SchedaSceltaWidget extends StatefulWidget {
 
   @override
-  _SchedaControlliChecklistWidgetState createState() =>
-      _SchedaControlliChecklistWidgetState();
+  _SchedaSceltaWidgetState createState() =>
+      _SchedaSceltaWidgetState();
 }
 
-class _SchedaControlliChecklistWidgetState
-    extends State<SchedaControlliChecklistWidget> {
+class _SchedaSceltaWidgetState
+    extends State<SchedaSceltaWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -28,7 +32,8 @@ class _SchedaControlliChecklistWidgetState
         decoration: BoxDecoration(
           color: Colors.white,
         ),
-        child: ListView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
             Row(
               mainAxisSize: MainAxisSize.max,
@@ -45,7 +50,7 @@ class _SchedaControlliChecklistWidgetState
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                         child: Image.asset(
-                          'images/logo-deltacall-check-esteso.png',
+                          'assets/images/logo-deltacall-check-esteso.png',
                           height: 80,
                           fit: BoxFit.cover,
                         ),
@@ -120,109 +125,79 @@ class _SchedaControlliChecklistWidgetState
                 ),
               ),
             ),
+            Text(
+              'Seleziona la scheda da controllare',
+              style: FlutterFlowTheme.bodyText1.override(
+                fontFamily: 'Open Sans',
+                color: Color(0xFFBDBDBD),
+                fontSize: 18,
+              ),
+            ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-              child: Card(
-                clipBehavior: Clip.antiAliasWithSaveLayer,
-                color: Color(0xFFE5E5E5),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Text(
-                        'Lista controllo Automezzo iniziata da Giulio Bianchi il 22 Dicembre 2022',
-                        textAlign: TextAlign.start,
-                        style: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Open Sans',
-                          fontSize: 16,
-                        ),
-                      ),
-                      Align(
-                        alignment: AlignmentDirectional(1, 0),
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(10, 5, 10, 0),
-                          child: FFButtonWidget(
-                            onPressed: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      SchedaControlloAutomezzoWidget(),
-                                ),
-                              );
-                            },
-                            text: 'Modifica',
-                            options: FFButtonOptions(
-                              width: 130,
-                              height: 40,
-                              color: FlutterFlowTheme.secondaryColor,
-                              textStyle: FlutterFlowTheme.subtitle2.override(
-                                fontFamily: 'Open Sans',
-                                color: Colors.white,
-                              ),
-                              borderSide: BorderSide(
-                                color: Colors.transparent,
-                                width: 1,
-                              ),
-                              borderRadius: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+              padding: EdgeInsetsDirectional.fromSTEB(7, 60, 7, 0),
+              child: FFButtonWidget(
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SchedaControlloAutomezzoWidget(),
+                    ),
+                  );
+                },
+                text: 'Scheda controllo automezzo',
+                icon: FaIcon(
+                  FontAwesomeIcons.ambulance,
+                  size: 30,
+                ),
+                options: FFButtonOptions(
+                  width: double.infinity,
+                  height: 90,
+                  color: Colors.white,
+                  textStyle: FlutterFlowTheme.subtitle2.override(
+                    fontFamily: 'Open Sans',
+                    color: Color(0xFF2CA4D4),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                   ),
+                  borderSide: BorderSide(
+                    color: Color(0xFF2CA4D4),
+                    width: 3,
+                  ),
+                  borderRadius: 15,
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(3, 3, 3, 3),
-              child: Text(
-                'Lista controllo automezzo',
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  fontSize: 16,
+              padding: EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
+              child: FFButtonWidget(
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SchedaControlloInfermiereWidget(),
+                    ),
+                  );
+                },
+                text: 'Scheda controllo infermiere',
+                icon: FaIcon(
+                  FontAwesomeIcons.userNurse,
+                  size: 30,
                 ),
-              ),
-            ),
-            Expanded(
-              child: Align(
-                alignment: AlignmentDirectional(0, 1),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: FFButtonWidget(
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SchedaControlliSceltaWidget(),
-                          ),
-                        );
-                      },
-                      text: 'Aggiungi nuova checklist',
-                      options: FFButtonOptions(
-                        width: 130,
-                        height: 40,
-                        color: FlutterFlowTheme.primaryColor,
-                        textStyle: FlutterFlowTheme.subtitle2.override(
-                          fontFamily: 'Open Sans',
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                        borderSide: BorderSide(
-                          color: Colors.transparent,
-                          width: 1,
-                        ),
-                        borderRadius: 12,
-                      ),
-                    ),
+                options: FFButtonOptions(
+                  width: double.infinity,
+                  height: 90,
+                  color: Colors.white,
+                  textStyle: FlutterFlowTheme.subtitle2.override(
+                    fontFamily: 'Open Sans',
+                    color: Color(0xFFBDBDBD),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                   ),
+                  borderSide: BorderSide(
+                    color: Color(0xFFBDBDBD),
+                    width: 3,
+                  ),
+                  borderRadius: 15,
                 ),
               ),
             ),

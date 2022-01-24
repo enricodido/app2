@@ -1,13 +1,21 @@
+import 'dart:async';
+import 'package:checklist/blocs/user_me.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
-
-import 'package:flutter/cupertino.dart';
+import 'package:checklist/model/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../main.dart';
 import 'ambulanceModel.dart';
 import 'nurseModel.dart';
+
+class SchedaControlliSceltaWidgetArg {
+  SchedaControlliSceltaWidgetArg({
+    required this.user,
+  });
+
+  final UserModel? user;
+}
 
 class SchedaControlliSceltaWidget extends StatefulWidget {
   static const ROUTE_NAME = '/selectModel';
@@ -17,9 +25,15 @@ class SchedaControlliSceltaWidget extends StatefulWidget {
       _SchedaControlliSceltaWidgetState();
 }
 
-class _SchedaControlliSceltaWidgetState
-    extends State<SchedaControlliSceltaWidget> {
+class _SchedaControlliSceltaWidgetState extends State<SchedaControlliSceltaWidget> {
+
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+Future refreshUserMe(BuildContext context) async {
+  BlocProvider.of<UserMeBloc>(context).add(UserMeBlocRefreshEvent());
+  BlocProvider.of<UserMeBloc>(context).add(UserMeBlocGetEvent());
+}
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +95,7 @@ class _SchedaControlliSceltaWidgetState
                                 );
                               },
                               child: Text(
-                                'Massimiliano\nRossini',
+                                'Logout',
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.bodyText1.override(
                                   fontFamily: 'Open Sans',

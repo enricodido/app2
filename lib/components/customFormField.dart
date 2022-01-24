@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +37,7 @@ class CustomFormField extends StatelessWidget {
                 this.label,
                 textAlign: TextAlign.center,
               )),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Card(

@@ -66,7 +66,7 @@ class HttpClient {
   Future<http.Response> post({
     required String url,
     Map bodyParameters = const {},
-  }) {
+  })  {
     print(HOST + url);
     return http.post(
       Uri.parse(HOST + url),

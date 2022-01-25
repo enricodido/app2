@@ -13,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:checklist/page/home.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'blocs/get_checklist.dart';
 import 'blocs/get_model.dart';
 import 'blocs/time.dart';
 import 'blocs/user_me.dart';
@@ -40,6 +41,12 @@ void main() {
             create: (_) =>
                 GetModelBloc(
                     GetModelBlocStateLoading()
+                ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                GetChecklistBloc(
+                    GetChecklistBlocStateLoading()
                 ),
           ),
         ],

@@ -32,8 +32,8 @@ class _UserPageWidgetState extends State<UserPageWidget> {
 
   UserModel? user;
 
-  Checklist? checklist;
-  List<Checklist> checklists = [];
+  selectModel? model;
+  List<selectModel> models = [];
 
   void logout(BuildContext context) {
     getIt.get<Repository>().sessionRepository!.logout();
@@ -55,9 +55,9 @@ class _UserPageWidgetState extends State<UserPageWidget> {
       final args = ModalRoute.of(context)!.settings.arguments as UserPageWidgetArg;
       user = args.user;
 
-      if(user!.checklist.status == 1) {
-        user!.checklist.status.forEach((checklist) {
-          checklists.add(checklist);
+      if(user!.model.status == 1) {
+        user!.model.status.forEach((model) {
+          models.add(model);
         });
       }
 
@@ -240,9 +240,9 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                           children: [
                             Align(
                               alignment: AlignmentDirectional(-0.05, 0.05),
-                              child:  DropdownButton<Checklist>(
+                              child:  DropdownButton<selectModel>(
                                 isExpanded: true,
-                                value: checklist,
+                                value: model,
                                 icon:
                                 const Icon(Icons.arrow_drop_down),
                                 iconSize: 24,
@@ -255,17 +255,17 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                                   height: 1,
                                   color: Colors.black,
                                 ),
-                                onChanged: (Checklist? value) async {
+                                onChanged: (selectModel? value) async {
                                   SharedPreferences preferences = await SharedPreferences.getInstance();
                                   preferences.setString("SHOP_ID", value!.id);
                                   setState(() {
-                                    checklist = value;
+                                    model = value;
                                   });
                                 },
-                                items: checklists.map<DropdownMenuItem<Checklist>>((Checklist checklist) {
-                                  return DropdownMenuItem<Checklist>(
-                                    value: checklist,
-                                    child: Text(checklist.description),
+                                items: models.map<DropdownMenuItem<selectModel>>((selectModel model) {
+                                  return DropdownMenuItem<selectModel>(
+                                    value: model,
+                                    child: Text(model.description),
                                   );
                                 }).toList(),
                               ),

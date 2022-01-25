@@ -1,5 +1,6 @@
 import 'package:checklist/page/auth/login.dart';
 import 'package:checklist/page/checklistModels.dart';
+import 'package:checklist/page/splash.dart';
 import 'package:checklist/page/user_page_widget.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:checklist/page/selectModel.dart';
@@ -83,6 +84,7 @@ class MyApp extends StatelessWidget {
         HomePageWidget.ROUTE_NAME: (_) => HomePageWidget(),
         SchedaControlliSceltaWidget.ROUTE_NAME: (_) => SchedaControlliSceltaWidget(),
         UserPageWidget.ROUTE_NAME: (_) => UserPageWidget(),
+        SplashPageWidget.ROUTE_NAME: (_) => SplashPageWidget(),
       },
     );
   }

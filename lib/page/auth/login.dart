@@ -42,30 +42,29 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
         isLoading = true;
       });
 
-        final data = await getIt
+      try {
+
+        final jwt = await getIt
             .get<Repository>()
             .userRepository!
             .login(context, email.toString(), password.toString());
+        if(jwt != null) {
+          Navigator.pushNamed(context, SchedaControlliSceltaWidget.ROUTE_NAME);
+        }
 
-
-        print(data);
-      if(data['success']) {
-
-        Navigator.popAndPushNamed(context, SchedaControlliSceltaWidget.ROUTE_NAME);
-        setState(() {
-          isLoading = false;
-        });
-
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-        showCustomDialog(
-          context: context,
-          type: CustomDialog.ERROR,
-          msg: data['error'],
-        );
+      } catch (error) {
+        print(error);
+        if ((error as RequestError).error == 'Unauthorized') {
+          showCustomDialog(
+            context: context,
+            type: CustomDialog.WARNING,
+            msg: 'Credenziali non corrette!',
+          );
+        }
       }
+      setState(() {
+        isLoading = false;
+      });
 
     } else {
       showCustomDialog(

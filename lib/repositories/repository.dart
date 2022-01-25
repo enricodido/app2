@@ -12,17 +12,15 @@ import 'items.dart';
 
 const String HOST = 'http://192.168.1.94:8080/api/';
 
-
-
 class Repository {
   Repository() {
     http = HttpClient(this);
     userRepository = UserRepository(this);
+    sessionRepository = SessionRepository(this);
     selectModelRepository = SelectModelRepository(this);
     checklistModelRepository = ChecklistModelRepository(this);
     itemRepository = ItemRepository(this);
     sectionRepository = SectionRepository(this);
-
   }
 
   HttpClient? http;
@@ -33,7 +31,6 @@ class Repository {
   ItemRepository? itemRepository;
   SectionRepository? sectionRepository;
   TimeRepository? timeRepository;
-
 
 }
 
@@ -67,7 +64,6 @@ class HttpClient {
     required String url,
     Map bodyParameters = const {},
   })  {
-    print(HOST + url);
     return http.post(
       Uri.parse(HOST + url),
       body: bodyParameters,

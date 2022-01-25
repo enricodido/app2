@@ -32,8 +32,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
 
   UserModel? user;
 
-  selectModel? model;
-  List<selectModel> models = [];
+
 
   void logout(BuildContext context) {
     getIt.get<Repository>().sessionRepository!.logout();
@@ -55,11 +54,6 @@ class _UserPageWidgetState extends State<UserPageWidget> {
       final args = ModalRoute.of(context)!.settings.arguments as UserPageWidgetArg;
       user = args.user;
 
-      if(user!.model.status == 1) {
-        user!.model.status.forEach((model) {
-          models.add(model);
-        });
-      }
 
     });
 
@@ -72,18 +66,12 @@ class _UserPageWidgetState extends State<UserPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: Colors.white,
       body: Container(
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
-          color: Color(0xFFEEEEEE),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: Image.asset(
-              'images/pittogramma-logo-deltacall-check.png',
-            ).image,
-          ),
+          color: Colors.white,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -108,10 +96,11 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                   ),
                   Text(
                     'Cognome',
-                    style: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
+                    style: FlutterFlowTheme.subtitle2.override(
+                      fontFamily: 'Open Sans',
+                      color: Colors.lightBlueAccent,
                       fontSize: 26,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   Padding(
@@ -129,14 +118,14 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                           children: [
                             Text(
                               user!.name,
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
+                              style: FlutterFlowTheme.subtitle2.override(
+                                fontFamily: 'Open Sans',
                                 fontSize: 16,
                               ),
                             ),
                             Divider(
                               thickness: 1,
-                              color: Colors.black,
+                              color: Colors.lightBlueAccent,
                             )
                           ],
                         ),
@@ -145,10 +134,11 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                   ),
                   Text(
                     'Nome',
-                    style: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
+                    style: FlutterFlowTheme.subtitle2.override(
+                      fontFamily: 'Open Sans',
+                      color: Colors.lightBlueAccent,
                       fontSize: 26,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   Padding(
@@ -166,14 +156,14 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                           children: [
                             Text(
                               user!.lastname,
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
+                              style: FlutterFlowTheme.subtitle2.override(
+                                fontFamily: 'Open Sans',
                                 fontSize: 16,
                               ),
                             ),
                             Divider(
                               thickness: 1,
-                              color: Colors.black,
+                              color: Colors.lightBlueAccent,
                             )
                           ],
                         ),
@@ -182,10 +172,11 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                   ),
                   Text(
                     'Email',
-                    style: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
+                    style: FlutterFlowTheme.subtitle2.override(
+                      fontFamily: 'Open Sans',
+                      color: Colors.lightBlueAccent,
                       fontSize: 26,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   Padding(
@@ -203,73 +194,15 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                           children: [
                             Text(
                               user!.email,
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
+                              style: FlutterFlowTheme.subtitle2.override(
+                                fontFamily: 'Open Sans',
                                 fontSize: 16,
                               ),
                             ),
                             Divider(
                               thickness: 1,
-                              color: Colors.black,
+                              color: Colors.lightBlueAccent,
                             )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Text(
-                    'Punto  Vendita',
-                    style: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Poppins',
-                      fontSize: 26,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: 70,
-                      decoration: BoxDecoration(
-                        color: Color(0x00EEEEEE),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Align(
-                              alignment: AlignmentDirectional(-0.05, 0.05),
-                              child:  DropdownButton<selectModel>(
-                                isExpanded: true,
-                                value: model,
-                                icon:
-                                const Icon(Icons.arrow_drop_down),
-                                iconSize: 24,
-                                elevation: 16,
-                                style: const TextStyle(
-                                  color: Colors.deepPurple,
-                                  fontSize: 20,
-                                ),
-                                underline: Container(
-                                  height: 1,
-                                  color: Colors.black,
-                                ),
-                                onChanged: (selectModel? value) async {
-                                  SharedPreferences preferences = await SharedPreferences.getInstance();
-                                  preferences.setString("SHOP_ID", value!.id);
-                                  setState(() {
-                                    model = value;
-                                  });
-                                },
-                                items: models.map<DropdownMenuItem<selectModel>>((selectModel model) {
-                                  return DropdownMenuItem<selectModel>(
-                                    value: model,
-                                    child: Text(model.description),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -277,9 +210,9 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
-                    height: 45,
+                    height: 70,
                     decoration: BoxDecoration(
-                      color: Color(0xFFEEEEEE),
+                      color: Colors.white,
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -291,11 +224,13 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                           text: 'Logout',
                           options: FFButtonOptions(
                             width: double.infinity,
-                            height: 45,
-                            color: Color(0xFFFF0000),
+                            height: 50,
+                            color: Colors.lightBlueAccent,
                             textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Poppins',
+                              fontFamily: 'Open Sans',
                               color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
                             ),
                             borderSide: BorderSide(
                               color: Colors.transparent,
@@ -327,7 +262,7 @@ class _UserPageWidgetState extends State<UserPageWidget> {
                         Navigator.pushNamed(context, HomePageWidget.ROUTE_NAME);
                       },
                       child: Image.asset(
-                        'assets/images/indietro.png',
+                        'images/back-icona.png',
                         width: 100,
                         height: 100,
                         fit: BoxFit.scaleDown,

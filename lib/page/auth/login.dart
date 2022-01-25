@@ -1,7 +1,6 @@
 import 'package:checklist/components/customDialog.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
-import 'package:checklist/page/auth/resetPassword.dart';
 import 'package:checklist/page/checklistModels.dart';
 import 'package:checklist/page/home.dart';
 import 'package:checklist/page/selectModel.dart';
@@ -35,8 +34,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
     final email = textFieldEmailController.text.trim();
     final password = textFieldPasswordController.text.trim();
 
-    print(HOST);
-
     if (email.isNotEmpty && password.isNotEmpty) {
       setState(() {
         isLoading = true;
@@ -49,11 +46,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
             .userRepository!
             .login(context, email.toString(), password.toString());
         if(jwt != null) {
-          Navigator.pushNamed(context, SchedaControlliSceltaWidget.ROUTE_NAME);
+          Navigator.pushNamed(context, HomePageWidget.ROUTE_NAME);
         }
 
       } catch (error) {
-        print(error);
         if ((error as RequestError).error == 'Unauthorized') {
           showCustomDialog(
             context: context,
@@ -75,10 +71,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
     }
   }
 
-    @override
-    void initState() {
-      super.initState();
-    }
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,106 +124,99 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(30, 50, 30, 50),
                 child: TextFormField(
-                        controller: textFieldEmailController,
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          labelStyle: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Open Sans',
-                            color: Color(0xFF707070),
-                          ),
-                          hintText: 'Inserisci Email',
-                          hintStyle: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Open Sans',
-                            color: Color(0xFF707070),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFF2684AA),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFF2684AA),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          contentPadding:
-                              EdgeInsetsDirectional.fromSTEB(18, 18, 18, 18),
-                          prefixIcon: Icon(
-                            Icons.person,
-                          ),
-                        ),
-                        style: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Open Sans',
-                          color: Color(0xFF707070),
-                        ),
-                      ),
+                  controller: textFieldEmailController,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    labelStyle: FlutterFlowTheme.bodyText1.override(
+                      fontFamily: 'Open Sans',
+                      color: Color(0xFF707070),
                     ),
+                    hintText: 'Inserisci Email',
+                    hintStyle: FlutterFlowTheme.bodyText1.override(
+                      fontFamily: 'Open Sans',
+                      color: Color(0xFF707070),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFF2684AA),
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFF2684AA),
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    contentPadding:
+                    EdgeInsetsDirectional.fromSTEB(18, 18, 18, 18),
+                    prefixIcon: Icon(
+                      Icons.person,
+                    ),
+                  ),
+                  style: FlutterFlowTheme.bodyText1.override(
+                    fontFamily: 'Open Sans',
+                    color: Color(0xFF707070),
+                  ),
+                ),
+              ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(30, 0, 30, 50),
                 child: TextFormField(
-                        controller: textFieldPasswordController,
-                        obscureText: !textFieldPasswordVisibility,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          labelStyle: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Open Sans',
-                            color: Color(0xFF707070),
-                          ),
-                          hintText: 'Password',
-                          hintStyle: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Open Sans',
-                            color: Color(0xFF707070),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFF2684AA),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Color(0xFF2684AA),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          contentPadding:
-                              EdgeInsetsDirectional.fromSTEB(18, 18, 18, 18),
-                          prefixIcon: Icon(
-                            Icons.password,
-                          ),
-                          suffixIcon: InkWell(
-                            onTap: () => setState(
-                              () => textFieldPasswordVisibility =
-                                  !textFieldPasswordVisibility,
-                            ),
-                            child: Icon(
-                              textFieldPasswordVisibility
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined,
-                              color: Color(0xFF757575),
-                              size: 22,
-                            ),
-                          ),
-                        ),
-                        style: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Open Sans',
-                          color: Color(0xFF707070),
-                        ),
-                        keyboardType: TextInputType.visiblePassword,
+                  controller: textFieldPasswordController,
+                  obscureText: !textFieldPasswordVisibility,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    labelStyle: FlutterFlowTheme.bodyText1.override(
+                      fontFamily: 'Open Sans',
+                      color: Color(0xFF707070),
+                    ),
+                    hintText: 'Password',
+                    hintStyle: FlutterFlowTheme.bodyText1.override(
+                      fontFamily: 'Open Sans',
+                      color: Color(0xFF707070),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFF2684AA),
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFF2684AA),
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    contentPadding:
+                    EdgeInsetsDirectional.fromSTEB(18, 18, 18, 18),
+                    prefixIcon: Icon(
+                      Icons.password,
+                    ),
+                    suffixIcon: InkWell(
+                      onTap: () => setState(
+                            () => textFieldPasswordVisibility =
+                        !textFieldPasswordVisibility,
+                      ),
+                      child: Icon(
+                        textFieldPasswordVisibility
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                        color: Color(0xFF757575),
+                        size: 22,
                       ),
                     ),
-              Container(
-                width: double.infinity,
-                height: 25,
-                decoration: BoxDecoration(
-                  color: Color(0xFFEEEEEE),
+                  ),
+                  style: FlutterFlowTheme.bodyText1.override(
+                    fontFamily: 'Open Sans',
+                    color: Color(0xFF707070),
+                  ),
+                  keyboardType: TextInputType.visiblePassword,
                 ),
               ),
               Padding(
@@ -237,39 +226,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                   text: 'Accedi',
                   options: FFButtonOptions(
                     width: double.infinity,
-                    height: 45,
+                    height: 50,
                     color: Colors.lightBlueAccent,
-                    textStyle: FlutterFlowTheme.subtitle2.override(
-                      fontFamily: 'Poppins',
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    borderSide: BorderSide(
-                      color: Colors.transparent,
-                      width: 1,
-                    ),
-                    borderRadius: 15,
-                  ),
-                  loading: _loadingButton,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
-                child: FFButtonWidget(
-                  onPressed: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RecuperaPasswordWidget(),
-                      ),
-                    );
-                  },
-                  text: 'Recupera Password',
-                  options: FFButtonOptions(
-                    width: double.infinity,
-                    height: 40,
-                    color: Colors.grey,
                     textStyle: FlutterFlowTheme.subtitle2.override(
                       fontFamily: 'Poppins',
                       color: Colors.white,

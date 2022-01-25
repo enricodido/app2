@@ -47,10 +47,9 @@ class ChecklistModelRepository {
   }
 
 
-  Future<List<ChecklistModel>> get({required String description}) async {
+  Future<List<ChecklistModel>> get() async {
     final response = await repository.http!.post(
         url: 'get/models', bodyParameters: {
-      'description': description,
     });
     final data = json.decode(response.body);
 

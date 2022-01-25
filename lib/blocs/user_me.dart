@@ -7,7 +7,6 @@ import '../main.dart';
 class UserMeBloc extends Bloc<UserMeBlocEvent, UserMeBlocState> {
   UserMeBloc(UserMeBlocState initialState) : super(UserMeBlocStateLoading());
 
-  @override
   Stream<UserMeBlocState> mapEventToState(UserMeBlocEvent event) async* {
     if (event is UserMeBlocGetEvent) {
       UserModel user = await getIt.get<Repository>().userRepository!.me();

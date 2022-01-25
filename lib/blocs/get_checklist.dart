@@ -11,7 +11,7 @@ class GetChecklistBloc extends Bloc<GetChecklistBlocEvent, GetChecklistBlocState
   @override
   Stream<GetChecklistBlocState> mapEventToState(GetChecklistBlocEvent event) async* {
     if (event is GetChecklistBlocGetEvent) {
-      List<ChecklistModel> checklists = await getIt.get<Repository>().checklistModelRepository!.get(description: event.description);
+      List<ChecklistModel> checklists = await getIt.get<Repository>().checklistModelRepository!.get();
 
       yield GetChecklistBlocStateLoaded(checklists);
     } else {
@@ -23,7 +23,7 @@ class GetChecklistBloc extends Bloc<GetChecklistBlocEvent, GetChecklistBlocState
 abstract class GetChecklistBlocEvent {}
 
 class GetChecklistBlocGetEvent extends GetChecklistBlocEvent {
-  GetChecklistBlocGetEvent({required this.description});
+  GetChecklistBlocGetEvent(this.description);
   final String description;
 }
 

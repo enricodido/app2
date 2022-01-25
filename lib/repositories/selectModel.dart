@@ -6,17 +6,17 @@ class SelectModelRepository {
   late Repository repository;
   SelectModelRepository(this.repository);
 
-  Future<List<selectModel>> get({required String description}) async {
+  Future<List<SelectModel>> get({required String status}) async {
     final response = await repository.http!.post(
         url: 'get/list_models', bodyParameters: {
-      'description': description,
+      'status': status,
     });
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      List<selectModel> models = [];
+      List<SelectModel> models = [];
       data['models'].forEach((model) {
-        models.add(selectModel.fromData(model));
+        models.add(SelectModel.fromData(model));
       });
       return models;
     }

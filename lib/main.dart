@@ -20,26 +20,27 @@ import 'blocs/user_me.dart';
 
 final getIt = GetIt.instance;
 
+const String STATUS_OPEN = '0';
+const String STATUS_ASSIGNED = '1';
+const String STATUS_CLOSED = '2';
+
 void main() {
   getIt.registerSingleton(Repository());
   runApp(
     MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) =>
-                UserMeBloc(
+            create: (_) => UserMeBloc(
                     UserMeBlocStateLoading()
                 ),
           ),
           BlocProvider(
-            create: (_) =>
-                TimeSlotBloc(
+            create: (_) => TimeSlotBloc(
                     TimeSlotBlocStateLoading()
                 ),
           ),
           BlocProvider(
-            create: (_) =>
-                GetModelBloc(
+            create: (_) => GetModelBloc(
                     GetModelBlocStateLoading()
                 ),
           ),

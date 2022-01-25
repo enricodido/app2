@@ -8,27 +8,25 @@ class UserRepository {
   Repository repository;
   UserRepository(this.repository);
 
-  Future<String?> login(String email, String password) async {
-    try {
-      final response =
-      await repository.http!.post(url: 'auth/login', bodyParameters: {
-        'email': email,
-        'password': password,
-      });
-
-      final data = json.decode(response.body);
-
-      if (response.statusCode == 200) {
+  Future<dynamic> login(context, String email, String password) async {
+    final response = await repository.http!.post(url: 'auth/login', bodyParameters: {
+      'email': email,
+      'password': password,
+    });
+    final data = json.decode(response.body);
+    if (response.statusCode == 200) {
+      if(data['success']) {
         final token = data['access_token'];
-      print(token);
         repository.sessionRepository!.setToken(token);
-
-        return token;
       }
-    } catch (error) {
-      print(error);
-      return null;
+    } else {
+      showCustomDialog(
+        context: context,
+        type: CustomDialog.WARNING,
+        msg:'Errore!',
+      );
     }
+    return data;
   }
 
   Future<UserModel> me() async {

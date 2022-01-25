@@ -20,8 +20,8 @@ class LoginPageWidget extends StatefulWidget {
 class _LoginPageWidgetState extends State<LoginPageWidget> {
   bool isLoading = false;
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController textFieldEmailController = TextEditingController();
+  TextEditingController textFieldPasswordController = TextEditingController();
 
   String emailError = 'email richiesta.';
   String passwordError = 'Password richiesta.';
@@ -32,8 +32,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   void onSubmit() async {
-    final email = emailController.text.trim();
-    final password = passwordController.text.trim();
+    final email = textFieldEmailController.text.trim();
+    final password = textFieldPasswordController.text.trim();
 
     print(HOST);
 
@@ -41,42 +41,38 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
       setState(() {
         isLoading = true;
       });
-      try {
 
-        final jwt = await getIt
+        final data = await getIt
             .get<Repository>()
             .userRepository!
-            .login(email.toString(), password.toString());
+            .login(context, email.toString(), password.toString());
 
 
-        print(jwt);
+        print(data);
+      if(data['success']) {
 
+        Navigator.popAndPushNamed(context, SchedaControlliSceltaWidget.ROUTE_NAME);
         setState(() {
-          Navigator.popAndPushNamed(context, SchedaControlliSceltaWidget.ROUTE_NAME);
-          isLoading = true;
+          isLoading = false;
         });
-      } catch (error) {
-        print(error);
-        if ((error as RequestError).error == 'Unauthorized') {
-          setState(() {
-            isLoading = false;
-          });
-          showCustomDialog(
-            context: context,
-            type: CustomDialog.ERROR,
-            msg: 'Credenziali non corrette!',
-          );
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-          showCustomDialog(
-            context: context,
-            type: CustomDialog.ERROR,
-            msg: 'errore!',
-          );
-        }
+
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        showCustomDialog(
+          context: context,
+          type: CustomDialog.ERROR,
+          msg: data['error'],
+        );
       }
+
+    } else {
+      showCustomDialog(
+        context: context,
+        type: CustomDialog.WARNING,
+        msg:'Dati mancanti!',
+      );
     }
   }
 
@@ -133,7 +129,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(30, 50, 30, 50),
                 child: TextFormField(
-                        controller: emailController,
+                        controller: textFieldEmailController,
                         obscureText: false,
                         decoration: InputDecoration(
                           labelText: 'Email',
@@ -175,7 +171,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(30, 0, 30, 50),
                 child: TextFormField(
-                        controller: passwordController,
+                        controller: textFieldPasswordController,
                         obscureText: !textFieldPasswordVisibility,
                         decoration: InputDecoration(
                           labelText: 'Password',

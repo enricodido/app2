@@ -26,7 +26,7 @@ class SessionRepository {
   }
 
   bool isLogged() {
-    return token != null;
+    return this.token != null;
   }
 
 }

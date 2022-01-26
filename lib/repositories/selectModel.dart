@@ -6,10 +6,9 @@ class SelectModelRepository {
   late Repository repository;
   SelectModelRepository(this.repository);
 
-  Future<List<SelectModel>> get({required String status}) async {
+  Future<List<SelectModel>> get() async {
     final response = await repository.http!.post(
         url: 'get/list_models', bodyParameters: {
-      'status': status,
     });
     final data = json.decode(response.body);
 

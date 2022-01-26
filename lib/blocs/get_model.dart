@@ -10,7 +10,7 @@ class GetModelBloc extends Bloc<GetModelBlocEvent, GetModelBlocState> {
   @override
   Stream<GetModelBlocState> mapEventToState(GetModelBlocEvent event) async* {
     if (event is GetModelBlocGetEvent) {
-      List<SelectModel> models = await getIt.get<Repository>().selectModelRepository!.get(status: event.status);
+      List<SelectModel> models = await getIt.get<Repository>().selectModelRepository!.get();
 
       yield GetModelBlocStateLoaded(models);
     } else {
@@ -22,8 +22,8 @@ class GetModelBloc extends Bloc<GetModelBlocEvent, GetModelBlocState> {
 abstract class GetModelBlocEvent {}
 
 class GetModelBlocGetEvent extends GetModelBlocEvent {
-  GetModelBlocGetEvent({required this.status});
-  final String status;
+  GetModelBlocGetEvent();
+
 }
 
 class GetModelBlocRefreshEvent extends GetModelBlocEvent {}

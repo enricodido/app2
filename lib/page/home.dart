@@ -211,9 +211,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                         onTap: () {
                           Navigator.pushNamed(
-                              context, SchedaControlliSceltaWidget.ROUTE_NAME,
-                              arguments:
-                                  SchedaControlliSceltaWidgetArg(user: user));
+                              context,
+                              SchedaControlliSceltaWidget.ROUTE_NAME,
+                              arguments: SchedaControlliSceltaWidgetArg(user: user)
+                          );
                         },
                       ),
                       Container(

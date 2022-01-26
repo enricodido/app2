@@ -61,6 +61,12 @@ class _SchedaControlliSceltaWidgetState
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
   }
 
+  void clickModel(SelectModel model,UserModel user) async {
+    final  checklistId = await
+    getIt.get<Repository>().checklistModelRepository!.create(context, model.toString(), user.toString());
+    Navigator.pushNamedAndRemoveUntil(
+        context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -190,9 +196,9 @@ class _SchedaControlliSceltaWidgetState
                 fontSize: 18,
               ),
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(left: 15.0, right: 15.0),
+            Expanded(
+             // width: MediaQuery.of(context).size.width,
+             // margin: EdgeInsets.only(left: 15.0, right: 15.0),
               child: BlocBuilder<GetModelBloc, GetModelBlocState>(
                   builder: (context, state) {
                     if (state is GetModelBlocStateLoading)
@@ -208,21 +214,13 @@ class _SchedaControlliSceltaWidgetState
                               final model = models[index];
 
                               return Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(7, 60, 7, 0),
+                                  padding: EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
                                   child: FFButtonWidget(
-                                    onPressed: () async {
-                                      await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SchedaControlloAutomezzoWidget(),
-                                        ),
-                                      );
+                                    onPressed: ()  {
+                                      clickModel(model, user!);
                                     },
                                     text: model.description,
-                                    icon: FaIcon(
-                                      FontAwesomeIcons.ambulance,
-                                      size: 30,
-                                    ),
+
                                     options: FFButtonOptions(
                                       width: double.infinity,
                                       height: 90,
@@ -278,74 +276,7 @@ class _SchedaControlliSceltaWidgetState
                     }
                   }),
             )
-           /* Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(7, 60, 7, 0),
-              child: FFButtonWidget(
-                onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SchedaControlloAutomezzoWidget(),
-                    ),
-                  );
-                },
-                text: 'Scheda controllo automezzo',
-                icon: FaIcon(
-                  FontAwesomeIcons.ambulance,
-                  size: 30,
-                ),
-                options: FFButtonOptions(
-                  width: double.infinity,
-                  height: 90,
-                  color: Colors.white,
-                  textStyle: FlutterFlowTheme.subtitle2.override(
-                    fontFamily: 'Open Sans',
-                    color: Color(0xFF2CA4D4),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  borderSide: BorderSide(
-                    color: Color(0xFF2CA4D4),
-                    width: 3,
-                  ),
-                  borderRadius: 15,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
-              child: FFButtonWidget(
-                onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SchedaControlloInfermiereWidget(),
-                    ),
-                  );
-                },
-                text: 'Scheda controllo infermiere',
-                icon: FaIcon(
-                  FontAwesomeIcons.userNurse,
-                  size: 30,
-                ),
-                options: FFButtonOptions(
-                  width: double.infinity,
-                  height: 90,
-                  color: Colors.white,
-                  textStyle: FlutterFlowTheme.subtitle2.override(
-                    fontFamily: 'Open Sans',
-                    color: Color(0xFFBDBDBD),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  borderSide: BorderSide(
-                    color: Color(0xFFBDBDBD),
-                    width: 3,
-                  ),
-                  borderRadius: 15,
-                ),
-              ),
-            ),*/
+
           ],
         ),
       ),

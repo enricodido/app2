@@ -12,7 +12,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'breakingSistem.dart';
 import 'illuminationControl.dart';
 
+//class SchedaControlloAutomezzoWidgetArg {
+ // SchedaControlloAutomezzoWidgetArg({
+  //  required this.user,
+ // });
+
+ // final UserModel? user;
+//}
+
 class SchedaControlloAutomezzoWidget extends StatefulWidget {
+  static const ROUTE_NAME = '/checklist';
   @override
   _SchedaControlloAutomezzoWidgetState createState() =>
       _SchedaControlloAutomezzoWidgetState();

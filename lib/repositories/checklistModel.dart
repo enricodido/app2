@@ -9,21 +9,15 @@ class ChecklistModelRepository {
   ChecklistModelRepository(this.repository);
 
 
-  Future<bool> insert(
+  Future<String?> create(
       context,
       String user_id,
-      String checklist_id,
-      String vehicleId,
-      String done,
-      String model
+      String model_id,
       ) async {
 
-    final response = await repository.http!.post(url: 'record/models', bodyParameters: {
+    final response = await repository.http!.post(url: 'store/models', bodyParameters: {
       'user_id': user_id,
-      'checklist_id': checklist_id,
-      'vehicleId': vehicleId,
-      'done': done,
-      'model': model,
+      'model_id': model_id,
 
     });
 
@@ -34,23 +28,15 @@ class ChecklistModelRepository {
         type: CustomDialog.INFO,
         msg: data['msg'],
       );
-      return true;
-    } else {
-      showCustomDialog(
-        context: context,
-        type: CustomDialog.ERROR,
-        msg: 'Errore!',
-      );
-      return false;
+      return data;
     }
     throw RequestError(data);
   }
 
 
   Future<List<ChecklistModel>> get() async {
-    final response = await repository.http!.post(
-        url: 'get/models', bodyParameters: {
-    });
+    final response = await repository.http!.get(
+        url: 'get/models');
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {

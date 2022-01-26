@@ -7,14 +7,13 @@ class SelectModelRepository {
   SelectModelRepository(this.repository);
 
   Future<List<SelectModel>> get() async {
-    final response = await repository.http!.post(
-        url: 'get/list_models', bodyParameters: {
-    });
+    final response = await repository.http!.get(
+        url: 'get/list_models', );
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {
       List<SelectModel> models = [];
-      data['models'].forEach((model) {
+      data['list_models'].forEach((model) {
         models.add(SelectModel.fromData(model));
       });
       return models;

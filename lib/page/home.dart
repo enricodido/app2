@@ -1,11 +1,15 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:checklist/blocs/user_me.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
+import 'package:checklist/components/flutter_flow_widget.dart';
 import 'package:checklist/page/auth/login.dart';
 import 'package:checklist/page/selectModel.dart';
 import 'package:checklist/page/user_page_widget.dart';
+import 'package:checklist/repositories/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+
+import '../main.dart';
 
 class HomePageWidget extends StatefulWidget {
   static const ROUTE_NAME = '/home';
@@ -22,14 +26,20 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     BlocProvider.of<UserMeBloc>(context).add(UserMeBlocGetEvent());
   }
 
+  void logout(BuildContext context) {
+    getIt.get<Repository>().sessionRepository!.logout();
+    Navigator.pushNamedAndRemoveUntil(
+        context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
+  }
+
   @override
   Widget build(BuildContext context) {
     refreshUserMe(context);
     return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Color(0xFFF5F5F5),
-      body:
-             BlocBuilder<UserMeBloc, UserMeBlocState>(builder: (context, state) {
+        key: scaffoldKey,
+        backgroundColor: Color(0xFFF5F5F5),
+        body:
+            BlocBuilder<UserMeBloc, UserMeBlocState>(builder: (context, state) {
           if (state is UserMeBlocStateLoading)
             return Column(
                 mainAxisSize: MainAxisSize.max,
@@ -57,49 +67,104 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   decoration: BoxDecoration(
                     color: Colors.lightBlueAccent,
                   ),
-                  child: Container(),
-                ),
-                Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.17,
-                  decoration: BoxDecoration(
-                    color: Color(0x00FFFFFF),
-                  ),
-                  child: Column(
+                  child: Row(
                     mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AutoSizeText(
-                        user.name + ' ' + user.lastname,
-                        maxLines: 1,
-                        style: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Poppins',
-                          fontSize: 30,
-                          fontWeight: FontWeight.w500,
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 90,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF2CA4D4),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                              child: Image.asset(
+                                'images/logo-deltacall-check-esteso.png',
+                                height: 80,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Expanded(
+                              child: Align(
+                                alignment: AlignmentDirectional(1, 0),
+                                child: Padding(
+                                  padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                                  child: InkWell(
+                                    onTap: () async {
+                                      await showDialog(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            title: Text('Logout'),
+                                            content:
+                                            Text('Vuoi effettuare il logOut?'),
+                                            actions: [
+                                              FFButtonWidget(
+                                                onPressed: () {
+                                                  logout(context);
+                                                },
+                                                text: 'Logout',
+                                                options: FFButtonOptions(
+                                                  width: double.infinity,
+                                                  height: 45,
+                                                  color: Colors.lightBlueAccent,
+                                                  textStyle: FlutterFlowTheme
+                                                      .subtitle2
+                                                      .override(
+                                                    fontFamily: 'Poppins',
+                                                    color: Colors.white,
+                                                  ),
+                                                  borderSide: BorderSide(
+                                                    color: Colors.transparent,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius: 12,
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Text(
+                                      'Logout',
+                                      textAlign: TextAlign.center,
+                                      style: FlutterFlowTheme.bodyText1.override(
+                                        fontFamily: 'Open Sans',
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, UserPageWidget.ROUTE_NAME,
-                              arguments: UserPageWidgetArg(user: user));
-                        },
-                        child: Icon(
-                          Icons.account_circle_sharp,
-                          color: Color(0xFF6E6767),
-                          size: 65,
-                        ),
-                      )
                     ],
+
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 30,
-                  decoration: BoxDecoration(
-                    color: Color(0x00EEEEEE),
+                 Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 30),
+                    child: Text(
+                      'Benvenuto' + '\n ' + user.name + ' ' + user.lastname,
+                      textAlign: TextAlign.center,
+                      style: FlutterFlowTheme.bodyText1.override(
+                        fontFamily: 'Open Sans',
+                        color: Color(0xFF2684AA),
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                ),
+
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -115,7 +180,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             width: MediaQuery.of(context).size.width * 0.85,
                             height: MediaQuery.of(context).size.height * 0.09,
                             decoration: BoxDecoration(
-                              color: Color(0xFFEEEEEE),
+                              color: Colors.transparent,
                               boxShadow: [
                                 BoxShadow(
                                   blurRadius: 4,
@@ -125,27 +190,30 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               borderRadius: BorderRadius.circular(8),
                               shape: BoxShape.rectangle,
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
-                                  child: Image.asset(
-                                    'images/logo-deltacall-check.png',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.contain,
-                                  ),
+                            child: FFButtonWidget(
+                              onPressed: ()  {
+                                Navigator.pushNamed(
+                                    context, SchedaControlliSceltaWidget.ROUTE_NAME,
+                                    arguments:
+                                    SchedaControlliSceltaWidgetArg(user: user));
+                              },
+                              text: 'Checklist Aperte',
+                              options: FFButtonOptions(
+                                width: 130,
+                                height: 40,
+                                color: Colors.lightBlueAccent,
+                                textStyle:
+                                FlutterFlowTheme.subtitle2.override(
+                                  fontFamily: 'Open Sans',
+                                  color: Colors.white,
+                                  fontSize: 20,
                                 ),
-                                AutoSizeText(
-                                  'Checklist Aperte',
-                                  maxLines: 1,
-                                  style: FlutterFlowTheme.subtitle2.override(
-                                    fontFamily: 'Open Sans',
-                                    fontSize: 22,
-                                  ),
-                                )
-                              ],
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                                borderRadius: 12,
+                              ),
                             ),
                           ),
                         ),
@@ -178,44 +246,39 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               color: Color(0xFFEEEEEE),
                               boxShadow: [
                                 BoxShadow(
-                                  blurRadius: 4,
-                                  color: Colors.lightBlueAccent
-                                )
+                                    blurRadius: 4,
+                                    color: Colors.lightBlueAccent)
                               ],
                               borderRadius: BorderRadius.circular(8),
                               shape: BoxShape.rectangle,
                             ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
-                                  child: Image.asset(
-                                    'images/logo-deltacall-check.png',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.contain,
-                                  ),
+                            child: FFButtonWidget(
+                              onPressed: ()  {
+                                 Navigator.pushNamed(
+                                    context, SchedaControlliSceltaWidget.ROUTE_NAME,
+                                    arguments:
+                                    SchedaControlliSceltaWidgetArg(user: user));
+                              },
+                              text: 'Nuova Checklist',
+                              options: FFButtonOptions(
+                                width: 130,
+                                height: 40,
+                                color: Colors.lightBlueAccent,
+                                textStyle:
+                                FlutterFlowTheme.subtitle2.override(
+                                  fontFamily: 'Open Sans',
+                                  color: Colors.white,
+                                  fontSize: 20,
                                 ),
-                                AutoSizeText(
-                                  'Nuova Checklist',
-                                  maxLines: 1,
-                                  style: FlutterFlowTheme.subtitle2.override(
-                                    fontFamily: 'Open Sans',
-                                    fontSize: 22,
-                                  ),
-                                )
-                              ],
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1,
+                                ),
+                                borderRadius: 12,
+                              ),
                             ),
                           ),
                         ),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context,
-                              SchedaControlliSceltaWidget.ROUTE_NAME,
-                              arguments: SchedaControlliSceltaWidgetArg(user: user)
-                          );
-                        },
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
@@ -245,43 +308,42 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 borderRadius: BorderRadius.circular(8),
                                 shape: BoxShape.rectangle,
                               ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
-                                    child: Image.asset(
-                                      'images/logo-deltacall-check.png',
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.contain,
+                              child: FFButtonWidget(
+                                onPressed: () async {
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LoginPageWidget(),
                                     ),
+                                  );
+                                },
+                                text: 'LOGOUT',
+                                options: FFButtonOptions(
+                                  width: 130,
+                                  height: 40,
+                                  color: Colors.lightBlueAccent,
+                                  textStyle:
+                                      FlutterFlowTheme.subtitle2.override(
+                                    fontFamily: 'Open Sans',
+                                    color: Colors.white,
+                                    fontSize: 20,
                                   ),
-                                  AutoSizeText(
-                                    'Logout',
-                                    maxLines: 1,
-                                    style: FlutterFlowTheme.subtitle2.override(
-                                      fontFamily: 'Open Sans',
-                                      fontSize: 22,
-                                    ),
-                                  )
-                                ],
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1,
+                                  ),
+                                  borderRadius: 12,
+                                ),
                               ),
                             ),
                           ),
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              LoginPageWidget.ROUTE_NAME,
-                            );
-                          })
+                          )
                     ],
                   ),
-                )
-              ],
+
+                )],
             );
           }
-        })
-    );
+        }));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:checklist/page/ambulanceModel.dart';
 import 'package:checklist/page/auth/login.dart';
 import 'package:checklist/page/checklistModels.dart';
 import 'package:checklist/page/splash.dart';
@@ -93,6 +94,7 @@ class MyApp extends StatelessWidget {
         SchedaControlliSceltaWidget.ROUTE_NAME: (_) => SchedaControlliSceltaWidget(),
         UserPageWidget.ROUTE_NAME: (_) => UserPageWidget(),
         SplashPageWidget.ROUTE_NAME: (_) => SplashPageWidget(),
+        SchedaControlloAutomezzoWidget.ROUTE_NAME: (_) => SchedaControlloAutomezzoWidget(),
       },
     );
   }

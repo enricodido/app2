@@ -1,10 +1,9 @@
 import 'package:checklist/components/customDialog.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
-import 'package:checklist/page/checklistModels.dart';
-import 'package:checklist/page/home.dart';
-import 'package:checklist/page/selectModel.dart';
-import 'package:checklist/page/user_page_widget.dart';
+import 'package:checklist/page/homePage/home.dart';
+import 'package:checklist/page/selectModel/selectModel.dart';
+import 'package:checklist/page/userPage/user_page_widget.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -54,7 +53,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
           showCustomDialog(
             context: context,
             type: CustomDialog.WARNING,
-            msg: 'Credenziali non corrette!',
+            msg: 'Credenziali Non Corrette!',
           );
         }
       }
@@ -66,7 +65,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
       showCustomDialog(
         context: context,
         type: CustomDialog.WARNING,
-        msg:'Dati mancanti!',
+        msg:'Dati Mancanti!',
       );
     }
   }

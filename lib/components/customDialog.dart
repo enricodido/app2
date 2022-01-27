@@ -61,7 +61,7 @@ class CustomDialog extends StatelessWidget {
     required String message,
   }) {
     return CustomDialog(
-      title: 'Errore',
+      title: 'ERRORE',
       color: Colors.red,
       msg: message,
     );
@@ -71,7 +71,7 @@ class CustomDialog extends StatelessWidget {
     required String message,
   }) {
     return CustomDialog(
-      title: 'Attenzione',
+      title: 'ATTENZIONE',
       color: Colors.orange,
       msg: message,
     );
@@ -108,7 +108,7 @@ class CustomDialog extends StatelessWidget {
                       color: color)),
             ),
             SizedBox(
-              height: 10,
+              height: 20,
             ),
             Text(
               msg,
@@ -121,11 +121,11 @@ class CustomDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              color: firstColor,
+              color: Colors.red,
               minWidth: double.infinity,
               height: 40,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+                  borderRadius: BorderRadius.circular(10)),
               textColor: secondColor,
               child: Text("OK"),
             )

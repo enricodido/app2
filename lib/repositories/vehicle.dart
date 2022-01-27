@@ -1,23 +1,24 @@
 import 'dart:convert';
 
 import 'package:checklist/model/item.dart';
+import 'package:checklist/model/vehicle.dart';
 import 'package:checklist/repositories/repository.dart';
 
-class ItemRepository {
+class VehicleRepository {
   late Repository repository;
-  ItemRepository(this.repository);
+  VehicleRepository(this.repository);
 
-  Future<List<Item>> get() async {
+  Future<List<Vehicle>> get() async {
     final response = await repository.http!.get(
-      url: 'text/models', );
+      url: 'vehicle/models', );
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      List<Item> items = [];
-      data['checklist_items'].forEach((item) {
-        items.add(Item.fromData(item));
+      List<Vehicle> vehicles = [];
+      data['vehicles'].forEach((vehicle) {
+        vehicles.add(Vehicle.fromData(vehicle));
       });
-      return items;
+      return vehicles;
     }
 
     throw RequestError(data);

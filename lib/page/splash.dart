@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../main.dart';
 import 'auth/login.dart';
-import 'home.dart';
+import 'homePage/home.dart';
 
 class SplashPageWidget extends StatefulWidget {
   static const ROUTE_NAME = '/splash';
@@ -67,9 +67,8 @@ class _SplashPageWidgetState extends State<SplashPageWidget> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 75,
-                height: 75,
+              Center(
+
                 child: CircularProgressIndicator(
                   valueColor: new AlwaysStoppedAnimation<Color>(firstColor),
                 ),

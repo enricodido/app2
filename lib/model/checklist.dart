@@ -1,3 +1,4 @@
+import 'package:checklist/model/user.dart';
 import 'package:intl/intl.dart';
 
 class ChecklistModel {
@@ -12,6 +13,7 @@ class ChecklistModel {
   final String done;
   final String description;
   List<ChecklistModel> status;
+
 
   factory ChecklistModel.fromData(Map<String, dynamic> data) {
 

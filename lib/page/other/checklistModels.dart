@@ -1,11 +1,10 @@
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
-import 'package:checklist/model/user.dart';
+import 'package:checklist/page/section/section.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'ambulanceModel.dart';
 import 'nurseModel.dart';
 
 
@@ -140,7 +139,7 @@ class _SchedaSceltaWidgetState
                   await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SchedaControlloAutomezzoWidget(),
+                      builder: (context) => SectionWidget(),
                     ),
                   );
                 },

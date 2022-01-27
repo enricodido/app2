@@ -1,21 +1,23 @@
-import 'package:checklist/page/ambulanceModel.dart';
+import 'package:checklist/page/items/item.dart';
+import 'package:checklist/page/section/section.dart';
 import 'package:checklist/page/auth/login.dart';
-import 'package:checklist/page/checklistModels.dart';
 import 'package:checklist/page/splash.dart';
-import 'package:checklist/page/user_page_widget.dart';
+import 'package:checklist/page/userPage/user_page_widget.dart';
 import 'package:checklist/repositories/repository.dart';
-import 'package:checklist/page/selectModel.dart';
+import 'package:checklist/page/selectModel/selectModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:checklist/page/home.dart';
+import 'package:checklist/page/homePage/home.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'blocs/get_checklist.dart';
+import 'blocs/get_item.dart';
 import 'blocs/get_model.dart';
+import 'blocs/get_section.dart';
 import 'blocs/time.dart';
 import 'blocs/user_me.dart';
 
@@ -49,6 +51,18 @@ void main() {
             create: (_) =>
                 GetChecklistBloc(
                     GetChecklistBlocStateLoading()
+                ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                GetSectionBloc(
+                    GetSectionBlocStateLoading()
+                ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                GetItemBloc(
+                    GetItemBlocStateLoading()
                 ),
           ),
         ],
@@ -94,7 +108,8 @@ class MyApp extends StatelessWidget {
         SchedaControlliSceltaWidget.ROUTE_NAME: (_) => SchedaControlliSceltaWidget(),
         UserPageWidget.ROUTE_NAME: (_) => UserPageWidget(),
         SplashPageWidget.ROUTE_NAME: (_) => SplashPageWidget(),
-        SchedaControlloAutomezzoWidget.ROUTE_NAME: (_) => SchedaControlloAutomezzoWidget(),
+        SectionWidget.ROUTE_NAME: (_) => SectionWidget(),
+        ItemWidget.ROUTE_NAME: (_) => ItemWidget(),
       },
     );
   }

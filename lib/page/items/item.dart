@@ -1,22 +1,72 @@
-
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:checklist/blocs/get_item.dart';
 import 'package:checklist/components/flutter_flow_icon_button.dart';
 import 'package:checklist/components/flutter_flow_radio_button.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
+import 'package:checklist/model/section.dart';
+import 'package:checklist/model/user.dart';
+import 'package:checklist/page/auth/login.dart';
+import 'package:checklist/repositories/repository.dart';
+import 'package:checklist/theme/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SchedaControlloImpiantoIlluminazioneWidget extends StatefulWidget {
+import '../../main.dart';
 
-  @override
-  _SchedaControlloImpiantoIlluminazioneWidgetState createState() =>
-      _SchedaControlloImpiantoIlluminazioneWidgetState();
+class ItemWidgetArg {
+  ItemWidgetArg({
+    required this.user,
+    required this.section_id,
+    required this.section,
+  });
+
+  final UserModel? user;
+  final String? section_id;
+  final Section section;
 }
 
-class _SchedaControlloImpiantoIlluminazioneWidgetState
-    extends State<SchedaControlloImpiantoIlluminazioneWidget> {
-  late String radioButtonValue1;
-  late String radioButtonValue2;
+class ItemWidget extends StatefulWidget {
+  static const ROUTE_NAME = '/item';
+
+  @override
+  _ItemWidgetState createState() => _ItemWidgetState();
+}
+
+class _ItemWidgetState extends State<ItemWidget> {
+  bool checkboxFalse = false;
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  UserModel? user;
+  String? section_id;
+  Section? section;
+
+  @override
+  void initState() {
+    super.initState();
+
+    SchedulerBinding.instance!.addPostFrameCallback((_) async {
+      setState(() {
+        final args =
+            ModalRoute.of(context)!.settings.arguments as ItemWidgetArg;
+        user = args.user;
+        section_id = args.section_id;
+        section = args.section;
+      });
+      BlocProvider.of<GetItemBloc>(context).add(GetItemBlocRefreshEvent());
+      BlocProvider.of<GetItemBloc>(context)
+          .add(GetItemBlocGetEvent(section_id: section_id));
+    });
+  }
+
+  void logout(BuildContext context) {
+    getIt.get<Repository>().sessionRepository!.logout();
+    Navigator.pushNamedAndRemoveUntil(
+        context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +106,9 @@ class _SchedaControlloImpiantoIlluminazioneWidgetState
                           alignment: AlignmentDirectional(1, 0),
                           child: Padding(
                             padding:
-                            EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                             child: Text(
-                              'Massimiliano\nRossini',
+                              user!.name + '\n' + user!.lastname,
                               textAlign: TextAlign.center,
                               style: FlutterFlowTheme.bodyText1.override(
                                 fontFamily: 'Open Sans',
@@ -91,7 +141,7 @@ class _SchedaControlloImpiantoIlluminazioneWidgetState
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Impianto illuminazione',
+                          section!.description,
                           textAlign: TextAlign.start,
                           style: FlutterFlowTheme.bodyText1.override(
                             fontFamily: 'Poppins',
@@ -100,112 +150,105 @@ class _SchedaControlloImpiantoIlluminazioneWidgetState
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
-                              child: Text(
-                                'Ok',
-                                style: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Poppins',
-                                  color: Color(0xFF005679),
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              'Non ok',
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Poppins',
-                                color: Color(0xFF005679),
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),
                 ),
               ],
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Girevoli blu',
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Open Sans',
-                            fontSize: 16,
-                          ),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
+            Expanded(
+              // width: MediaQuery.of(context).size.width,
+              // margin: EdgeInsets.only(left: 15.0, right: 15.0),
+              child: BlocBuilder<GetItemBloc, GetItemBlocState>(
+                  builder: (context, state) {
+                if (state is GetItemBlocStateLoading)
+                  return Center(child: CircularProgressIndicator());
+                else {
+                  final items = (state as GetItemBlocStateLoaded).items;
+                  if (items.isNotEmpty) {
+                    return ListView.builder(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          final item = items[index];
+
+                          return Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 5, 0, 5),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        item.description,
+                                        style:
+                                            FlutterFlowTheme.subtitle2.override(
+                                          fontFamily: 'Open Sans',
+                                          fontSize: 14.5,
+                                        ),
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          Checkbox(
+                                            value: checkboxFalse,
+                                            onChanged: (bool? newValue) {
+                                              setState(() {
+                                                checkboxFalse = !checkboxFalse;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  } else {
+                    return Container(
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
-                              child: FlutterFlowRadioButton(
-                                options: [''],
-                                onChanged: (value) {
-                                  setState(() => radioButtonValue1 = value);
-                                },
-                                optionHeight: 25,
-                                textStyle: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.black,
-                                ),
-                                buttonPosition: RadioButtonPosition.left,
-                                direction: Axis.vertical,
-                                radioButtonColor: Colors.blue,
-                                inactiveRadioButtonColor: Color(0x8A000000),
-                                toggleable: false,
-                                horizontalAlignment: WrapAlignment.start,
-                                verticalAlignment: WrapCrossAlignment.start,
+                              padding: const EdgeInsets.all(10.0),
+                              child: Icon(
+                                FontAwesomeIcons.folderOpen,
+                                color: firstColor,
+                                size: 50,
                               ),
                             ),
                             Padding(
-                              padding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
-                              child: FlutterFlowRadioButton(
-                                options: [''],
-                                onChanged: (value) {
-                                  setState(() => radioButtonValue2 = value);
-                                },
-                                optionHeight: 25,
-                                textStyle: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.black,
+                              padding: const EdgeInsets.all(10.0),
+                              child: AutoSizeText(
+                                'NESSUN ELEMENTO',
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                buttonPosition: RadioButtonPosition.left,
-                                direction: Axis.vertical,
-                                radioButtonColor: Colors.blue,
-                                inactiveRadioButtonColor: Color(0x8A000000),
-                                toggleable: false,
-                                horizontalAlignment: WrapAlignment.start,
-                                verticalAlignment: WrapCrossAlignment.start,
                               ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                      ),
+                    );
+                  }
+                }
+              }),
             ),
             Expanded(
               child: Align(
@@ -223,10 +266,10 @@ class _SchedaControlloImpiantoIlluminazioneWidgetState
                           borderRadius: 30,
                           borderWidth: 1,
                           buttonSize: 60,
-                          fillColor: FlutterFlowTheme.secondaryColor,
+                          fillColor: Colors.lightBlueAccent,
                           icon: Icon(
                             Icons.arrow_back_rounded,
-                            color: FlutterFlowTheme.tertiaryColor,
+                            color: Colors.white,
                             size: 40,
                           ),
                           onPressed: () async {
@@ -266,7 +309,7 @@ class _SchedaControlloImpiantoIlluminazioneWidgetState
                           borderRadius: 30,
                           borderWidth: 1,
                           buttonSize: 60,
-                          fillColor: FlutterFlowTheme.secondaryColor,
+                          fillColor: Colors.lightBlueAccent,
                           icon: Icon(
                             Icons.add,
                             color: FlutterFlowTheme.tertiaryColor,

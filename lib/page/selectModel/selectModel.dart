@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:checklist/blocs/get_model.dart';
+import 'package:checklist/components/customDialog.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
 import 'package:checklist/model/selectModel.dart';
@@ -10,10 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../main.dart';
-import 'ambulanceModel.dart';
-import 'auth/login.dart';
-import 'nurseModel.dart';
+import '../../main.dart';
+import '../section/section.dart';
+import '../auth/login.dart';
 
 class SchedaControlliSceltaWidgetArg {
   SchedaControlliSceltaWidgetArg({
@@ -39,6 +39,7 @@ class _SchedaControlliSceltaWidgetState
 
   UserModel? user;
   SelectModel? selectModel;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -62,10 +63,33 @@ class _SchedaControlliSceltaWidgetState
   }
 
   void clickModel(SelectModel model,UserModel user) async {
-    final  checklistId = await
-    getIt.get<Repository>().checklistModelRepository!.create(context, model.toString(), user.toString());
-    Navigator.pushNamedAndRemoveUntil(
-        context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));  }
+
+    print(model.id);
+    print(user.id);
+    final  result = await
+    getIt.get<Repository>().checklistModelRepository!.create(context,  user.id.toString(), model.id.toString());
+    print(result);
+    if(result != null) {
+      Navigator.pushNamed(context, SectionWidget.ROUTE_NAME,
+          arguments: SectionWidgetArg(user: user, checklist_id: result)
+      );
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      showCustomDialog(
+        context: context,
+        type: CustomDialog.WARNING,
+        msg:'Errore!',
+      );
+    }
+
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +244,6 @@ class _SchedaControlliSceltaWidgetState
                                       clickModel(model, user!);
                                     },
                                     text: model.description,
-
                                     options: FFButtonOptions(
                                       width: double.infinity,
                                       height: 90,

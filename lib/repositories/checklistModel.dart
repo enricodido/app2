@@ -9,7 +9,7 @@ class ChecklistModelRepository {
   ChecklistModelRepository(this.repository);
 
 
-  Future<String?> create(
+  Future<String> create(
       context,
       String user_id,
       String model_id,
@@ -23,12 +23,8 @@ class ChecklistModelRepository {
 
     final data = json.decode(response.body);
     if (response.statusCode == 200) {
-      showCustomDialog(
-        context: context,
-        type: CustomDialog.INFO,
-        msg: data['msg'],
-      );
-      return data;
+
+      return data['checklist_id'].toString();
     }
     throw RequestError(data);
   }

@@ -6,9 +6,9 @@ import 'package:checklist/repositories/repository.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../main.dart';
-import 'auth/login.dart';
-import 'home.dart';
+import '../../main.dart';
+import '../auth/login.dart';
+import '../homePage/home.dart';
 
 class UserPageWidgetArg {
   UserPageWidgetArg({

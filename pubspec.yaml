@@ -49,7 +49,7 @@ dependencies:
   date_time_picker: ^2.1.0
   easy_debounce: ^2.0.2+1
   currency_text_input_formatter: ^2.1.5
-    # per l'esempio bloc
+  # per l'esempio bloc
 
 
 dev_dependencies:
@@ -80,5 +80,5 @@ flutter:
     - images/
 flutter_icons:
   image_path: "images/logo-deltacall-check.png"
-  android: true
+  android: "launcher_icon"
   ios: true

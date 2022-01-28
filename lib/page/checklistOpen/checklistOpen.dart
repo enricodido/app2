@@ -1,9 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:checklist/blocs/get_checklist.dart';
 import 'package:checklist/blocs/get_model.dart';
-import 'package:checklist/components/customDialog.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
-import 'package:checklist/model/selectModel.dart';
 import 'package:checklist/model/user.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:checklist/theme/color.dart';
@@ -15,45 +14,43 @@ import '../../main.dart';
 import '../section/section.dart';
 import '../auth/login.dart';
 
-class SchedaControlliSceltaWidgetArg {
-  SchedaControlliSceltaWidgetArg({
+class ChecklistAperteWidgetArg {
+  ChecklistAperteWidgetArg({
     required this.user,
   });
 
   final UserModel? user;
 }
 
-class SchedaControlliSceltaWidget extends StatefulWidget {
-  static const ROUTE_NAME = '/selectModel';
+class ChecklistAperteWidget extends StatefulWidget {
+  static const ROUTE_NAME = '/openchecklist';
 
   @override
-  _SchedaControlliSceltaWidgetState createState() =>
-      _SchedaControlliSceltaWidgetState();
+  _ChecklistAperteWidgetState createState() =>
+      _ChecklistAperteWidgetState();
 }
 
-class _SchedaControlliSceltaWidgetState
-    extends State<SchedaControlliSceltaWidget> {
+class _ChecklistAperteWidgetState
+    extends State<ChecklistAperteWidget> {
   TextEditingController textFieldCausalController = TextEditingController();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   UserModel? user;
-  SelectModel? selectModel;
-  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
 
 
-      SchedulerBinding.instance!.addPostFrameCallback((_) async {
-        setState(() {
-        final args = ModalRoute.of(context)!.settings.arguments as SchedaControlliSceltaWidgetArg;
+    SchedulerBinding.instance!.addPostFrameCallback((_) async {
+      setState(() {
+        final args = ModalRoute.of(context)!.settings.arguments as ChecklistAperteWidgetArg;
         user = args.user;
-
+print(user!.id);
       });
-        BlocProvider.of<GetModelBloc>(context).add(GetModelBlocRefreshEvent());
-        BlocProvider.of<GetModelBloc>(context).add(GetModelBlocGetEvent());
+      BlocProvider.of<GetChecklistBloc>(context).add(GetChecklistBlocRefreshEvent());
+      BlocProvider.of<GetChecklistBloc>(context).add(GetChecklistBlocGetEvent(user_id: user!.id));
     });
   }
   void logout(BuildContext context) {
@@ -62,31 +59,7 @@ class _SchedaControlliSceltaWidgetState
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
   }
 
-  void clickModel(SelectModel model, UserModel user) async {
 
-
-    final  result = await
-    getIt.get<Repository>().checklistModelRepository!.create(context,  user.id.toString(), model.id.toString());
-
-    if(result != null) {
-      Navigator.pushNamed(context, SectionWidget.ROUTE_NAME,
-          arguments: SectionWidgetArg(user: user, checklist_id: result)
-      );
-      setState(() {
-        isLoading = false;
-      });
-    } else {
-      setState(() {
-        isLoading = false;
-      });
-      showCustomDialog(
-        context: context,
-        type: CustomDialog.WARNING,
-        msg:'Errore!',
-      );
-    }
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +100,7 @@ class _SchedaControlliSceltaWidgetState
                           alignment: AlignmentDirectional(1, 0),
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                            EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                             child: InkWell(
                               onTap: () async {
                                 await showDialog(
@@ -136,7 +109,7 @@ class _SchedaControlliSceltaWidgetState
                                     return AlertDialog(
                                       title: Text('Logout'),
                                       content:
-                                          Text('Vuoi effettuare il logOut?'),
+                                      Text('Vuoi effettuare il logOut?'),
                                       actions: [
                                         FFButtonWidget(
                                           onPressed: () {
@@ -210,7 +183,7 @@ class _SchedaControlliSceltaWidgetState
               ),
             ),
             Text(
-              'Seleziona la scheda da controllare',
+              'Non hai concluso queste schede',
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Open Sans',
                 color: Color(0xFFBDBDBD),
@@ -218,47 +191,49 @@ class _SchedaControlliSceltaWidgetState
               ),
             ),
             Expanded(
-             // width: MediaQuery.of(context).size.width,
-             // margin: EdgeInsets.only(left: 15.0, right: 15.0),
-              child: BlocBuilder<GetModelBloc, GetModelBlocState>(
+              // width: MediaQuery.of(context).size.width,
+              // margin: EdgeInsets.only(left: 15.0, right: 15.0),
+              child: BlocBuilder<GetChecklistBloc, GetChecklistBlocState>(
                   builder: (context, state) {
-                    if (state is GetModelBlocStateLoading)
+                    if (state is GetChecklistBlocStateLoading)
                       return Center(child: CircularProgressIndicator());
-                     else {
-                      final models = (state as GetModelBlocStateLoaded).models;
-                      if(models.isNotEmpty) {
+                    else {
+                      final checklists = (state as GetChecklistBlocStateLoaded).checklists;
+                      if(checklists.isNotEmpty) {
                         return ListView.builder(
                             padding: EdgeInsets.zero,
-                            itemCount: models.length,
+                            itemCount: checklists.length,
                             itemBuilder: (context, index) {
 
-                              final model = models[index];
+                              final checklist = checklists[index];
 
                               return Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
-                                  child: FFButtonWidget(
-                                    onPressed: ()  {
-                                      clickModel(model, user!);
+                                padding: EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
+                                child: FFButtonWidget(
+                                  onPressed: ()  {
+                                      Navigator.pushNamed(context, SectionWidget.ROUTE_NAME,
+                                      arguments: SectionWidgetArg(user: user, checklist_id: checklist.id)
+                                      );
                                     },
-                                    text: model.description,
-                                    options: FFButtonOptions(
-                                      width: double.infinity,
-                                      height: 90,
-                                      color: Colors.white,
-                                      textStyle: FlutterFlowTheme.subtitle2.override(
-                                        fontFamily: 'Open Sans',
-                                        color: Color(0xFF2CA4D4),
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      borderSide: BorderSide(
-                                        color: Color(0xFF2CA4D4),
-                                        width: 3,
-                                      ),
-                                      borderRadius: 15,
+                                  text: checklist.model,
+                                  options: FFButtonOptions(
+                                    width: double.infinity,
+                                    height: 90,
+                                    color: Colors.white,
+                                    textStyle: FlutterFlowTheme.subtitle2.override(
+                                      fontFamily: 'Open Sans',
+                                      color: Color(0xFF2CA4D4),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
                                     ),
+                                    borderSide: BorderSide(
+                                      color: Color(0xFF2CA4D4),
+                                      width: 3,
+                                    ),
+                                    borderRadius: 15,
                                   ),
-                                );
+                                ),
+                              );
 
                             }
                         );

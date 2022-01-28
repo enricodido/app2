@@ -1,3 +1,4 @@
+import 'package:checklist/page/checklistOpen/checklistOpen.dart';
 import 'package:checklist/page/items/item.dart';
 import 'package:checklist/page/section/section.dart';
 import 'package:checklist/page/auth/login.dart';
@@ -110,6 +111,7 @@ class MyApp extends StatelessWidget {
         SplashPageWidget.ROUTE_NAME: (_) => SplashPageWidget(),
         SectionWidget.ROUTE_NAME: (_) => SectionWidget(),
         ItemWidget.ROUTE_NAME: (_) => ItemWidget(),
+        ChecklistAperteWidget.ROUTE_NAME: (_) => ChecklistAperteWidget(),
       },
     );
   }

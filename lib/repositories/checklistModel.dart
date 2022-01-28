@@ -30,14 +30,14 @@ class ChecklistModelRepository {
   }
 
 
-  Future<List<ChecklistModel>> get() async {
+  Future<List<ChecklistModel>> get({required String user_id}) async {
     final response = await repository.http!.get(
-        url: 'get/models');
+        url: 'get/models/'+ user_id, );
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {
       List<ChecklistModel> checklists = [];
-      data['checklists'].forEach((checklist) {
+      data['checklist_models'].forEach((checklist) {
         checklists.add(ChecklistModel.fromData(checklist));
       });
       return checklists;

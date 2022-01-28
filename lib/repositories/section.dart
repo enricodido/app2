@@ -10,7 +10,7 @@ class SectionRepository {
 
   Future<List<Section>> get({required String checklist_id}) async {
     final response = await repository.http!.get(
-      url: 'section/models', );
+      url: 'section/models/' + checklist_id, );
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {

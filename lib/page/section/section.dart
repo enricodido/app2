@@ -5,6 +5,7 @@ import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
 import 'package:checklist/model/selectModel.dart';
 import 'package:checklist/model/user.dart';
+import 'package:checklist/model/vehicle.dart';
 import 'package:checklist/page/items/item.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:checklist/theme/color.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 import '../auth/login.dart';
 
@@ -41,6 +43,8 @@ class _SectionWidgetState
 
   UserModel? user;
   late String checklist_id;
+  Vehicle? selectedVehicle;
+  List<Vehicle> vehicles = [];
 
   @override
   void initState() {
@@ -195,6 +199,52 @@ class _SectionWidgetState
                 fontSize: 18,
               ),
             ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Align(
+                    alignment: AlignmentDirectional(-0.05, 0.05),
+                    child:  DropdownButton<Vehicle>(
+                      isExpanded: true,
+                      value: selectedVehicle,
+                      hint: Center(child: Text('Scegliere Mezzo')),
+                      focusColor: Colors.lightBlueAccent,
+                      elevation: 2,
+
+                      icon:
+                      const Icon(Icons.arrow_drop_down),
+                      iconSize: 24,
+                      style: const TextStyle(
+                        color: Colors.deepPurple,
+                        fontSize: 20,
+                        fontFamily: 'Poppins',
+                      ),
+
+                      underline: Container(
+                        height: 1,
+                        color: Colors.black,
+                      ),
+                      onChanged: (Vehicle? value) async {
+                        SharedPreferences preferences = await SharedPreferences.getInstance();
+                        preferences.setString("vehicle_id", value!.id);
+                        setState(() {
+                          selectedVehicle = value;
+                        });
+                      },
+                      items: vehicles.map<DropdownMenuItem<Vehicle>>((Vehicle vehicle) {
+                        return DropdownMenuItem<Vehicle>(
+                          value: vehicle,
+                          child: Text(vehicle.description),
+                        );
+                      }).toList(),
+                    ),
+
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: BlocBuilder<GetSectionBloc, GetSectionBlocState>(
                   builder: (context, state) {
@@ -211,31 +261,33 @@ class _SectionWidgetState
                               final section = sections[index];
 
                               return Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
-                                child: FFButtonWidget(
-                                  onPressed: ()  {
-                                    Navigator.pushNamed(context, ItemWidget.ROUTE_NAME,
-                                    arguments: ItemWidgetArg(user: user, section_id: section.id, section: section));
-                                  },
-                                  text: section.description,
-                                  options: FFButtonOptions(
-                                    width: double.infinity,
-                                    height: 90,
-                                    color: Colors.white,
-                                    textStyle: FlutterFlowTheme.subtitle2.override(
-                                      fontFamily: 'Open Sans',
-                                      color: Color(0xFF2CA4D4),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    borderSide: BorderSide(
-                                      color: Color(0xFF2CA4D4),
-                                      width: 3,
-                                    ),
-                                    borderRadius: 15,
+                              padding: EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
+                              child: FFButtonWidget(
+                                onPressed: ()  {
+                                  Navigator.pushNamed(context, ItemWidget.ROUTE_NAME,
+                                  arguments: ItemWidgetArg(user: user,  section: section));
+                                  print(section.id);
+                                },
+                                text: section.description,
+                                options: FFButtonOptions(
+                                  width: double.infinity,
+                                  height: 90,
+                                  color: Colors.white,
+                                  textStyle: FlutterFlowTheme.subtitle2.override(
+                                    fontFamily: 'Open Sans',
+                                    color: Color(0xFF2CA4D4),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
                                   ),
+                                  borderSide: BorderSide(
+                                    color: Color(0xFF2CA4D4),
+                                    width: 3,
+                                  ),
+                                  borderRadius: 15,
                                 ),
+                              ),
                               );
+
 
                             }
                         );

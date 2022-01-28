@@ -7,9 +7,9 @@ class ItemRepository {
   late Repository repository;
   ItemRepository(this.repository);
 
-  Future<List<Item>> get() async {
+  Future<List<Item>> get({required String section_id}) async {
     final response = await repository.http!.get(
-      url: 'text/models', );
+      url: 'text/models/' + section_id, );
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {

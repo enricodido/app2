@@ -3,6 +3,7 @@ import 'package:checklist/blocs/user_me.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
 import 'package:checklist/page/auth/login.dart';
+import 'package:checklist/page/checklistOpen/checklistOpen.dart';
 import 'package:checklist/page/selectModel/selectModel.dart';
 import 'package:checklist/page/userPage/user_page_widget.dart';
 import 'package:checklist/repositories/repository.dart';
@@ -214,8 +215,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 onPressed: () {
                                   Navigator.pushNamed(
                                       context,
-                                      SchedaControlliSceltaWidget.ROUTE_NAME,
-                                      arguments: SchedaControlliSceltaWidgetArg(user: user));
+                                      ChecklistAperteWidget.ROUTE_NAME,
+                                      arguments: ChecklistAperteWidgetArg(user: user));
                                 },
                                 text: 'Checklist Aperte',
                                 options: FFButtonOptions(

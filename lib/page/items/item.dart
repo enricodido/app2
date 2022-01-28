@@ -19,13 +19,12 @@ import '../../main.dart';
 class ItemWidgetArg {
   ItemWidgetArg({
     required this.user,
-    required this.section_id,
     required this.section,
+
   });
 
   final UserModel? user;
-  final String? section_id;
-  final Section section;
+  Section section;
 }
 
 class ItemWidget extends StatefulWidget {
@@ -41,8 +40,9 @@ class _ItemWidgetState extends State<ItemWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   UserModel? user;
-  String? section_id;
-  Section? section;
+  late Section section;
+
+
 
   @override
   void initState() {
@@ -53,12 +53,11 @@ class _ItemWidgetState extends State<ItemWidget> {
         final args =
             ModalRoute.of(context)!.settings.arguments as ItemWidgetArg;
         user = args.user;
-        section_id = args.section_id;
         section = args.section;
+
       });
       BlocProvider.of<GetItemBloc>(context).add(GetItemBlocRefreshEvent());
-      BlocProvider.of<GetItemBloc>(context)
-          .add(GetItemBlocGetEvent(section_id: section_id));
+      BlocProvider.of<GetItemBloc>(context).add(GetItemBlocGetEvent(section_id: section.id));
     });
   }
 
@@ -141,7 +140,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          section!.description,
+                          section.description,
                           textAlign: TextAlign.start,
                           style: FlutterFlowTheme.bodyText1.override(
                             fontFamily: 'Poppins',
@@ -167,11 +166,11 @@ class _ItemWidgetState extends State<ItemWidget> {
                   final items = (state as GetItemBlocStateLoaded).items;
                   if (items.isNotEmpty) {
                     return ListView.builder(
-                        physics: AlwaysScrollableScrollPhysics(),
                         shrinkWrap: true,
                         padding: EdgeInsets.zero,
                         itemCount: items.length,
                         itemBuilder: (context, index) {
+
                           final item = items[index];
 
                           return Padding(
@@ -186,8 +185,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                       0, 5, 0, 5),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         item.description,
@@ -250,97 +248,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                 }
               }),
             ),
-            Expanded(
-              child: Align(
-                alignment: AlignmentDirectional(0, 1),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: FlutterFlowIconButton(
-                          borderColor: Colors.transparent,
-                          borderRadius: 30,
-                          borderWidth: 1,
-                          buttonSize: 60,
-                          fillColor: Colors.lightBlueAccent,
-                          icon: Icon(
-                            Icons.arrow_back_rounded,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                          onPressed: () async {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
-                        child: FFButtonWidget(
-                          onPressed: () async {
-                            Navigator.pop(context);
-                          },
-                          text: 'Salva',
-                          options: FFButtonOptions(
-                            width: 155,
-                            height: 60,
-                            color: FlutterFlowTheme.primaryColor,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Open Sans',
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: 15,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: FlutterFlowIconButton(
-                          borderColor: Colors.transparent,
-                          borderRadius: 30,
-                          borderWidth: 1,
-                          buttonSize: 60,
-                          fillColor: Colors.lightBlueAccent,
-                          icon: Icon(
-                            Icons.add,
-                            color: FlutterFlowTheme.tertiaryColor,
-                            size: 40,
-                          ),
-                          onPressed: () async {
-                            await showDialog(
-                              context: context,
-                              builder: (alertDialogContext) {
-                                return AlertDialog(
-                                  title: Text('PopUp'),
-                                  content: Text(
-                                      'Inserire icone di : note e telecamera'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(alertDialogContext),
-                                      child: Text('Ok'),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+
           ],
         ),
       ),

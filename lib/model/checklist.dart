@@ -4,29 +4,26 @@ import 'package:intl/intl.dart';
 class ChecklistModel {
   ChecklistModel({
     required this.id,
-    required this.done,
-    required this.description,
-    required this.status,
+    required this.model,
+    required this.user_id,
   });
 
   final String id;
-  final String done;
-  final String description;
-  List<ChecklistModel> status;
+  final String model;
+  final String user_id;
 
 
   factory ChecklistModel.fromData(Map<String, dynamic> data) {
 
     final String id = data['id'].toString();
-    final String done = DateFormat('dd/MM/yyyy HH:mm').format(DateFormat('yyyy-MM-dd HH:mm').parse(data['date'].toString()));
-    final String description = data['description'].toString();
-    final String status = data['status'].toString();
+    final String model = data['model'].toString();
+    final String user_id = data['user_id'].toString();
+
 
     return ChecklistModel(
       id: id,
-      done: done,
-      description: description,
-      status: [],
+      model: model,
+      user_id: user_id,
     );
 
   }

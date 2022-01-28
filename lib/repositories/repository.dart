@@ -5,6 +5,7 @@ import 'package:checklist/repositories/session.dart';
 import 'package:checklist/repositories/time.dart';
 import 'package:checklist/repositories/user.dart';
 import 'package:checklist/repositories/selectModel.dart';
+import 'package:checklist/repositories/vehicle.dart';
 import 'package:http/http.dart' as http;
 
 import 'checklistModel.dart';
@@ -21,6 +22,7 @@ class Repository {
     checklistModelRepository = ChecklistModelRepository(this);
     itemRepository = ItemRepository(this);
     sectionRepository = SectionRepository(this);
+    vehicleRepository = VehicleRepository(this);
   }
 
   HttpClient? http;
@@ -31,6 +33,7 @@ class Repository {
   ItemRepository? itemRepository;
   SectionRepository? sectionRepository;
   TimeRepository? timeRepository;
+  VehicleRepository? vehicleRepository;
 
 }
 

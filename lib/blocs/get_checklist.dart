@@ -1,6 +1,4 @@
 import 'package:checklist/model/checklist.dart';
-import 'package:checklist/model/selectModel.dart';
-import 'package:checklist/repositories/checklistModel.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../main.dart';
@@ -11,7 +9,7 @@ class GetChecklistBloc extends Bloc<GetChecklistBlocEvent, GetChecklistBlocState
   @override
   Stream<GetChecklistBlocState> mapEventToState(GetChecklistBlocEvent event) async* {
     if (event is GetChecklistBlocGetEvent) {
-      List<ChecklistModel> checklists = await getIt.get<Repository>().checklistModelRepository!.get();
+      List<ChecklistModel> checklists = await getIt.get<Repository>().checklistModelRepository!.get(user_id: event.user_id);
 
       yield GetChecklistBlocStateLoaded(checklists);
     } else {
@@ -23,8 +21,8 @@ class GetChecklistBloc extends Bloc<GetChecklistBlocEvent, GetChecklistBlocState
 abstract class GetChecklistBlocEvent {}
 
 class GetChecklistBlocGetEvent extends GetChecklistBlocEvent {
-  GetChecklistBlocGetEvent(this.description);
-  final String description;
+  GetChecklistBlocGetEvent({required this.user_id});
+  final String user_id;
 }
 
 class GetChecklistBlocRefreshEvent extends GetChecklistBlocEvent {}

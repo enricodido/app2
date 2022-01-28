@@ -9,7 +9,7 @@ class GetItemBloc extends Bloc<GetItemBlocEvent, GetItemBlocState> {
   @override
   Stream<GetItemBlocState> mapEventToState(GetItemBlocEvent event) async* {
     if (event is GetItemBlocGetEvent) {
-      List<Item> items = await getIt.get<Repository>().itemRepository!.get();
+      List<Item> items = await getIt.get<Repository>().itemRepository!.get(section_id: event.section_id);
 
       yield GetItemBlocStateLoaded(items);
     } else {
@@ -21,8 +21,8 @@ class GetItemBloc extends Bloc<GetItemBlocEvent, GetItemBlocState> {
 abstract class GetItemBlocEvent {}
 
 class GetItemBlocGetEvent extends GetItemBlocEvent {
-  GetItemBlocGetEvent({String? section_id});
-
+  GetItemBlocGetEvent({required this.section_id});
+  final String section_id;
 }
 
 class GetItemBlocRefreshEvent extends GetItemBlocEvent {}

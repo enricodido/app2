@@ -2,11 +2,12 @@
 
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
+import 'package:checklist/page/auth/login.dart';
 import 'package:checklist/page/selectModel/selectModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'checklistModels.dart';
+import '../checklistOpen/checklistOpen.dart';
 
 class PopUpFirmaWidget extends StatefulWidget {
 
@@ -105,7 +106,7 @@ class _PopUpFirmaWidgetState extends State<PopUpFirmaWidget> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  SchedaControlliSceltaWidget(),
+                                  LoginPageWidget(),
                             ),
                           );
                         },

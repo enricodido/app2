@@ -15,6 +15,7 @@ class _PopUpNoteWidgetState extends State<PopUpNoteWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
@@ -35,9 +36,9 @@ class _PopUpNoteWidgetState extends State<PopUpNoteWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(10, 15, 10, 0),
+                    padding: EdgeInsetsDirectional.fromSTEB(10, 15, 10, 10),
                     child: Text(
-                      'Aggiungi una nota',
+                      'Firma e concludi la checklist',
                       textAlign: TextAlign.center,
                       style: FlutterFlowTheme.bodyText1.override(
                         fontFamily: 'Poppins',
@@ -50,20 +51,20 @@ class _PopUpNoteWidgetState extends State<PopUpNoteWidget> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 10),
-              child: Text(
-                'es. Il Set venoso è stato lasciato sporco',
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: Color(0xFFBDBDBD),
-                  fontSize: 16,
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 260,
+              decoration: BoxDecoration(
+                color: Color(0xFFEEEEEE),
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(
+                  color: Color(0xFF707070),
                 ),
               ),
-            ),
-            Text(
-              'Questo è un Pop-up',
-              style: FlutterFlowTheme.bodyText1,
+              child: Text(
+                'Questo è un Pop-Up',
+                style: FlutterFlowTheme.bodyText1,
+              ),
             ),
             Expanded(
               child: Align(
@@ -99,6 +100,7 @@ class _PopUpNoteWidgetState extends State<PopUpNoteWidget> {
                       FFButtonWidget(
                         onPressed: () async {
                           Navigator.pop(context);
+
                         },
                         text: 'Salva',
                         options: FFButtonOptions(

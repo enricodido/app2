@@ -49,6 +49,7 @@ dependencies:
   date_time_picker: ^2.1.0
   easy_debounce: ^2.0.2+1
   currency_text_input_formatter: ^2.1.5
+  signature: ^5.0.0
   # per l'esempio bloc
 
 

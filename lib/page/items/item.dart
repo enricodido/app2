@@ -1,9 +1,12 @@
+import 'dart:ffi';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:checklist/blocs/get_item.dart';
 import 'package:checklist/components/flutter_flow_icon_button.dart';
 import 'package:checklist/components/flutter_flow_radio_button.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
+import 'package:checklist/model/item.dart';
 import 'package:checklist/model/section.dart';
 import 'package:checklist/model/user.dart';
 import 'package:checklist/page/auth/login.dart';
@@ -28,7 +31,7 @@ class ItemWidgetArg {
 }
 
 class ItemWidget extends StatefulWidget {
-  static const ROUTE_NAME = '/item';
+  static const ROUTE_NAME = '/items';
 
   @override
   _ItemWidgetState createState() => _ItemWidgetState();
@@ -41,6 +44,7 @@ class _ItemWidgetState extends State<ItemWidget> {
 
   UserModel? user;
   late Section section;
+  List<Item> items = [];
 
 
 
@@ -78,7 +82,8 @@ class _ItemWidgetState extends State<ItemWidget> {
         decoration: BoxDecoration(
           color: Colors.white,
         ),
-        child: ListView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
           children: [
             Row(
               mainAxisSize: MainAxisSize.max,
@@ -173,13 +178,8 @@ class _ItemWidgetState extends State<ItemWidget> {
 
                           final item = items[index];
 
-                          return Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+
+                          return
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 5, 0, 5),
@@ -199,6 +199,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                         children: <Widget>[
                                           Checkbox(
                                             value: checkboxFalse,
+                                            activeColor: Colors.green,
                                             onChanged: (bool? newValue) {
                                               setState(() {
                                                 checkboxFalse = !checkboxFalse;
@@ -209,11 +210,11 @@ class _ItemWidgetState extends State<ItemWidget> {
                                       ),
                                     ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
+
+                                );
+
                         });
+
                   } else {
                     return Container(
                       child: Center(
@@ -248,6 +249,95 @@ class _ItemWidgetState extends State<ItemWidget> {
                 }
               }),
             ),
+
+               Align(
+                alignment: AlignmentDirectional(0, 1),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: FlutterFlowIconButton(
+                          borderColor: Colors.transparent,
+                          borderRadius: 30,
+                          borderWidth: 1,
+                          buttonSize: 60,
+                          fillColor: Colors.lightBlueAccent,
+                          icon: Icon(
+                            Icons.arrow_back_rounded,
+                            color: FlutterFlowTheme.tertiaryColor,
+                            size: 40,
+                          ),
+                          onPressed: () async {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: FFButtonWidget(
+                          onPressed: () async {
+                            Navigator.pop(context);
+                          },
+                          text: 'Salva',
+                          options: FFButtonOptions(
+                            width: 155,
+                            height: 60,
+                            color: FlutterFlowTheme.primaryColor,
+                            textStyle: FlutterFlowTheme.subtitle2.override(
+                              fontFamily: 'Open Sans',
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                              width: 1,
+                            ),
+                            borderRadius: 15,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                        child: FlutterFlowIconButton(
+                          borderColor: Colors.transparent,
+                          borderRadius: 30,
+                          borderWidth: 1,
+                          buttonSize: 60,
+                          fillColor: Colors.lightBlueAccent,
+                          icon: Icon(
+                            Icons.add,
+                            color: FlutterFlowTheme.tertiaryColor,
+                            size: 40,
+                          ),
+                          onPressed: () async {
+                            await showDialog(
+                              context: context,
+                              builder: (alertDialogContext) {
+                                return AlertDialog(
+                                  title: Text('PopUp'),
+                                  content: Text('Inserire note '),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(alertDialogContext),
+                                      child: Text('Ok'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
 
           ],
         ),

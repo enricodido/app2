@@ -13,7 +13,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:checklist/page/homePage/home.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 import 'blocs/get_checklist.dart';
 import 'blocs/get_item.dart';
@@ -27,6 +26,12 @@ final getIt = GetIt.instance;
 const String STATUS_OPEN = '0';
 const String STATUS_ASSIGNED = '1';
 const String STATUS_CLOSED = '2';
+
+const String T_NUMBER = '1';
+const String T_TEXT = '2';
+const String T_LIST = '3';
+const String T_BOOL = '4';
+const String T_WORK = '5';
 
 void main() {
   getIt.registerSingleton(Repository());

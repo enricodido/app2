@@ -221,7 +221,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 text: 'Checklist Aperte',
                                 options: FFButtonOptions(
                                   width: double.infinity,
-                                  height: 90,
+                                  height: 80,
                                   color: Colors.white,
                                   textStyle: FlutterFlowTheme.subtitle2
                                       .override(
@@ -261,7 +261,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 text: 'Nuova Checklist',
                                 options: FFButtonOptions(
                                   width: double.infinity,
-                                  height: 90,
+                                  height: 80,
                                   color: Colors.white,
                                   textStyle: FlutterFlowTheme.subtitle2
                                       .override(
@@ -298,7 +298,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 text: 'LOGOUT',
                                 options: FFButtonOptions(
                                   width: double.infinity,
-                                  height: 90,
+                                  height: 80,
                                   color: Colors.white,
                                   textStyle: FlutterFlowTheme.subtitle2
                                       .override(

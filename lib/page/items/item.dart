@@ -187,12 +187,12 @@ class _ItemWidgetState extends State<ItemWidget> {
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
+                                      AutoSizeText(
                                         item.description,
                                         style:
                                             FlutterFlowTheme.subtitle2.override(
                                           fontFamily: 'Open Sans',
-                                          fontSize: 14.5,
+                                          fontSize: 10,
                                         ),
                                       ),
                                       Row(

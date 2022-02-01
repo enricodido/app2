@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'checklistModel.dart';
 import 'items.dart';
 
-const String HOST = 'https://checklist.deltacall.it/api/';
+const String HOST = 'http://192.168.1.94:8080/api/';
 
 class Repository {
   Repository() {

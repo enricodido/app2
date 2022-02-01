@@ -1,142 +1,118 @@
-
-
+import 'dart:typed_data';
+import 'dart:io';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
-import 'package:checklist/page/auth/login.dart';
 import 'package:checklist/page/homePage/home.dart';
-import 'package:checklist/page/selectModel/selectModel.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-
-import '../checklistOpen/checklistOpen.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
+import 'package:universal_html/html.dart' show AnchorElement;
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:convert';
 
 class PopUpFirmaWidget extends StatefulWidget {
-
   @override
   _PopUpFirmaWidgetState createState() => _PopUpFirmaWidgetState();
 }
 
 class _PopUpFirmaWidgetState extends State<PopUpFirmaWidget> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<SfSignaturePadState> _signaturePadStateKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Color(0xFFF5F5F5),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          color: Color(0xFFEEEEEE),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Align(
-              alignment: AlignmentDirectional(0, -1),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(10, 15, 10, 10),
-                    child: Text(
-                      'Firma e concludi la checklist',
-                      textAlign: TextAlign.center,
-                      style: FlutterFlowTheme.bodyText1.override(
-                        fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.primaryColor,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                      ),
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+                child: Center(
+                  child: Container(
+                    child: Column(children: [
+                     SfSignaturePad(
+                       key: _signaturePadStateKey,
+                      backgroundColor: Colors.grey,
+                      strokeColor: Colors.black,
+                      minimumStrokeWidth: 3.0,
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: 260,
-              decoration: BoxDecoration(
-                color: Color(0xFFEEEEEE),
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(
-                  color: Color(0xFF707070),
-                ),
-              ),
-              child: Text(
-                'Questo è un Pop-Up',
-                style: FlutterFlowTheme.bodyText1,
-              ),
-            ),
-            Expanded(
-              child: Align(
-                alignment: AlignmentDirectional(0, 1),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 15),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FFButtonWidget(
-                        onPressed: () async {
-                          Navigator.pop(context);
-                        },
-                        text: 'Chiudi',
-                        options: FFButtonOptions(
-                          width: 135,
-                          height: 60,
-                          color: Color(0xFFBDBDBD),
-                          textStyle: FlutterFlowTheme.subtitle2.override(
-                            fontFamily: 'Open Sans',
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
-                          ),
-                          borderRadius: 12,
-                        ),
-                      ),
-                      FFButtonWidget(
-                        onPressed: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  HomePageWidget(),
+                    ElevatedButton(
+                      onPressed: () async {
+                       _signaturePadStateKey.currentState!.clear();
+                      },
+                      child: Text('Pulisci'),
+                    ),
+                      Expanded(
+                        child: Align(
+                          alignment: AlignmentDirectional(0, 1),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 15),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                  },
+                                  text: 'Chiudi',
+                                  options: FFButtonOptions(
+                                    width: 135,
+                                    height: 60,
+                                    color: Color(0xFFBDBDBD),
+                                    textStyle: FlutterFlowTheme.subtitle2.override(
+                                      fontFamily: 'Open Sans',
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1,
+                                    ),
+                                    borderRadius: 12,
+                                  ),
+                                ),
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => HomePageWidget(),
+                                      ),
+                                    );
+                                  },
+                                  text: 'Salva',
+                                  options: FFButtonOptions(
+                                    width: 135,
+                                    height: 60,
+                                    color: FlutterFlowTheme.primaryColor,
+                                    textStyle: FlutterFlowTheme.subtitle2.override(
+                                      fontFamily: 'Open Sans',
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1,
+                                    ),
+                                    borderRadius: 12,
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                        text: 'Salva',
-                        options: FFButtonOptions(
-                          width: 135,
-                          height: 60,
-                          color: FlutterFlowTheme.primaryColor,
-                          textStyle: FlutterFlowTheme.subtitle2.override(
-                            fontFamily: 'Open Sans',
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
                           ),
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
-                          ),
-                          borderRadius: 12,
                         ),
                       ),
-                    ],
+                    ]
+                    ),
+                    height: MediaQuery.of(context).size.height,
+                    width:  MediaQuery.of(context).size.width,
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
       ),
+
     );
+
+
   }
 }

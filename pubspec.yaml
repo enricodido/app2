@@ -50,6 +50,10 @@ dependencies:
   easy_debounce: ^2.0.2+1
   currency_text_input_formatter: ^2.1.5
   signature: ^5.0.0
+  syncfusion_flutter_signaturepad: ^19.4.48
+  path_provider: ^2.0.2
+  open_file: ^3.2.1
+  universal_html: ^2.0.8
   # per l'esempio bloc
 
 

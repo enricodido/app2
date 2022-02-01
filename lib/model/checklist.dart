@@ -1,5 +1,4 @@
-import 'package:checklist/model/user.dart';
-import 'package:intl/intl.dart';
+
 
 class ChecklistModel {
   ChecklistModel({

@@ -319,14 +319,49 @@ class _ItemWidgetState extends State<ItemWidget> {
                               context: context,
                               builder: (alertDialogContext) {
                                 return AlertDialog(
-                                  title: Text('PopUp'),
-                                  content: Text('Inserire note '),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(alertDialogContext),
-                                      child: Text('Ok'),
+                                  title: Text('NOTE'),
+                                  content: Container(height: 400,
+                                    child: SingleChildScrollView(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                      Padding(
+                                      padding: const EdgeInsets.all(8.0),
                                     ),
-                                  ],
+                                    Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextField(
+                                        decoration: InputDecoration(
+                                            border: OutlineInputBorder(),
+                                            hintText: 'Note',
+                                            labelText: 'Note'),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: double.infinity,
+                                      height: 60,
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Colors.black,
+                                          // fixedSize: Size(250, 50),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () => Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+
+                                )
+                                  )
                                 );
                               },
                             );

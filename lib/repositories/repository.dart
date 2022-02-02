@@ -1,5 +1,6 @@
-import 'dart:io';
 
+
+import 'dart:io';
 import 'package:checklist/repositories/section.dart';
 import 'package:checklist/repositories/session.dart';
 import 'package:checklist/repositories/time.dart';
@@ -7,9 +8,9 @@ import 'package:checklist/repositories/user.dart';
 import 'package:checklist/repositories/selectModel.dart';
 import 'package:checklist/repositories/vehicle.dart';
 import 'package:http/http.dart' as http;
-
 import 'checklistModel.dart';
 import 'items.dart';
+import 'text.dart';
 
 //const String HOST = 'https://checklist.deltacall.it/api/';
 const String HOST = 'http://192.168.1.94:8080/api/';
@@ -24,6 +25,7 @@ class Repository {
     itemRepository = ItemRepository(this);
     sectionRepository = SectionRepository(this);
     vehicleRepository = VehicleRepository(this);
+    textRepository = TextRepository(this); 
   }
 
   HttpClient? http;
@@ -35,7 +37,7 @@ class Repository {
   SectionRepository? sectionRepository;
   TimeRepository? timeRepository;
   VehicleRepository? vehicleRepository;
-
+  TextRepository? textRepository;
 }
 
 class HttpClient {

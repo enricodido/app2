@@ -2,8 +2,8 @@ import 'dart:ffi';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:checklist/blocs/get_item.dart';
+import 'package:checklist/blocs/get_text.dart';
 import 'package:checklist/components/flutter_flow_icon_button.dart';
-import 'package:checklist/components/flutter_flow_radio_button.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
 import 'package:checklist/model/item.dart';
@@ -56,9 +56,14 @@ class _ItemWidgetState extends State<ItemWidget> {
         user = args.user;
         section = args.section;
       });
+
       BlocProvider.of<GetItemBloc>(context).add(GetItemBlocRefreshEvent());
       BlocProvider.of<GetItemBloc>(context)
           .add(GetItemBlocGetEvent(section_id: section.id));
+
+      BlocProvider.of<GetTextBloc>(context).add(GetTextBlocRefreshEvent());
+      BlocProvider.of<GetTextBloc>(context)
+          .add(GetTextBlocGetEvent(item_id: '102'));
     });
   }
 
@@ -66,6 +71,15 @@ class _ItemWidgetState extends State<ItemWidget> {
     getIt.get<Repository>().sessionRepository!.logout();
     Navigator.pushNamedAndRemoveUntil(
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
+  }
+
+  void recordValue(Item item) {
+    getIt
+        .get<Repository>()
+        .itemRepository!
+        .value(context, item.value.toString());
+    print(item.description);
+    print(item.value);
   }
 
   @override
@@ -172,16 +186,19 @@ class _ItemWidgetState extends State<ItemWidget> {
                         padding: EdgeInsets.zero,
                         itemCount: items.length,
                         itemBuilder: (context, index) {
-                          final item = items[index];
+                          var item = items[index];
                           Widget icon = Row();
                           switch (item.type) {
                             case T_BOOL:
                               icon = Checkbox(
-                                value: checkboxFalse,
-                                activeColor: Colors.green,
-                                onChanged: (bool? newValue) {
+                                value: item.value == '1',
+                                activeColor: Colors.blue,
+                                onChanged: (bool? value) {
                                   setState(() {
-                                    checkboxFalse = !checkboxFalse;
+                                    bool ActualValue = item.value == '1';
+                                    ActualValue = !ActualValue;
+                                    item.value = ActualValue ? '1' : '0';
+                                    //  recordValue( );
                                   });
                                 },
                               );
@@ -309,16 +326,109 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                         padding:
                                                             const EdgeInsets
                                                                 .all(8.0),
-                                                        child: ListTile(
-                                                          title: Text(
-                                                              item.description),
-                                                          onTap: () {
-                                                            setState(() {
-                                                              var value = [
-                                                                item.type
-                                                              ];
-                                                            });
-                                                          },
+                                                        child: Expanded(
+                                                          child: BlocBuilder<
+                                                                  GetTextBloc,
+                                                                  GetTextBlocState>(
+                                                              builder: (context,
+                                                                  state) {
+                                                            if (state
+                                                                is GetTextBlocStateLoading)
+                                                              return Center(
+                                                                  child:
+                                                                      CircularProgressIndicator());
+                                                            else {
+                                                              final texts = (state
+                                                                      as GetTextBlocStateLoaded)
+                                                                  .texts;
+                                                              if (texts
+                                                                  .isNotEmpty) {
+                                                                return ListView
+                                                                    .builder(
+                                                                        padding:
+                                                                            EdgeInsets
+                                                                                .zero,
+                                                                        itemCount:
+                                                                            texts
+                                                                                .length,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                index) {
+                                                                          final text =
+                                                                              texts[index];
+
+                                                                          return Padding(
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(7,30,7,0),
+                                                                            child:
+                                                                                FFButtonWidget(
+                                                                              onPressed: () {
+                                                                                Navigator.pushNamed(context, ItemWidget.ROUTE_NAME, arguments: ItemWidgetArg(user: user, section: section));
+                                                                              },
+                                                                              text: text.description,
+                                                                              options: FFButtonOptions(
+                                                                                width: double.infinity,
+                                                                                height: 75,
+                                                                                color: Colors.white,
+                                                                                textStyle: FlutterFlowTheme.subtitle2.override(
+                                                                                  fontFamily: 'Open Sans',
+                                                                                  color: Color(0xFF2CA4D4),
+                                                                                  fontSize: 20,
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                ),
+                                                                                borderSide: BorderSide(
+                                                                                  color: Color(0xFF2CA4D4),
+                                                                                  width: 3,
+                                                                                ),
+                                                                                borderRadius: 15,
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        });
+                                                              } else {
+                                                                return Container(
+                                                                  child: Center(
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .min,
+                                                                      children: [
+                                                                        Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.all(10.0),
+                                                                          child:
+                                                                              Icon(
+                                                                            FontAwesomeIcons.folderOpen,
+                                                                            color:
+                                                                                firstColor,
+                                                                            size:
+                                                                                50,
+                                                                          ),
+                                                                        ),
+                                                                        Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.all(10.0),
+                                                                          child:
+                                                                              AutoSizeText(
+                                                                            'NESSUN ELEMENTO',
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            maxLines:
+                                                                                1,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 30,
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              }
+                                                            }
+                                                          }),
                                                         ),
                                                       ),
                                                       Container(
@@ -335,8 +445,8 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                           },
                                                           style: ElevatedButton
                                                               .styleFrom(
-                                                            primary:
-                                                                Colors.lightBlueAccent,
+                                                            primary: Colors
+                                                                .lightBlueAccent,
                                                             // fixedSize: Size(250, 50),
                                                           ),
                                                           child: TextButton(
@@ -358,23 +468,27 @@ class _ItemWidgetState extends State<ItemWidget> {
                               icon = Row(
                                 children: [
                                   Checkbox(
-                                    value: checkboxFalse,
-                                    activeColor: Colors.green,
-                                    onChanged: (bool? newValue) {
-                                      setState(() {
-                                        checkboxFalse = !checkboxFalse;
-                                      });
-                                    },
-                                  ),
+                                      value: item.value == '1',
+                                      activeColor: Colors.blue,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          bool ActualValue = item.value == '1';
+                                          ActualValue = !ActualValue;
+                                          item.value = ActualValue ? '1' : '0';
+                                        });
+                                      }),
                                   Checkbox(
-                                    value: checkboxFalse,
-                                    activeColor: Colors.green,
-                                    onChanged: (bool? newValue) {
-                                      setState(() {
-                                        checkboxFalse = !checkboxFalse;
-                                      });
-                                    },
-                                  )
+                                      value: item.working == '1',
+                                      activeColor: Colors.red,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          bool ActualValue =
+                                              item.working == '1';
+                                          ActualValue = !ActualValue;
+                                          item.working =
+                                              ActualValue ? '1' : '0';
+                                        });
+                                      })
                                 ],
                               );
                               break;

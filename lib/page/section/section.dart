@@ -192,7 +192,8 @@ class _SectionWidgetState extends State<SectionWidget> {
                 children: [
                   Align(
                     alignment: AlignmentDirectional(-0.05, 0.05),
-                    child: DropdownButton<Vehicle>(
+                    child: 
+                     DropdownButton(
                       isExpanded: true,
                       value: selectedVehicle,
                       hint: Center(child: Text('Scegliere il Mezzo')),
@@ -212,9 +213,9 @@ class _SectionWidgetState extends State<SectionWidget> {
                           selectedVehicle = value;
                         });
                       },
-                      items: vehicles.map<DropdownMenuItem<Vehicle>>((Vehicle vehicle) {
+                      items: vehicles.map((Vehicle vehicles) {
                         return DropdownMenuItem<Vehicle>(
-                            value: vehicle, child: Text(vehicle.description));
+                            value: vehicles, child: Text(vehicles.description));
                       }).toList(),
                     ),
                   ),

@@ -7,7 +7,6 @@ import 'package:checklist/page/userPage/user_page_widget.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:checklist/page/selectModel/selectModel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
@@ -18,6 +17,7 @@ import 'blocs/get_checklist.dart';
 import 'blocs/get_item.dart';
 import 'blocs/get_model.dart';
 import 'blocs/get_section.dart';
+import 'blocs/get_text.dart';
 import 'blocs/time.dart';
 import 'blocs/user_me.dart';
 
@@ -69,6 +69,12 @@ void main() {
             create: (_) =>
                 GetItemBloc(
                     GetItemBlocStateLoading()
+                ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                GetTextBloc(
+                    GetTextBlocStateLoading()
                 ),
           ),
         ],

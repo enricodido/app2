@@ -23,5 +23,22 @@ class ItemRepository {
     throw RequestError(data);
   }
 
+  Future<String> value(
+      context,
+      String value,
+      ) async {
+
+    final response = await repository.http!.post(url: 'record/models', bodyParameters: {
+      'value': value,
+    });
+
+    final data = json.decode(response.body);
+    if (response.statusCode == 200) {
+
+      return data['checklist_item'].toString();
+    }
+    throw RequestError(data);
+  }
+
 
 }

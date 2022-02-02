@@ -14,8 +14,8 @@ class Item {
   final String id;
   final String description;
   final String section_id;
-  final String value;
-  final String working;
+  String value;
+  String working;
   final String type;
 
 
@@ -24,8 +24,8 @@ class Item {
     final String id = data['id'].toString();
     final String description = data['description'].toString();
     final String section_id = data['checklist_section_id'].toString();
-    final String value = data['value'].toString();
-    final String working = data['working'].toString();
+    String value = data['value'].toString();
+    String working = data['working'].toString();
     final String type = data['type'].toString();
 
 

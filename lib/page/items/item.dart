@@ -23,7 +23,6 @@ class ItemWidgetArg {
   ItemWidgetArg({
     required this.user,
     required this.section,
-
   });
 
   final UserModel? user;
@@ -46,8 +45,6 @@ class _ItemWidgetState extends State<ItemWidget> {
   late Section section;
   List<Item> items = [];
 
-
-
   @override
   void initState() {
     super.initState();
@@ -58,10 +55,10 @@ class _ItemWidgetState extends State<ItemWidget> {
             ModalRoute.of(context)!.settings.arguments as ItemWidgetArg;
         user = args.user;
         section = args.section;
-
       });
       BlocProvider.of<GetItemBloc>(context).add(GetItemBlocRefreshEvent());
-      BlocProvider.of<GetItemBloc>(context).add(GetItemBlocGetEvent(section_id: section.id));
+      BlocProvider.of<GetItemBloc>(context)
+          .add(GetItemBlocGetEvent(section_id: section.id));
     });
   }
 
@@ -175,46 +172,234 @@ class _ItemWidgetState extends State<ItemWidget> {
                         padding: EdgeInsets.zero,
                         itemCount: items.length,
                         itemBuilder: (context, index) {
-
                           final item = items[index];
-
-
-                          return
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 5, 0, 5),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      AutoSizeText(
-                                        item.description,
-                                        style:
-                                            FlutterFlowTheme.subtitle2.override(
-                                          fontFamily: 'Open Sans',
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Checkbox(
-                                            value: checkboxFalse,
-                                            activeColor: Colors.green,
-                                            onChanged: (bool? newValue) {
-                                              setState(() {
-                                                checkboxFalse = !checkboxFalse;
-                                              });
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                          Widget icon = Row();
+                          switch (item.type) {
+                            case T_BOOL:
+                              icon = Checkbox(
+                                value: checkboxFalse,
+                                activeColor: Colors.green,
+                                onChanged: (bool? newValue) {
+                                  setState(() {
+                                    checkboxFalse = !checkboxFalse;
+                                  });
+                                },
+                              );
+                              break;
+                            case T_TEXT:
+                              icon = FlutterFlowIconButton(
+                                borderColor: Colors.transparent,
+                                borderRadius: 30,
+                                borderWidth: 1,
+                                buttonSize: 40,
+                                fillColor: Colors.lightBlueAccent,
+                                icon: Icon(
+                                  Icons.add,
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  size: 10,
+                                ),
+                                onPressed: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                          title: Text(item.description),
+                                          content: Container(
+                                              height: 400,
+                                              child: SingleChildScrollView(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                      ),
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: TextField(
+                                                          decoration: InputDecoration(
+                                                              border:
+                                                                  OutlineInputBorder(),
+                                                              labelText: item
+                                                                  .description),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: double.infinity,
+                                                        height: 60,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: ElevatedButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            primary:
+                                                                Colors.black,
+                                                            // fixedSize: Size(250, 50),
+                                                          ),
+                                                          child: TextButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    alertDialogContext),
+                                                            child: Text('Ok'),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                              )));
+                                    },
+                                  );
+                                },
+                              );
+                              break;
+                            case T_LIST:
+                              icon = FlutterFlowIconButton(
+                                borderColor: Colors.transparent,
+                                borderRadius: 30,
+                                borderWidth: 1,
+                                buttonSize: 40,
+                                fillColor: Colors.lightBlueAccent,
+                                icon: Icon(
+                                  Icons.add,
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  size: 10,
+                                ),
+                                onPressed: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                          title: Text(item.description),
+                                          content: Container(
+                                              height: 200,
+                                              child: SingleChildScrollView(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                      ),
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: ListTile(
+                                                          title: Text(
+                                                              item.description),
+                                                          onTap: () {
+                                                            setState(() {
+                                                              var value = [
+                                                                item.type
+                                                              ];
+                                                            });
+                                                          },
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: double.infinity,
+                                                        height: 60,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: ElevatedButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            primary:
+                                                                Colors.lightBlueAccent,
+                                                            // fixedSize: Size(250, 50),
+                                                          ),
+                                                          child: TextButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    alertDialogContext),
+                                                            child: Text('Ok'),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                              )));
+                                    },
+                                  );
+                                },
+                              );
+                              break;
+                            case T_WORK:
+                              icon = Row(
+                                children: [
+                                  Checkbox(
+                                    value: checkboxFalse,
+                                    activeColor: Colors.green,
+                                    onChanged: (bool? newValue) {
+                                      setState(() {
+                                        checkboxFalse = !checkboxFalse;
+                                      });
+                                    },
                                   ),
+                                  Checkbox(
+                                    value: checkboxFalse,
+                                    activeColor: Colors.green,
+                                    onChanged: (bool? newValue) {
+                                      setState(() {
+                                        checkboxFalse = !checkboxFalse;
+                                      });
+                                    },
+                                  )
+                                ],
+                              );
+                              break;
+                          }
 
-                                );
-
+                          return Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AutoSizeText(
+                                  item.description,
+                                  style: FlutterFlowTheme.subtitle2.override(
+                                    fontFamily: 'Open Sans',
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                Row(children: [
+                                  icon,
+                                ]),
+                              ],
+                            ),
+                          );
                         });
-
                   } else {
                     return Container(
                       child: Center(
@@ -249,131 +434,135 @@ class _ItemWidgetState extends State<ItemWidget> {
                 }
               }),
             ),
-
-               Align(
-                alignment: AlignmentDirectional(0, 1),
-                child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: FlutterFlowIconButton(
-                          borderColor: Colors.transparent,
-                          borderRadius: 30,
-                          borderWidth: 1,
-                          buttonSize: 60,
-                          fillColor: Colors.lightBlueAccent,
-                          icon: Icon(
-                            Icons.arrow_back_rounded,
-                            color: FlutterFlowTheme.tertiaryColor,
-                            size: 40,
+            Align(
+              alignment: AlignmentDirectional(0, 1),
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                      child: FlutterFlowIconButton(
+                        borderColor: Colors.transparent,
+                        borderRadius: 30,
+                        borderWidth: 1,
+                        buttonSize: 60,
+                        fillColor: Colors.lightBlueAccent,
+                        icon: Icon(
+                          Icons.arrow_back_rounded,
+                          color: FlutterFlowTheme.tertiaryColor,
+                          size: 40,
+                        ),
+                        onPressed: () async {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          Navigator.pop(context);
+                        },
+                        text: 'Salva',
+                        options: FFButtonOptions(
+                          width: 155,
+                          height: 60,
+                          color: FlutterFlowTheme.primaryColor,
+                          textStyle: FlutterFlowTheme.subtitle2.override(
+                            fontFamily: 'Open Sans',
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
                           ),
-                          onPressed: () async {
-                            Navigator.pop(context);
-                          },
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
+                          ),
+                          borderRadius: 15,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: FFButtonWidget(
-                          onPressed: () async {
-                            Navigator.pop(context);
-                          },
-                          text: 'Salva',
-                          options: FFButtonOptions(
-                            width: 155,
-                            height: 60,
-                            color: FlutterFlowTheme.primaryColor,
-                            textStyle: FlutterFlowTheme.subtitle2.override(
-                              fontFamily: 'Open Sans',
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1,
-                            ),
-                            borderRadius: 15,
-                          ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                      child: FlutterFlowIconButton(
+                        borderColor: Colors.transparent,
+                        borderRadius: 30,
+                        borderWidth: 1,
+                        buttonSize: 60,
+                        fillColor: Colors.lightBlueAccent,
+                        icon: Icon(
+                          Icons.add,
+                          color: FlutterFlowTheme.tertiaryColor,
+                          size: 40,
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                        child: FlutterFlowIconButton(
-                          borderColor: Colors.transparent,
-                          borderRadius: 30,
-                          borderWidth: 1,
-                          buttonSize: 60,
-                          fillColor: Colors.lightBlueAccent,
-                          icon: Icon(
-                            Icons.add,
-                            color: FlutterFlowTheme.tertiaryColor,
-                            size: 40,
-                          ),
-                          onPressed: () async {
-                            await showDialog(
-                              context: context,
-                              builder: (alertDialogContext) {
-                                return AlertDialog(
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (alertDialogContext) {
+                              return AlertDialog(
                                   title: Text('NOTE'),
-                                  content: Container(height: 400,
-                                    child: SingleChildScrollView(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                      Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            hintText: 'Note',
-                                            labelText: 'Note'),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: double.infinity,
-                                      height: 60,
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          primary: Colors.black,
-                                          // fixedSize: Size(250, 50),
-                                        ),
-                                        child: TextButton(
-                                          onPressed: () => Navigator.pop(alertDialogContext),
-                                          child: Text('Ok'),
-                                        ),
-                                      ),
-                                    ),
-                                  ]),
-
-                                )
-                                  )
-                                );
-                              },
-                            );
-                          },
-                        ),
+                                  content: Container(
+                                      height: 200,
+                                      child: SingleChildScrollView(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: <Widget>[
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                              ),
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: TextField(
+                                                  decoration: InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                      hintText: 'Note',
+                                                      labelText: 'Note'),
+                                                ),
+                                              ),
+                                              Container(
+                                                width: double.infinity,
+                                                height: 60,
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                    primary: Colors.black,
+                                                    // fixedSize: Size(250, 50),
+                                                  ),
+                                                  child: TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: Text('Ok'),
+                                                  ),
+                                                ),
+                                              ),
+                                            ]),
+                                      )));
+                            },
+                          );
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-
-
+            ),
           ],
         ),
       ),

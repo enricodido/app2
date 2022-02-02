@@ -8,6 +8,16 @@ class ChecklistModelRepository {
   late Repository repository;
   ChecklistModelRepository(this.repository);
 
+  Future<bool?> close(
+      context,
+      String user_id,
+      String date,
+      ) async {
+    final response = await repository.http!.post(url: 'checklist/close', bodyParameters: {
+      'user_id': user_id,
+      'done' : date
+    });
+  }
 
   Future<String> create(
       context,
@@ -30,9 +40,11 @@ class ChecklistModelRepository {
   }
 
 
+
   Future<List<ChecklistModel>> get({required String user_id}) async {
     final response = await repository.http!.get(
         url: 'get/models/'+ user_id, );
+    print('get/models/'+ user_id);
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {

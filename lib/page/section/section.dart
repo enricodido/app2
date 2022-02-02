@@ -69,6 +69,16 @@ class _SectionWidgetState extends State<SectionWidget> {
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
   }
 
+  void close(BuildContext context) {
+    var date = DateTime.now();
+    getIt.get<Repository>().checklistModelRepository!.close(
+      context,
+      user!.id.toString(),
+      date.toString(),
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,27 +185,6 @@ class _SectionWidgetState extends State<SectionWidget> {
                 ),
               ],
             ),
-           /* Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 30),
-              child: Text(
-                'Benvenuto' + '\n' + user!.name + ' ' + user!.lastname,
-                textAlign: TextAlign.center,
-                style: FlutterFlowTheme.bodyText1.override(
-                  fontFamily: 'Open Sans',
-                  color: Color(0xFF2684AA),
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Text(
-              'Seleziona la sezione da controllare',
-              style: FlutterFlowTheme.bodyText1.override(
-                fontFamily: 'Open Sans',
-                color: Color(0xFFBDBDBD),
-                fontSize: 15,
-              ),
-            ),*/
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
               child: Column(
@@ -219,15 +208,11 @@ class _SectionWidgetState extends State<SectionWidget> {
                         color: Colors.black,
                       ),
                       onChanged: (Vehicle? value) async {
-                        SharedPreferences preferences =
-                            await SharedPreferences.getInstance();
-                        preferences.setString("VEHICLE_ID", value!.id);
                         setState(() {
                           selectedVehicle = value;
                         });
                       },
-                      items: vehicles
-                          .map<DropdownMenuItem<Vehicle>>((Vehicle vehicle) {
+                      items: vehicles.map<DropdownMenuItem<Vehicle>>((Vehicle vehicle) {
                         return DropdownMenuItem<Vehicle>(
                             value: vehicle, child: Text(vehicle.description));
                       }).toList(),

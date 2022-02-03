@@ -8,14 +8,11 @@ class ChecklistModelRepository {
   late Repository repository;
   ChecklistModelRepository(this.repository);
 
-  Future<bool?> close(
-      context,
-      String user_id,
-      String date,
+  Future<String?> close(
+      context,String id,
       ) async {
     final response = await repository.http!.post(url: 'checklist/close', bodyParameters: {
-      'user_id': user_id,
-      'done' : date
+      'id': id,
     });
   }
 

@@ -37,7 +37,6 @@ class ItemWidget extends StatefulWidget {
 }
 
 class _ItemWidgetState extends State<ItemWidget> {
-  bool checkboxFalse = false;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -77,9 +76,11 @@ class _ItemWidgetState extends State<ItemWidget> {
     getIt
         .get<Repository>()
         .itemRepository!
-        .value(context, item.value.toString());
+        .value(context,  item.value.toString(), item.working.toString(), item.id.toString());
     print(item.description);
+    print(item.id);
     print(item.value);
+    print(item.working);
   }
 
   @override
@@ -191,19 +192,22 @@ class _ItemWidgetState extends State<ItemWidget> {
                           switch (item.type) {
                             case T_BOOL:
                               icon = Checkbox(
-                                value: item.value == '1',
+                                value: item.value == 'true',
                                 activeColor: Colors.blue,
                                 onChanged: (bool? value) {
                                   setState(() {
-                                    bool ActualValue = item.value == '1';
+                                    bool ActualValue = item.value == 'true';
                                     ActualValue = !ActualValue;
-                                    item.value = ActualValue ? '1' : '0';
-                                    //  recordValue( );
+                                    item.value = ActualValue ? 'true' : 'false';
+                                    item.working = !ActualValue ? '1' : '0';
+                                    
                                   });
+                                  recordValue(item);
                                 },
                               );
                               break;
                             case T_TEXT:
+          
                               icon = FlutterFlowIconButton(
                                 borderColor: Colors.transparent,
                                 borderRadius: 30,
@@ -248,8 +252,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                           decoration: InputDecoration(
                                                               border:
                                                                   OutlineInputBorder(),
-                                                              labelText: item
-                                                                  .description),
+                                                               ),
                                                         ),
                                                       ),
                                                       Container(
@@ -263,6 +266,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                             Navigator.of(
                                                                     context)
                                                                 .pop();
+                                                                recordValue(item);
                                                           },
                                                           style: ElevatedButton
                                                               .styleFrom(
@@ -468,15 +472,18 @@ class _ItemWidgetState extends State<ItemWidget> {
                               icon = Row(
                                 children: [
                                   Checkbox(
-                                      value: item.value == '1',
+                                      value: item.value == 'true',
                                       activeColor: Colors.blue,
                                       onChanged: (bool? value) {
                                         setState(() {
-                                          bool ActualValue = item.value == '1';
+                                          bool ActualValue = item.value == 'true';
                                           ActualValue = !ActualValue;
-                                          item.value = ActualValue ? '1' : '0';
+                                          item.value = ActualValue ? 'true' : 'false';
+                                          item.working = !ActualValue ? '0' : '0';
                                         });
+                                        recordValue(item);
                                       }),
+                                  if(item.value == 'true')                                 
                                   Checkbox(
                                       value: item.working == '1',
                                       activeColor: Colors.red,
@@ -488,12 +495,12 @@ class _ItemWidgetState extends State<ItemWidget> {
                                           item.working =
                                               ActualValue ? '1' : '0';
                                         });
+                                        recordValue(item);
                                       })
                                 ],
                               );
                               break;
                           }
-
                           return Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
                             child: Row(
@@ -597,80 +604,6 @@ class _ItemWidgetState extends State<ItemWidget> {
                           ),
                           borderRadius: 15,
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
-                      child: FlutterFlowIconButton(
-                        borderColor: Colors.transparent,
-                        borderRadius: 30,
-                        borderWidth: 1,
-                        buttonSize: 60,
-                        fillColor: Colors.lightBlueAccent,
-                        icon: Icon(
-                          Icons.add,
-                          color: FlutterFlowTheme.tertiaryColor,
-                          size: 40,
-                        ),
-                        onPressed: () async {
-                          await showDialog(
-                            context: context,
-                            builder: (alertDialogContext) {
-                              return AlertDialog(
-                                  title: Text('NOTE'),
-                                  content: Container(
-                                      height: 200,
-                                      child: SingleChildScrollView(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                              ),
-                                              Container(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: TextField(
-                                                  decoration: InputDecoration(
-                                                      border:
-                                                          OutlineInputBorder(),
-                                                      hintText: 'Note',
-                                                      labelText: 'Note'),
-                                                ),
-                                              ),
-                                              Container(
-                                                width: double.infinity,
-                                                height: 60,
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    primary: Colors.black,
-                                                    // fixedSize: Size(250, 50),
-                                                  ),
-                                                  child: TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: Text('Ok'),
-                                                  ),
-                                                ),
-                                              ),
-                                            ]),
-                                      )));
-                            },
-                          );
-                        },
                       ),
                     ),
                   ],

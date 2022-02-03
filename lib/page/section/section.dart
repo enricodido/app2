@@ -1,11 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:checklist/blocs/get_model.dart';
 import 'package:checklist/blocs/get_section.dart';
+import 'package:checklist/components/flutter_flow_drop_down.dart';
 import 'package:checklist/components/flutter_flow_icon_button.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_util.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
-import 'package:checklist/model/selectModel.dart';
 import 'package:checklist/model/user.dart';
 import 'package:checklist/model/vehicle.dart';
 import 'package:checklist/page/items/item.dart';
@@ -36,7 +35,7 @@ class SectionWidget extends StatefulWidget {
 
 class _SectionWidgetState extends State<SectionWidget> {
   TextEditingController textFieldCausalController = TextEditingController();
-
+String? dropDownValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   UserModel? user;
@@ -44,6 +43,7 @@ class _SectionWidgetState extends State<SectionWidget> {
 
   Vehicle? selectedVehicle;
   List<Vehicle> vehicles = [];
+
 
   @override
   void initState() {
@@ -69,15 +69,7 @@ class _SectionWidgetState extends State<SectionWidget> {
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
   }
 
-  void close(BuildContext context) {
-    var date = DateTime.now();
-    getIt.get<Repository>().checklistModelRepository!.close(
-      context,
-      user!.id.toString(),
-      date.toString(),
-    );
-
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +147,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                 );
                               },
                               child: Text(
-                                user!.name + ' ' + user!.lastname,
+                                user!.name + ' ' + user!.lastname ,
                                 textAlign: TextAlign.right,
                                 style: FlutterFlowTheme.bodyText1.override(
                                   fontFamily: 'Open Sans',
@@ -190,34 +182,31 @@ class _SectionWidgetState extends State<SectionWidget> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
+                  Text('Seleziona Mezzo'),
                   Align(
                     alignment: AlignmentDirectional(-0.05, 0.05),
-                    child: 
-                     DropdownButton(
-                      isExpanded: true,
-                      value: selectedVehicle,
-                      hint: Center(child: Text('Scegliere il Mezzo')),
-                      icon: const Icon(Icons.arrow_drop_down),
-                      iconSize: 24,
-                      elevation: 16,
-                      style: const TextStyle(
-                        color: Colors.deepPurple,
-                        fontSize: 18,
-                      ),
-                      underline: Container(
-                        height: 1,
-                        color: Colors.black,
-                      ),
-                      onChanged: (Vehicle? value) async {
-                        setState(() {
-                          selectedVehicle = value;
-                        });
-                      },
-                      items: vehicles.map((Vehicle vehicles) {
-                        return DropdownMenuItem<Vehicle>(
-                            value: vehicles, child: Text(vehicles.description));
-                      }).toList(),
-                    ),
+                  
+                    child:
+                    
+                    FlutterFlowDropDown(
+                          options: ['vehicles'].toList(),
+                          onChanged: (val) => setState(() => dropDownValue = val),
+                          width: 290,
+                          height: 50,
+                          textStyle: FlutterFlowTheme.subtitle2.override(
+                            fontFamily: 'Poppins',
+                            color: Colors.lightBlue,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          
+                          fillColor: FlutterFlowTheme.tertiaryColor,
+                          elevation: 2,
+                          borderColor: Colors.lightBlue,
+                          borderWidth: 3,
+                          borderRadius: 15,
+                          margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
+                          hidesUnderline: true,
+                        )
                   ),
                 ],
               ),
@@ -246,7 +235,6 @@ class _SectionWidgetState extends State<SectionWidget> {
                                     context, ItemWidget.ROUTE_NAME,
                                     arguments: ItemWidgetArg(
                                         user: user, section: section));
-                                print(section.id);
                               },
                               text: section.description,
                               options: FFButtonOptions(
@@ -334,6 +322,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                   duration: Duration(milliseconds: 600),
                                   reverseDuration: Duration(milliseconds: 600),
                                   child: PopUpFirmaWidget(),
+                                  
                                 ),
                               );
                             },

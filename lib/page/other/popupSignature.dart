@@ -2,7 +2,9 @@ import 'dart:typed_data';
 import 'dart:io';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
+import 'package:checklist/model/checklist.dart';
 import 'package:checklist/page/homePage/home.dart';
+import 'package:checklist/repositories/repository.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
@@ -12,6 +14,8 @@ import 'package:universal_html/html.dart' show AnchorElement;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:convert';
 
+import '../../main.dart';
+
 class PopUpFirmaWidget extends StatefulWidget {
   @override
   _PopUpFirmaWidgetState createState() => _PopUpFirmaWidgetState();
@@ -20,6 +24,10 @@ class PopUpFirmaWidget extends StatefulWidget {
 class _PopUpFirmaWidgetState extends State<PopUpFirmaWidget> {
   GlobalKey<SfSignaturePadState> _signaturePadStateKey = GlobalKey();
 
+ void close(ChecklistModel checklist) {
+    getIt.get<Repository>().checklistModelRepository!.close(context, checklist.id.toString());
+ }
+ 
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -72,15 +80,10 @@ class _PopUpFirmaWidgetState extends State<PopUpFirmaWidget> {
                                   ),
                                 ),
                                 FFButtonWidget(
-                                  onPressed: () async {
-                                    await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => HomePageWidget(),
-                                      ),
-                                    );
+                                  onPressed: ()  {
+                                    //close(checklist);
                                   },
-                                  text: 'Salva',
+                                  text: 'Firma ed Esci',
                                   options: FFButtonOptions(
                                     width: 135,
                                     height: 60,

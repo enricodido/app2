@@ -23,15 +23,19 @@ class ItemRepository {
     throw RequestError(data);
   }
 
-  Future<String> value(
-      context,
-      String value,
+  Future<String> value(context,
+      String value, String working, String item_id
       ) async {
 
     final response = await repository.http!.post(url: 'record/models', bodyParameters: {
+      
+      'item_id': item_id,
       'value': value,
+      'working': working,
     });
-
+print(item_id);
+print(value);
+print(working);
     final data = json.decode(response.body);
     if (response.statusCode == 200) {
 

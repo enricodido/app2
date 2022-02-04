@@ -12,6 +12,7 @@ import 'package:checklist/model/user.dart';
 import 'package:checklist/page/auth/login.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:checklist/theme/color.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +38,6 @@ class ItemWidget extends StatefulWidget {
 }
 
 class _ItemWidgetState extends State<ItemWidget> {
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   UserModel? user;
@@ -71,19 +71,19 @@ class _ItemWidgetState extends State<ItemWidget> {
     Navigator.pushNamedAndRemoveUntil(
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
   }
-
+  TextEditingController? textEditingController;
   void recordValue(Item item) {
-    getIt
-        .get<Repository>()
-        .itemRepository!
-        .value(context,  item.value.toString(), item.working.toString(), item.id.toString());
+    textEditingController = TextEditingController();
+    getIt.get<Repository>().itemRepository!.value(context,
+        item.value.toString(), item.working.toString(), item.id.toString());
     print(item.description);
     print(item.id);
     print(item.value);
     print(item.working);
   }
-
+  
   @override
+  
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
@@ -200,14 +200,12 @@ class _ItemWidgetState extends State<ItemWidget> {
                                     ActualValue = !ActualValue;
                                     item.value = ActualValue ? 'true' : 'false';
                                     item.working = !ActualValue ? '1' : '0';
-                                    
                                   });
                                   recordValue(item);
                                 },
                               );
                               break;
                             case T_TEXT:
-          
                               icon = FlutterFlowIconButton(
                                 borderColor: Colors.transparent,
                                 borderRadius: 30,
@@ -249,10 +247,17 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                             const EdgeInsets
                                                                 .all(8.0),
                                                         child: TextField(
-                                                          decoration: InputDecoration(
-                                                              border:
-                                                                  OutlineInputBorder(),
-                                                               ),
+                                                           onChanged: (_) => EasyDebounce.debounce(
+                                                                'textFieldRequestController',
+                                                                Duration(milliseconds: 2000),
+                                                                    () => setState(() {}),
+                                                              ),
+                                                               controller: textEditingController,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            border:
+                                                                OutlineInputBorder(),
+                                                          ),
                                                         ),
                                                       ),
                                                       Container(
@@ -263,10 +268,11 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                 .all(8.0),
                                                         child: ElevatedButton(
                                                           onPressed: () {
+                                                           // String item = textEditingController!.text;
                                                             Navigator.of(
                                                                     context)
                                                                 .pop();
-                                                                recordValue(item);
+                                                            recordValue(item);
                                                           },
                                                           style: ElevatedButton
                                                               .styleFrom(
@@ -342,19 +348,13 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                   child:
                                                                       CircularProgressIndicator());
                                                             else {
-                                                              final texts = (state
-                                                                      as GetTextBlocStateLoaded)
+                                                              final texts = (state  as GetTextBlocStateLoaded)
                                                                   .texts;
                                                               if (texts
                                                                   .isNotEmpty) {
-                                                                return ListView
-                                                                    .builder(
-                                                                        padding:
-                                                                            EdgeInsets
-                                                                                .zero,
-                                                                        itemCount:
-                                                                            texts
-                                                                                .length,
+                                                                return ListView.builder(
+                                                                        padding: EdgeInsets.zero,
+                                                                        itemCount: texts.length,
                                                                         itemBuilder:
                                                                             (context,
                                                                                 index) {
@@ -362,7 +362,11 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                               texts[index];
 
                                                                           return Padding(
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(7,30,7,0),
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                7,
+                                                                                30,
+                                                                                7,
+                                                                                0),
                                                                             child:
                                                                                 FFButtonWidget(
                                                                               onPressed: () {
@@ -469,42 +473,52 @@ class _ItemWidgetState extends State<ItemWidget> {
                               );
                               break;
                             case T_WORK:
-                              icon = Row(
+                              icon = Column(
                                 children: [
                                   Checkbox(
                                       value: item.value == 'true',
                                       activeColor: Colors.blue,
                                       onChanged: (bool? value) {
                                         setState(() {
-                                          bool ActualValue = item.value == 'true';
+                                          bool ActualValue =
+                                              item.value == 'true';
                                           ActualValue = !ActualValue;
-                                          item.value = ActualValue ? 'true' : 'false';
-                                          item.working = !ActualValue ? '0' : '0';
+                                          item.value =
+                                              ActualValue ? 'true' : 'false';
+                                          item.working =
+                                              !ActualValue ? '0' : '0';
                                         });
                                         recordValue(item);
                                       }),
-                                  if(item.value == 'true')                                 
-                                  Checkbox(
-                                      value: item.working == '1',
-                                      activeColor: Colors.red,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          bool ActualValue =
-                                              item.working == '1';
-                                          ActualValue = !ActualValue;
-                                          item.working =
-                                              ActualValue ? '1' : '0';
-                                        });
-                                        recordValue(item);
-                                      })
+                                  if (item.value == 'true')
+                                    Row(children: [
+                                      Text('Non Funziona'),
+                                      Checkbox(
+                                          value: item.working == '1',
+                                          activeColor: Colors.red,
+                                          onChanged: (bool? value) {
+                                            setState(() {
+                                              bool ActualValue =
+                                                  item.working == '1';
+                                              ActualValue = !ActualValue;
+                                              item.working =
+                                                  ActualValue ? '1' : '0';
+                                            });
+                                            recordValue(item);
+                                          })
+                                    ])
                                 ],
                               );
                               break;
                           }
-                          return Padding(
+                          return Container(
+                            decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(color: Colors.lightBlueAccent),
+                                ),
+                              ),
                             padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
                             child: Row(
-                              mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 AutoSizeText(
@@ -514,9 +528,12 @@ class _ItemWidgetState extends State<ItemWidget> {
                                     fontSize: 10,
                                   ),
                                 ),
+                              
                                 Row(children: [
                                   icon,
                                 ]),
+                                
+                              
                               ],
                             ),
                           );

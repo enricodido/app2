@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:checklist/blocs/get_section.dart';
-import 'package:checklist/components/flutter_flow_drop_down.dart';
+import 'package:checklist/blocs/get_vehicle.dart';
 import 'package:checklist/components/flutter_flow_icon_button.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_util.dart';
@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 import '../auth/login.dart';
 
@@ -55,11 +54,15 @@ String? dropDownValue;
             ModalRoute.of(context)!.settings.arguments as SectionWidgetArg;
         user = args.user;
         checklist_id = args.checklist_id!;
+
+        
       });
-      BlocProvider.of<GetSectionBloc>(context)
-          .add(GetSectionBlocRefreshEvent());
-      BlocProvider.of<GetSectionBloc>(context)
-          .add(GetSectionBlocGetEvent(checklist_id: checklist_id));
+      BlocProvider.of<GetSectionBloc>(context).add(GetSectionBlocRefreshEvent());
+      BlocProvider.of<GetSectionBloc>(context).add(GetSectionBlocGetEvent(checklist_id: checklist_id));
+
+      BlocProvider.of<GetVehicleBloc>(context).add(GetVehicleBlocRefreshEvent());
+      BlocProvider.of<GetVehicleBloc>(context).add(GetVehicleBlocGetEvent());
+      
     });
   }
 
@@ -141,6 +144,35 @@ String? dropDownValue;
                                             borderRadius: 12,
                                           ),
                                         ),
+                                         FFButtonWidget(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                text: 'Annulla',
+                                                options:
+                                                FFButtonOptions(
+                                                  width:
+                                                  double.infinity,
+                                                  height: 45,
+                                                  color: Colors
+                                                      .red,
+                                                  textStyle:
+                                                  FlutterFlowTheme
+                                                      .subtitle2
+                                                      .override(
+                                                    fontFamily:
+                                                    'Poppins',
+                                                    color: Colors.white,
+                                                  ),
+                                                  borderSide:
+                                                  BorderSide(
+                                                    color: Colors
+                                                        .transparent,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius: 12,
+                                                ),
+                                              ),
                                       ],
                                     );
                                   },
@@ -177,40 +209,60 @@ String? dropDownValue;
                 ),
               ],
             ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
+            Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  Text('Seleziona Mezzo'),
+                  Text('Seleziona Mezzo', ),
                   Align(
                     alignment: AlignmentDirectional(-0.05, 0.05),
                   
-                    child:
-                    
-                    FlutterFlowDropDown(
-                          options: ['vehicles'].toList(),
-                          onChanged: (val) => setState(() => dropDownValue = val),
-                          width: 290,
-                          height: 50,
-                          textStyle: FlutterFlowTheme.subtitle2.override(
-                            fontFamily: 'Poppins',
-                            color: Colors.lightBlue,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          
-                          fillColor: FlutterFlowTheme.tertiaryColor,
-                          elevation: 2,
-                          borderColor: Colors.lightBlue,
-                          borderWidth: 3,
-                          borderRadius: 15,
-                          margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
-                          hidesUnderline: true,
-                        )
-                  ),
-                ],
+                    child: BlocBuilder<GetVehicleBloc, GetVehicleBlocState>(
+                  builder: (context, state) {
+                if (state is GetVehicleBlocStateLoading)
+                  return Center(child: CircularProgressIndicator());
+                else {
+                  final vehicles =
+                      (state as GetVehicleBlocStateLoaded).vehicles;
+                  if (vehicles.isNotEmpty) {
+                    return DropdownButton<Vehicle>(
+                      
+                                isExpanded: true,
+                                value: selectedVehicle,
+                                icon:
+                                const Icon(Icons.arrow_drop_down),
+                                iconSize: 24,
+                                elevation: 16,
+                                style: const TextStyle(
+                                  color: Colors.deepPurple,
+                                  fontSize: 20,
+                                ),
+                                underline: Container(
+                                  height: 1,
+                                  color: Colors.black,
+                                ),
+                                onChanged: (Vehicle? value) async {
+                                
+                                  setState(() {
+                                    selectedVehicle = value;
+                                  });
+                                },
+                                items: vehicles.map<DropdownMenuItem<Vehicle>>((Vehicle vehicle) {
+                                  return DropdownMenuItem<Vehicle>(
+                                    value: vehicle,
+                                  child: Text(vehicle.description),
+                                  );
+                                }).toList(),
+                              );
+                  
+                  } else {
+                    return Text('Null');
+                  }
+                }},
+              
+                )
               ),
-            ),
+            
             Expanded(
               child: BlocBuilder<GetSectionBloc, GetSectionBlocState>(
                   builder: (context, state) {
@@ -348,6 +400,11 @@ String? dropDownValue;
                       ),
                     ))
           ]),
-        ));
-  }
+        )
+        ]
+        )
+          )
+          );
+    
+    }
 }

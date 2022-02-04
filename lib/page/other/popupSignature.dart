@@ -5,6 +5,7 @@ import 'package:checklist/components/flutter_flow_widget.dart';
 import 'package:checklist/model/checklist.dart';
 import 'package:checklist/page/homePage/home.dart';
 import 'package:checklist/repositories/repository.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
@@ -16,7 +17,18 @@ import 'dart:convert';
 
 import '../../main.dart';
 
+class PopUpFirmaWidgetArg {
+  PopUpFirmaWidgetArg({
+    required this.checklist,
+  });
+
+  final ChecklistModel? checklist;
+}
+
 class PopUpFirmaWidget extends StatefulWidget {
+  static const ROUTE_NAME = '/signature';
+
+  
   @override
   _PopUpFirmaWidgetState createState() => _PopUpFirmaWidgetState();
 }
@@ -24,9 +36,25 @@ class PopUpFirmaWidget extends StatefulWidget {
 class _PopUpFirmaWidgetState extends State<PopUpFirmaWidget> {
   GlobalKey<SfSignaturePadState> _signaturePadStateKey = GlobalKey();
 
+late ChecklistModel checklist;
+
+@override
+  void initState() {
+    super.initState();
+
+
+      SchedulerBinding.instance!.addPostFrameCallback((_) async {
+        setState(() {
+        final args = ModalRoute.of(context)!.settings.arguments as PopUpFirmaWidgetArg;
+        checklist = args.checklist!;
+        });
+      });
+}
  void close(ChecklistModel checklist) {
     getIt.get<Repository>().checklistModelRepository!.close(context, checklist.id.toString());
  }
+
+      
  
   @override
   Widget build(BuildContext context) {
@@ -81,7 +109,7 @@ class _PopUpFirmaWidgetState extends State<PopUpFirmaWidget> {
                                 ),
                                 FFButtonWidget(
                                   onPressed: ()  {
-                                    //close(checklist);
+                                    close(checklist);
                                   },
                                   text: 'Firma ed Esci',
                                   options: FFButtonOptions(
@@ -107,9 +135,11 @@ class _PopUpFirmaWidgetState extends State<PopUpFirmaWidget> {
                         ),
                       ),
                     ]
+                
                     ),
                     height: MediaQuery.of(context).size.height,
                     width:  MediaQuery.of(context).size.width,
+                    
                   ),
                 ),
       ),

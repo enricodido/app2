@@ -145,6 +145,35 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   borderRadius: 12,
                                                 ),
                                               ),
+                                               FFButtonWidget(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                text: 'Annulla',
+                                                options:
+                                                FFButtonOptions(
+                                                  width:
+                                                  double.infinity,
+                                                  height: 45,
+                                                  color: Colors
+                                                      .red,
+                                                  textStyle:
+                                                  FlutterFlowTheme
+                                                      .subtitle2
+                                                      .override(
+                                                    fontFamily:
+                                                    'Poppins',
+                                                    color: Colors.white,
+                                                  ),
+                                                  borderSide:
+                                                  BorderSide(
+                                                    color: Colors
+                                                        .transparent,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius: 12,
+                                                ),
+                                              ),
                                             ],
                                           );
                                         },
@@ -221,18 +250,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 text: 'Checklist Aperte',
                                 options: FFButtonOptions(
                                   width: double.infinity,
-                                  height: 80,
-                                  color: Colors.white,
+                                  height: 170,
+                                  color: Colors.lightBlueAccent,
                                   textStyle: FlutterFlowTheme.subtitle2
                                       .override(
                                     fontFamily: 'Open Sans',
-                                    color: Color(0xFF2CA4D4),
-                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontSize: 30,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   borderSide: BorderSide(
                                     color: Color(0xFF2CA4D4),
-                                    width: 3,
+                                    width: 4,
                                   ),
                                   borderRadius: 15,
                                 ),
@@ -261,18 +290,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 text: 'Nuova Checklist',
                                 options: FFButtonOptions(
                                   width: double.infinity,
-                                  height: 80,
-                                  color: Colors.white,
+                                  height: 170,
+                                  color: Colors.green,
                                   textStyle: FlutterFlowTheme.subtitle2
                                       .override(
                                     fontFamily: 'Open Sans',
-                                    color: Color(0xFF2CA4D4),
-                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontSize: 30,
                                     fontWeight: FontWeight.w600,
                                   ),
                                   borderSide: BorderSide(
                                     color: Color(0xFF2CA4D4),
-                                    width: 3,
+                                    width: 4,
                                   ),
                                   borderRadius: 15,
                                 ),
@@ -283,43 +312,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ]
                     ),
                   ),
-                  Expanded(
-                    child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          GestureDetector(
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  7, 30, 7, 0),
-                              child: FFButtonWidget(
-                                onPressed: () {
-                                 logout(context);
-                                },
-                                text: 'LOGOUT',
-                                options: FFButtonOptions(
-                                  width: double.infinity,
-                                  height: 80,
-                                  color: Colors.white,
-                                  textStyle: FlutterFlowTheme.subtitle2
-                                      .override(
-                                    fontFamily: 'Open Sans',
-                                    color: Color(0xFF2CA4D4),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  borderSide: BorderSide(
-                                    color: Color(0xFF2CA4D4),
-                                    width: 3,
-                                  ),
-                                  borderRadius: 15,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                        ]
-                    ),
-                  ),
+                  
                  
                  /* GestureDetector(
                     child: Material(

@@ -9,11 +9,17 @@ class ChecklistModelRepository {
   ChecklistModelRepository(this.repository);
 
   Future<String?> close(
-      context,String id,
+      context, String checklist_id,
       ) async {
     final response = await repository.http!.post(url: 'checklist/close', bodyParameters: {
-      'id': id,
+      'checklist_id': checklist_id,
     });
+     final data = json.decode(response.body);
+    if (response.statusCode == 200) {
+
+      return data['checklist_id'].toString();
+    }
+    throw RequestError(data);
   }
 
   Future<String> create(
@@ -31,7 +37,7 @@ class ChecklistModelRepository {
     final data = json.decode(response.body);
     if (response.statusCode == 200) {
 
-      return data['checklist_id'].toString();
+      return data['checklist_id'];
     }
     throw RequestError(data);
   }

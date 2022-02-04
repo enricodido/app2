@@ -33,7 +33,6 @@ class SchedaControlliSceltaWidget extends StatefulWidget {
 
 class _SchedaControlliSceltaWidgetState
     extends State<SchedaControlliSceltaWidget> {
-  TextEditingController textFieldCausalController = TextEditingController();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -160,6 +159,35 @@ class _SchedaControlliSceltaWidgetState
                                             borderRadius: 12,
                                           ),
                                         ),
+                                         FFButtonWidget(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                text: 'Annulla',
+                                                options:
+                                                FFButtonOptions(
+                                                  width:
+                                                  double.infinity,
+                                                  height: 45,
+                                                  color: Colors
+                                                      .red,
+                                                  textStyle:
+                                                  FlutterFlowTheme
+                                                      .subtitle2
+                                                      .override(
+                                                    fontFamily:
+                                                    'Poppins',
+                                                    color: Colors.white,
+                                                  ),
+                                                  borderSide:
+                                                  BorderSide(
+                                                    color: Colors
+                                                        .transparent,
+                                                    width: 1,
+                                                  ),
+                                                  borderRadius: 12,
+                                                ),
+                                              ),
                                       ],
                                     );
                                   },
@@ -243,7 +271,7 @@ class _SchedaControlliSceltaWidgetState
                                     text: model.description,
                                     options: FFButtonOptions(
                                       width: double.infinity,
-                                      height: 90,
+                                      height: 120,
                                       color: Colors.white,
                                       textStyle: FlutterFlowTheme.subtitle2.override(
                                         fontFamily: 'Open Sans',

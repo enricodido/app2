@@ -26,12 +26,10 @@ class ChecklistAperteWidget extends StatefulWidget {
   static const ROUTE_NAME = '/openchecklist';
 
   @override
-  _ChecklistAperteWidgetState createState() =>
-      _ChecklistAperteWidgetState();
+  _ChecklistAperteWidgetState createState() => _ChecklistAperteWidgetState();
 }
 
-class _ChecklistAperteWidgetState
-    extends State<ChecklistAperteWidget> {
+class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
   TextEditingController textFieldCausalController = TextEditingController();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -42,24 +40,25 @@ class _ChecklistAperteWidgetState
   void initState() {
     super.initState();
 
-
     SchedulerBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
-        final args = ModalRoute.of(context)!.settings.arguments as ChecklistAperteWidgetArg;
+        final args = ModalRoute.of(context)!.settings.arguments
+            as ChecklistAperteWidgetArg;
         user = args.user;
-print(user!.id);
+        print(user!.id);
       });
-      BlocProvider.of<GetChecklistBloc>(context).add(GetChecklistBlocRefreshEvent());
-      BlocProvider.of<GetChecklistBloc>(context).add(GetChecklistBlocGetEvent(user_id: user!.id));
+      BlocProvider.of<GetChecklistBloc>(context)
+          .add(GetChecklistBlocRefreshEvent());
+      BlocProvider.of<GetChecklistBloc>(context)
+          .add(GetChecklistBlocGetEvent(user_id: user!.id));
     });
   }
+
   void logout(BuildContext context) {
     getIt.get<Repository>().sessionRepository!.logout();
     Navigator.pushNamedAndRemoveUntil(
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +99,7 @@ print(user!.id);
                           alignment: AlignmentDirectional(1, 0),
                           child: Padding(
                             padding:
-                            EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                             child: InkWell(
                               onTap: () async {
                                 await showDialog(
@@ -109,7 +108,7 @@ print(user!.id);
                                     return AlertDialog(
                                       title: Text('Logout'),
                                       content:
-                                      Text('Vuoi effettuare il logOut?'),
+                                          Text('Vuoi effettuare il logOut?'),
                                       actions: [
                                         FFButtonWidget(
                                           onPressed: () {
@@ -120,6 +119,28 @@ print(user!.id);
                                             width: double.infinity,
                                             height: 45,
                                             color: Colors.lightBlueAccent,
+                                            textStyle: FlutterFlowTheme
+                                                .subtitle2
+                                                .override(
+                                              fontFamily: 'Poppins',
+                                              color: Colors.white,
+                                            ),
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1,
+                                            ),
+                                            borderRadius: 12,
+                                          ),
+                                        ),
+                                        FFButtonWidget(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          text: 'Annulla',
+                                          options: FFButtonOptions(
+                                            width: double.infinity,
+                                            height: 45,
+                                            color: Colors.red,
                                             textStyle: FlutterFlowTheme
                                                 .subtitle2
                                                 .override(
@@ -195,83 +216,121 @@ print(user!.id);
               // margin: EdgeInsets.only(left: 15.0, right: 15.0),
               child: BlocBuilder<GetChecklistBloc, GetChecklistBlocState>(
                   builder: (context, state) {
-                    if (state is GetChecklistBlocStateLoading)
-                      return Center(child: CircularProgressIndicator());
-                    else {
-                      final checklists = (state as GetChecklistBlocStateLoaded).checklists;
-                      if(checklists.isNotEmpty) {
-                        return ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: checklists.length,
-                            itemBuilder: (context, index) {
+                if (state is GetChecklistBlocStateLoading)
+                  return Center(child: CircularProgressIndicator());
+                else {
+                  final checklists =
+                      (state as GetChecklistBlocStateLoaded).checklists;
+                  if (checklists.isNotEmpty) {
+                    return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: checklists.length,
+                        itemBuilder: (context, index) {
+                          final checklist = checklists[index];
 
-                              final checklist = checklists[index];
-
-                              return Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
-                                child: FFButtonWidget(
-                                  onPressed: ()  {
-                                      Navigator.pushNamed(context, SectionWidget.ROUTE_NAME,
-                                      arguments: SectionWidgetArg(user: user, checklist_id: checklist.id)
-                                      );
-                                    },
-                                  text: checklist.model,
-                                  options: FFButtonOptions(
-                                    width: double.infinity,
-                                    height: 90,
-                                    color: Colors.white,
-                                    textStyle: FlutterFlowTheme.subtitle2.override(
-                                      fontFamily: 'Open Sans',
-                                      color: Color(0xFF2CA4D4),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
+                          return Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                            child: Card(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              color: Color(0xFFE5E5E5),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    10, 10, 10, 10),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Text(
+                                      'Modello: ' +
+                                          checklist.model +
+                                          '\n ' +
+                                          'Data: ' +
+                                          checklist.created_at +
+                                          '\n' +
+                                          'Mezzo: ' +
+                                          checklist.vehicle_id,
+                                      textAlign: TextAlign.start,
+                                      style:
+                                          FlutterFlowTheme.bodyText1.override(
+                                        fontFamily: 'Open Sans',
+                                        fontSize: 17,
+                                      ),
                                     ),
-                                    borderSide: BorderSide(
-                                      color: Color(0xFF2CA4D4),
-                                      width: 3,
+                                    Align(
+                                      alignment: AlignmentDirectional(1, 0),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            10, 5, 10, 0),
+                                        child: FFButtonWidget(
+                                          onPressed: () {
+                                            Navigator.pushNamed(context,
+                                                SectionWidget.ROUTE_NAME,
+                                                arguments: SectionWidgetArg(
+                                                    user: user,
+                                                    checklist_id:
+                                                        checklist.id));
+                                          },
+                                          text: 'Modifica',
+                                          options: FFButtonOptions(
+                                            width: 130,
+                                            height: 40,
+                                            color:
+                                                FlutterFlowTheme.secondaryColor,
+                                            textStyle: FlutterFlowTheme
+                                                .subtitle2
+                                                .override(
+                                              fontFamily: 'Open Sans',
+                                              color: Colors.white,
+                                            ),
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1,
+                                            ),
+                                            borderRadius: 12,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    borderRadius: 15,
-                                  ),
+                                  ],
                                 ),
-                              );
-
-                            }
-                        );
-                      } else {
-                        return Container(
-                          child: Center(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Icon(
-                                    FontAwesomeIcons.folderOpen,
-                                    color: firstColor,
-                                    size: 50,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: AutoSizeText(
-                                    'NESSUN ELEMENTO',
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    }
-                  }),
+                          );
+                        });
+                  } else {
+                    return Container(
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Icon(
+                                FontAwesomeIcons.folderOpen,
+                                color: firstColor,
+                                size: 50,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: AutoSizeText(
+                                'NESSUN ELEMENTO',
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                }
+              }),
             )
-
           ],
         ),
       ),

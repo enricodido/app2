@@ -10,9 +10,9 @@ class GetTextBloc extends Bloc<GetTextBlocEvent, GetTextBlocState> {
   @override
   Stream<GetTextBlocState> mapEventToState(GetTextBlocEvent event) async* {
     if (event is GetTextBlocGetEvent) {
-      List<Text> lists = await getIt.get<Repository>().textRepository!.get(item_id: event.item_id);
+      List<Text> texts = await getIt.get<Repository>().textRepository!.get(item_id: event.item_id);
 
-      yield GetTextBlocStateLoaded(lists);
+      yield GetTextBlocStateLoaded(texts);
     } else {
       yield GetTextBlocStateLoading();
     }

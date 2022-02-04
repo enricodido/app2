@@ -226,8 +226,7 @@ String? dropDownValue;
                       (state as GetVehicleBlocStateLoaded).vehicles;
                   if (vehicles.isNotEmpty) {
                     return DropdownButton<Vehicle>(
-                      
-                                isExpanded: true,
+                                isExpanded: false,
                                 value: selectedVehicle,
                                 icon:
                                 const Icon(Icons.arrow_drop_down),
@@ -246,17 +245,26 @@ String? dropDownValue;
                                   setState(() {
                                     selectedVehicle = value;
                                   });
+                                //  recordVehicle(value);
                                 },
                                 items: vehicles.map<DropdownMenuItem<Vehicle>>((Vehicle vehicle) {
                                   return DropdownMenuItem<Vehicle>(
                                     value: vehicle,
-                                  child: Text(vehicle.description),
+                                  child: Text(
+                                    vehicle.description,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.lightBlue,
+                                      fontFamily: 'Open Sans'
+                                    ),
+                                    ),
                                   );
                                 }).toList(),
                               );
                   
                   } else {
-                    return Text('Null');
+                    return Text('Nessun Mezzo');
                   }
                 }},
               

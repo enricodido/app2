@@ -213,9 +213,9 @@ class _ItemWidgetState extends State<ItemWidget> {
                                 buttonSize: 40,
                                 fillColor: Colors.lightBlueAccent,
                                 icon: Icon(
-                                  Icons.add,
+                                  Icons.edit,
                                   color: FlutterFlowTheme.tertiaryColor,
-                                  size: 10,
+                                  size: 20,
                                 ),
                                 onPressed: () async {
                                   await showDialog(
@@ -303,9 +303,9 @@ class _ItemWidgetState extends State<ItemWidget> {
                                 buttonSize: 40,
                                 fillColor: Colors.lightBlueAccent,
                                 icon: Icon(
-                                  Icons.add,
+                                  Icons.list,
                                   color: FlutterFlowTheme.tertiaryColor,
-                                  size: 10,
+                                  size: 20,
                                 ),
                                 onPressed: () async {
                                   await showDialog(
@@ -314,159 +314,85 @@ class _ItemWidgetState extends State<ItemWidget> {
                                       return AlertDialog(
                                           title: Text(item.description),
                                           content: Container(
-                                              height: 200,
-                                              child: SingleChildScrollView(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                      ),
-                                                      Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Expanded(
-                                                          child: BlocBuilder<
-                                                                  GetTextBloc,
-                                                                  GetTextBlocState>(
-                                                              builder: (context,
-                                                                  state) {
-                                                            if (state
-                                                                is GetTextBlocStateLoading)
-                                                              return Center(
-                                                                  child:
-                                                                      CircularProgressIndicator());
-                                                            else {
-                                                              final texts = (state  as GetTextBlocStateLoaded)
-                                                                  .texts;
-                                                              if (texts
-                                                                  .isNotEmpty) {
-                                                                return ListView.builder(
-                                                                        padding: EdgeInsets.zero,
-                                                                        itemCount: texts.length,
-                                                                        itemBuilder:
-                                                                            (context,
-                                                                                index) {
-                                                                          final text =
-                                                                              texts[index];
+                                              height: 300,
+                                              child: Expanded(
+              child: BlocBuilder<GetTextBloc, GetTextBlocState>(
+                  builder: (context, state) {
+                if (state is GetTextBlocStateLoading)
+                  return Center(child: CircularProgressIndicator());
+                else {
+                  final texts =
+                      (state as GetTextBlocStateLoaded).texts;
+                  if (texts.isNotEmpty) {
+                    return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: texts.length,
+                        itemBuilder: (context, index) {
+                          final text = texts[index];
 
-                                                                          return Padding(
-                                                                            padding: EdgeInsetsDirectional.fromSTEB(
-                                                                                7,
-                                                                                30,
-                                                                                7,
-                                                                                0),
-                                                                            child:
-                                                                                FFButtonWidget(
-                                                                              onPressed: () {
-                                                                                Navigator.pushNamed(context, ItemWidget.ROUTE_NAME, arguments: ItemWidgetArg(user: user, section: section));
-                                                                              },
-                                                                              text: text.description,
-                                                                              options: FFButtonOptions(
-                                                                                width: double.infinity,
-                                                                                height: 75,
-                                                                                color: Colors.white,
-                                                                                textStyle: FlutterFlowTheme.subtitle2.override(
-                                                                                  fontFamily: 'Open Sans',
-                                                                                  color: Color(0xFF2CA4D4),
-                                                                                  fontSize: 20,
-                                                                                  fontWeight: FontWeight.w600,
-                                                                                ),
-                                                                                borderSide: BorderSide(
-                                                                                  color: Color(0xFF2CA4D4),
-                                                                                  width: 3,
-                                                                                ),
-                                                                                borderRadius: 15,
-                                                                              ),
-                                                                            ),
-                                                                          );
-                                                                        });
-                                                              } else {
-                                                                return Container(
-                                                                  child: Center(
-                                                                    child:
-                                                                        Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .min,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.all(10.0),
-                                                                          child:
-                                                                              Icon(
-                                                                            FontAwesomeIcons.folderOpen,
-                                                                            color:
-                                                                                firstColor,
-                                                                            size:
-                                                                                50,
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.all(10.0),
-                                                                          child:
-                                                                              AutoSizeText(
-                                                                            'NESSUN ELEMENTO',
-                                                                            textAlign:
-                                                                                TextAlign.center,
-                                                                            maxLines:
-                                                                                1,
-                                                                            style:
-                                                                                TextStyle(
-                                                                              fontSize: 30,
-                                                                              fontWeight: FontWeight.bold,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              }
-                                                            }
-                                                          }),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: double.infinity,
-                                                        height: 60,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            primary: Colors
-                                                                .lightBlueAccent,
-                                                            // fixedSize: Size(250, 50),
-                                                          ),
-                                                          child: TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    alertDialogContext),
-                                                            child: Text('Ok'),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ]),
-                                              )));
+                          return Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
+                            child: FFButtonWidget(
+                              onPressed: () {
+                               
+                              },
+                              text: text.description,
+                              options: FFButtonOptions(
+                                width: double.infinity,
+                                height: 40,
+                                color: Colors.white,
+                                textStyle: FlutterFlowTheme.subtitle2.override(
+                                  fontFamily: 'Open Sans',
+                                  color: Color(0xFF2CA4D4),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                borderSide: BorderSide(
+                                  color: Color(0xFF2CA4D4),
+                                  width: 3,
+                                ),
+                                borderRadius: 15,
+                              ),
+                            ),
+                          );
+                        });
+                  } else {
+                    return Container(
+                      child: Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Icon(
+                                FontAwesomeIcons.folderOpen,
+                                color: firstColor,
+                                size: 50,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: AutoSizeText(
+                                'NESSUN ELEMENTO',
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                }
+              }),
+            ),
+                                              )
+                                              );
                                     },
                                   );
                                 },
@@ -523,9 +449,11 @@ class _ItemWidgetState extends State<ItemWidget> {
                               children: [
                                 AutoSizeText(
                                   item.description,
+                                  maxLines: 1,
                                   style: FlutterFlowTheme.subtitle2.override(
                                     fontFamily: 'Open Sans',
-                                    fontSize: 10,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               

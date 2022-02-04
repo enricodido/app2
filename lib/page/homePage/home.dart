@@ -236,8 +236,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          GestureDetector(
-                            child: Padding(
+                           Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   7, 30, 7, 0),
                               child: FFButtonWidget(
@@ -266,7 +265,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   borderRadius: 15,
                                 ),
                               ),
-                            ),
+                            
                           ),
 
                         ]

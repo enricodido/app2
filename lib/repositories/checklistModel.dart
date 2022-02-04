@@ -37,7 +37,7 @@ class ChecklistModelRepository {
     final data = json.decode(response.body);
     if (response.statusCode == 200) {
 
-      return data['checklist_id'];
+      return data['checklist_id'].toString();
     }
     throw RequestError(data);
   }

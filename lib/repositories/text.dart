@@ -18,7 +18,7 @@ class TextRepository {
 
     if (response.statusCode == 200) {
       List<Text> lists = [];
-      data['checklist_lists'].forEach((list) {
+      data['checklist_texts'].forEach((list) {
         lists.add(Text.fromData(list));
       });
       return lists;

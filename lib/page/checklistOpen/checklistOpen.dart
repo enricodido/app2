@@ -45,7 +45,6 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
         final args = ModalRoute.of(context)!.settings.arguments
             as ChecklistAperteWidgetArg;
         user = args.user;
-        print(user!.id);
       });
       BlocProvider.of<GetChecklistBloc>(context)
           .add(GetChecklistBlocRefreshEvent());

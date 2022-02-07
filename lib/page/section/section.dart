@@ -8,14 +8,15 @@ import 'package:checklist/components/flutter_flow_widget.dart';
 import 'package:checklist/model/checklist.dart';
 import 'package:checklist/model/user.dart';
 import 'package:checklist/model/vehicle.dart';
+import 'package:checklist/page/homePage/home.dart';
 import 'package:checklist/page/items/item.dart';
-import 'package:checklist/page/other/popupSignature.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:checklist/theme/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import '../../main.dart';
 import '../auth/login.dart';
 
@@ -34,6 +35,8 @@ class SectionWidget extends StatefulWidget {
 }
 
 class _SectionWidgetState extends State<SectionWidget> {
+  GlobalKey<SfSignaturePadState> _signaturePadStateKey = GlobalKey();
+
   TextEditingController textFieldCausalController = TextEditingController();
 String? dropDownValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -79,6 +82,9 @@ void recordVehicle(String checklist, Vehicle vehicle) {
   getIt.get<Repository>().checklistModelRepository!.vehicle(context, checklist.toString(), vehicle.id.toString());
 }
   
+  void close(String checklist) {
+    getIt.get<Repository>().checklistModelRepository!.close(context, checklist_id.toString());
+ }
 
   @override
   Widget build(BuildContext context) {
@@ -380,18 +386,104 @@ void recordVehicle(String checklist, Vehicle vehicle) {
                           ),
                           FFButtonWidget(
                             onPressed: () async {
-                              await Navigator.push(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.bottomToTop,
-                                  duration: Duration(milliseconds: 600),
-                                  reverseDuration: Duration(milliseconds: 600),
-                                  child: PopUpFirmaWidget(),
-                                  
-                                  
+                              await showDialog(context: context, builder: (AlertDialogContext) {
+                                return Dialog(
+insetPadding: EdgeInsets.all(10),
+child:  Container(
+      color: Colors.white,
+      child: SafeArea(
+                child: Center(
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                     SfSignaturePad(
+                       key: _signaturePadStateKey,
+                      backgroundColor: Colors.grey,
+                      strokeColor: Colors.black,
+                      minimumStrokeWidth: 3.0,
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                       _signaturePadStateKey.currentState!.clear();
+                      },
+                      child: Text('Pulisci'),
+                    ),
+                      Expanded(
+                        child: Align(
+                          alignment: AlignmentDirectional(0, 1),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 15),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                  },
+                                  text: 'Chiudi',
+                                  options: FFButtonOptions(
+                                    width: 135,
+                                    height: 60,
+                                    color: Color(0xFFBDBDBD),
+                                    textStyle: FlutterFlowTheme.subtitle2.override(
+                                      fontFamily: 'Open Sans',
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1,
+                                    ),
+                                    borderRadius: 12,
+                                  ),
                                 ),
+                                FFButtonWidget(
+                                  onPressed: ()  {
+                                close(checklist_id);
+                                Navigator.popAndPushNamed(context, HomePageWidget.ROUTE_NAME);
+                                  },
+                                  text: 'Firma ed Esci',
+                                  options: FFButtonOptions(
+                                    width: 135,
+                                    height: 60,
+                                    color: FlutterFlowTheme.primaryColor,
+                                    textStyle: FlutterFlowTheme.subtitle2.override(
+                                      fontFamily: 'Open Sans',
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1,
+                                    ),
+                                    borderRadius: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]
+                
+                    ),
+                    height: MediaQuery.of(context).size.height,
+                    width:  MediaQuery.of(context).size.width,
+                    
+                  ),
+                ),
+      ),
+
+    ),
+                                );
+
+                              }
                               );
-                            },
+                              },
                             text: 'Firma',
                             options: FFButtonOptions(
                               width: 155,

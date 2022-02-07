@@ -11,7 +11,7 @@ class ChecklistModelRepository {
   Future<String?> close(
       context, String checklist_id,
       ) async {
-    final response = await repository.http!.post(url: 'checklist/close', bodyParameters: {
+    final response = await repository.http!.post(url: 'close/models', bodyParameters: {
       'checklist_id': checklist_id,
     });
      final data = json.decode(response.body);

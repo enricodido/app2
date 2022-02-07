@@ -7,6 +7,7 @@ import 'package:checklist/page/checklistOpen/checklistOpen.dart';
 import 'package:checklist/page/selectModel/selectModel.dart';
 import 'package:checklist/page/userPage/user_page_widget.dart';
 import 'package:checklist/repositories/repository.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +27,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     BlocProvider.of<UserMeBloc>(context).add(UserMeBlocRefreshEvent());
     BlocProvider.of<UserMeBloc>(context).add(UserMeBlocGetEvent());
   }
+
 
   void logout(BuildContext context) {
     getIt
@@ -277,7 +279,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         children: [
                           GestureDetector(
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB( 7, 30, 7, 0),
+                              padding: EdgeInsetsDirectional.fromSTEB(  7, 30, 7, 0),
                               child: FFButtonWidget(
                                 onPressed: () {
                                   Navigator.pushNamed(
@@ -380,5 +382,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           }
         })
     );
+    
   }
 }

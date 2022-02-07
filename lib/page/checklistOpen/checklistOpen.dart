@@ -307,7 +307,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                               padding: const EdgeInsets.all(10.0),
                               child: Icon(
                                 FontAwesomeIcons.folderOpen,
-                                color: firstColor,
+                                color: Colors.lightBlueAccent,
                                 size: 50,
                               ),
                             ),

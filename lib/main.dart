@@ -9,6 +9,7 @@ import 'package:checklist/page/userPage/user_page_widget.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:checklist/page/selectModel/selectModel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
@@ -36,6 +37,9 @@ const String T_BOOL = '4';
 const String T_WORK = '5';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+ ));
   getIt.registerSingleton(Repository());
   runApp(
     MultiBlocProvider(

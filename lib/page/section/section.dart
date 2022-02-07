@@ -75,8 +75,8 @@ String? dropDownValue;
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
   }
 
-void recordVehicle(ChecklistModel checklist) {
-  getIt.get<Repository>().checklistModelRepository!.vehicle(context, checklist_id.toString(), vehicles.toString());
+void recordVehicle(String checklist, Vehicle vehicle) {
+  getIt.get<Repository>().checklistModelRepository!.vehicle(context, checklist.toString(), vehicle.id.toString());
 }
   
 
@@ -247,11 +247,10 @@ void recordVehicle(ChecklistModel checklist) {
                                   color: Colors.black,
                                 ),
                                 onChanged: (Vehicle? value) async {
-                                
                                   setState(() {
                                     selectedVehicle = value;
                                   });
-                                // recordVehicle(value);
+                                recordVehicle(checklist_id, value!);
                                 },
                                 items: vehicles.map<DropdownMenuItem<Vehicle>>((Vehicle vehicle) {
                                   return DropdownMenuItem<Vehicle>(

@@ -63,7 +63,9 @@ late ChecklistModel checklist;
       child: SafeArea(
                 child: Center(
                   child: Container(
-                    child: Column(children: [
+                    child: Column(
+                      verticalDirection: VerticalDirection.down,
+                      children: [
                      SfSignaturePad(
                        key: _signaturePadStateKey,
                       backgroundColor: Colors.grey,

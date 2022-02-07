@@ -71,9 +71,10 @@ class _ItemWidgetState extends State<ItemWidget> {
     Navigator.pushNamedAndRemoveUntil(
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
   }
-  TextEditingController? textEditingController;
-  void recordValue(Item item) {
-    textEditingController = TextEditingController();
+TextEditingController textFieldNoteController = TextEditingController(); 
+ void recordValue(Item item) {
+
+     String text = textFieldNoteController.text.trim();
     getIt.get<Repository>().itemRepository!.value(context,
         item.value.toString(), item.working.toString(), item.id.toString());
     print(item.description);
@@ -248,11 +249,11 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                 .all(8.0),
                                                         child: TextField(
                                                            onChanged: (_) => EasyDebounce.debounce(
-                                                                'textFieldRequestController',
+                                                                'textFieldNoteController',
                                                                 Duration(milliseconds: 2000),
                                                                     () => setState(() {}),
                                                               ),
-                                                               controller: textEditingController,
+                                                               controller: textFieldNoteController,
                                                           decoration:
                                                               InputDecoration(
                                                             border:
@@ -268,7 +269,8 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                 .all(8.0),
                                                         child: ElevatedButton(
                                                           onPressed: () {
-                                                           // String item = textEditingController!.text;
+                                                           item.value = textFieldNoteController.text;
+                                                           item.working = '0';
                                                             Navigator.of(
                                                                     context)
                                                                 .pop();

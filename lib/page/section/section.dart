@@ -5,6 +5,7 @@ import 'package:checklist/components/flutter_flow_icon_button.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_util.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
+import 'package:checklist/model/checklist.dart';
 import 'package:checklist/model/user.dart';
 import 'package:checklist/model/vehicle.dart';
 import 'package:checklist/page/items/item.dart';
@@ -43,6 +44,8 @@ String? dropDownValue;
   Vehicle? selectedVehicle;
   List<Vehicle> vehicles = [];
 
+ 
+
 
   @override
   void initState() {
@@ -72,6 +75,9 @@ String? dropDownValue;
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
   }
 
+void recordVehicle(ChecklistModel checklist) {
+  getIt.get<Repository>().checklistModelRepository!.vehicle(context, checklist_id.toString(), vehicles.toString());
+}
   
 
   @override
@@ -245,7 +251,7 @@ String? dropDownValue;
                                   setState(() {
                                     selectedVehicle = value;
                                   });
-                                //  recordVehicle(value);
+                                // recordVehicle(value);
                                 },
                                 items: vehicles.map<DropdownMenuItem<Vehicle>>((Vehicle vehicle) {
                                   return DropdownMenuItem<Vehicle>(

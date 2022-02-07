@@ -22,6 +22,21 @@ class ChecklistModelRepository {
     throw RequestError(data);
   }
 
+ Future<String?> vehicle(
+      context, String checklist_id, String vehicle_id
+      ) async {
+    final response = await repository.http!.post(url: 'store/vehicle', bodyParameters: {
+      'checklist_id': checklist_id,
+      'vehicle_type_id': vehicle_id,
+    });
+     final data = json.decode(response.body);
+    if (response.statusCode == 200) {
+
+      return data['checklist_id'].toString();
+    }
+    throw RequestError(data);
+  }
+
   Future<String> create(
       context,
       String user_id,

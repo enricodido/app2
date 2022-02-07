@@ -277,8 +277,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         children: [
                           GestureDetector(
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  7, 30, 7, 0),
+                              padding: EdgeInsetsDirectional.fromSTEB( 7, 30, 7, 0),
                               child: FFButtonWidget(
                                 onPressed: () {
                                   Navigator.pushNamed(

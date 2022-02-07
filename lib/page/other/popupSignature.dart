@@ -64,7 +64,7 @@ late ChecklistModel checklist;
                 child: Center(
                   child: Container(
                     child: Column(
-                      verticalDirection: VerticalDirection.down,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                      SfSignaturePad(
                        key: _signaturePadStateKey,

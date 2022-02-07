@@ -389,6 +389,7 @@ void recordVehicle(ChecklistModel checklist) {
                                   reverseDuration: Duration(milliseconds: 600),
                                   child: PopUpFirmaWidget(),
                                   
+                                  
                                 ),
                               );
                             },

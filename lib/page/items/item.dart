@@ -297,6 +297,97 @@ TextEditingController textFieldNoteController = TextEditingController();
                                 },
                               );
                               break;
+                              case T_NUMBER:
+                              icon = FlutterFlowIconButton(
+                                borderColor: Colors.transparent,
+                                borderRadius: 30,
+                                borderWidth: 1,
+                                buttonSize: 40,
+                                fillColor: Colors.lightBlueAccent,
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  size: 20,
+                                ),
+                                onPressed: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                          title: Text(item.description),
+                                          content: Container(
+                                              height: 400,
+                                              child: SingleChildScrollView(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                      ),
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: TextField(
+                                                           onChanged: (_) => EasyDebounce.debounce(
+                                                                'textFieldNoteController',
+                                                                Duration(milliseconds: 2000),
+                                                                    () => setState(() {}),
+                                                              ),
+                                                               controller: textFieldNoteController,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            border:
+                                                                OutlineInputBorder(),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: double.infinity,
+                                                        height: 60,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: ElevatedButton(
+                                                          onPressed: () {
+                                                           item.value = textFieldNoteController.text;
+                                                           item.working = '0';
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            recordValue(item);
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            primary:
+                                                                Colors.black,
+                                                            // fixedSize: Size(250, 50),
+                                                          ),
+                                                          child: TextButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                    alertDialogContext),
+                                                            child: Text('Ok'),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ]),
+                                              )));
+                                    },
+                                  );
+                                },
+                              );
+                              break;
                             case T_LIST:
                               icon = FlutterFlowIconButton(
                                 borderColor: Colors.transparent,
@@ -337,7 +428,10 @@ TextEditingController textFieldNoteController = TextEditingController();
                                 EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
                             child: FFButtonWidget(
                               onPressed: () {
-                               
+                                item.value = text.description.toString();
+                                item.working = '0';
+                                Navigator.pop(context);
+                               recordValue(item);
                               },
                               text: text.description,
                               options: FFButtonOptions(

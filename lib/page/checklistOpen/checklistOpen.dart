@@ -45,11 +45,15 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
         final args = ModalRoute.of(context)!.settings.arguments
             as ChecklistAperteWidgetArg;
         user = args.user;
+
+        
       });
       BlocProvider.of<GetChecklistBloc>(context)
           .add(GetChecklistBlocRefreshEvent());
       BlocProvider.of<GetChecklistBloc>(context)
           .add(GetChecklistBlocGetEvent(user_id: user!.id));
+
+          
     });
   }
 
@@ -206,8 +210,8 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
               'Non hai concluso queste schede',
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Open Sans',
-                color: Color(0xFFBDBDBD),
-                fontSize: 18,
+                color: Color.fromARGB(255, 226, 22, 22),
+                fontSize: 20,
               ),
             ),
             Expanded(
@@ -247,7 +251,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                           checklist.created_at +
                                           '\n' +
                                           'Mezzo: ' +
-                                          checklist.vehicle_id,
+                                          checklist.vehicle_id,  // checklist.vehicle.description
                                       textAlign: TextAlign.start,
                                       style:
                                           FlutterFlowTheme.bodyText1.override(

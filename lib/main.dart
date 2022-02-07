@@ -1,7 +1,6 @@
 import 'package:checklist/blocs/get_vehicle.dart';
 import 'package:checklist/page/checklistOpen/checklistOpen.dart';
 import 'package:checklist/page/items/item.dart';
-import 'package:checklist/page/other/popupSignature.dart';
 import 'package:checklist/page/section/section.dart';
 import 'package:checklist/page/auth/login.dart';
 import 'package:checklist/page/splash.dart';
@@ -135,7 +134,6 @@ class MyApp extends StatelessWidget {
         SectionWidget.ROUTE_NAME: (_) => SectionWidget(),
         ItemWidget.ROUTE_NAME: (_) => ItemWidget(),
         ChecklistAperteWidget.ROUTE_NAME: (_) => ChecklistAperteWidget(),
-        PopUpFirmaWidget.ROUTE_NAME: (_) => PopUpFirmaWidget(),
       },
     );
   }

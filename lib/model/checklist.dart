@@ -1,5 +1,6 @@
 
 
+import 'package:checklist/model/vehicle.dart';
 import 'package:intl/intl.dart';
 
 class ChecklistModel {
@@ -8,7 +9,8 @@ class ChecklistModel {
     required this.model,
     required this.user_id,
     required this.vehicle_id, 
-    required this.created_at
+    required this.created_at,
+// this.vehicle
   });
 
   final String id;
@@ -16,6 +18,7 @@ class ChecklistModel {
   final String user_id;
   final String vehicle_id;
   final String created_at;
+ // final Vehicle vehicle;
 
 
   factory ChecklistModel.fromData(Map<String, dynamic> data) {
@@ -30,14 +33,15 @@ class ChecklistModel {
     } else {
       created_at = DateFormat('HH:mm').format(DateFormat('yyyy-MM-dd HH:mm').parse(data['created_at'].toString().substring(0,16)));
     }
-
+ // final Vehicle vehicle = Vehicle.fromData(data['vehicle']);
 
     return ChecklistModel(
       id: id,
       model: model,
       user_id: user_id,
       vehicle_id: vehicle_id,
-      created_at: created_at
+      created_at: created_at,
+    //  vehicle: vehicle
     );
 
   }

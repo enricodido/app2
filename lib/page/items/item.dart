@@ -174,8 +174,9 @@ TextEditingController textFieldNoteController = TextEditingController();
               ],
             ),
             Expanded(
+              child: Padding(
+              padding: const EdgeInsets.all(9.0),
               // width: MediaQuery.of(context).size.width,
-              // margin: EdgeInsets.only(left: 15.0, right: 15.0),
               child: BlocBuilder<GetItemBloc, GetItemBlocState>(
                   builder: (context, state) {
                 if (state is GetItemBlocStateLoading)
@@ -496,7 +497,9 @@ TextEditingController textFieldNoteController = TextEditingController();
                               break;
                             case T_WORK:
                               icon = Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
+                                  
                                   Checkbox(
                                       value: item.value == 'true',
                                       activeColor: Colors.blue,
@@ -529,7 +532,7 @@ TextEditingController textFieldNoteController = TextEditingController();
                                             recordValue(item);
                                           })
                                     ])
-                                ],
+                                  ],
                               );
                               break;
                           }
@@ -548,7 +551,7 @@ TextEditingController textFieldNoteController = TextEditingController();
                                   maxLines: 1,
                                   style: FlutterFlowTheme.subtitle2.override(
                                     fontFamily: 'Open Sans',
-                                    fontSize: 15,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -595,6 +598,7 @@ TextEditingController textFieldNoteController = TextEditingController();
                   }
                 }
               }),
+            ),
             ),
             Align(
               alignment: AlignmentDirectional(0, 1),

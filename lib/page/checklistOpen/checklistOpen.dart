@@ -51,7 +51,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
       BlocProvider.of<GetChecklistBloc>(context)
           .add(GetChecklistBlocRefreshEvent());
       BlocProvider.of<GetChecklistBloc>(context)
-          .add(GetChecklistBlocGetEvent(user_id: user!.id));
+          .add(GetChecklistBlocGetEvent());
 
           
     });
@@ -244,19 +244,18 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Text(
-                                      'Modello: ' +
                                           checklist.model +
                                           '\n ' +
                                           'Data: ' +
                                           checklist.created_at +
                                           '\n' +
                                           'Mezzo: ' +
-                                          checklist.vehicle_id,  // checklist.vehicle.description
+                                          checklist.vehicle_id,  
                                       textAlign: TextAlign.start,
                                       style:
                                           FlutterFlowTheme.bodyText1.override(
                                         fontFamily: 'Open Sans',
-                                        fontSize: 17,
+                                        fontSize: 20,
                                       ),
                                     ),
                                     Align(

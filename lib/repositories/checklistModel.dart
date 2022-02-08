@@ -59,10 +59,10 @@ class ChecklistModelRepository {
 
 
 
-  Future<List<ChecklistModel>> get({required String user_id}) async {
+  Future<List<ChecklistModel>> get() async {
     final response = await repository.http!.get(
-        url: 'get/models/'+ user_id, );
-    print('get/models/'+ user_id);
+        url: 'get/models' );
+    print('get/models');
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {

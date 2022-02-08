@@ -1,11 +1,12 @@
+import 'dart:async';
+import 'dart:typed_data';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:checklist/blocs/get_section.dart';
 import 'package:checklist/blocs/get_vehicle.dart';
 import 'package:checklist/components/flutter_flow_icon_button.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
-import 'package:checklist/components/flutter_flow_util.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
-import 'package:checklist/model/checklist.dart';
 import 'package:checklist/model/user.dart';
 import 'package:checklist/model/vehicle.dart';
 import 'package:checklist/page/homePage/home.dart';
@@ -19,6 +20,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import '../../main.dart';
 import '../auth/login.dart';
+import 'dart:ui' as ui;
 
 class SectionWidgetArg {
   SectionWidgetArg({required this.user, required this.checklist_id});
@@ -35,7 +37,7 @@ class SectionWidget extends StatefulWidget {
 }
 
 class _SectionWidgetState extends State<SectionWidget> {
-  GlobalKey<SfSignaturePadState> _signaturePadStateKey = GlobalKey();
+  GlobalKey<SfSignaturePadState> signatureGlobalKey = GlobalKey();
 
   TextEditingController textFieldCausalController = TextEditingController();
 String? dropDownValue;
@@ -71,7 +73,41 @@ String? dropDownValue;
       
     });
   }
+  void SaveSignature() async {
+      RenderSignaturePad boundary =
+      signatureGlobalKey.currentContext!.findRenderObject() as RenderSignaturePad;
+      ui.Image image = await boundary.toImage();
+      ByteData byteData = await (image.toByteData(format: ui.ImageByteFormat.png) as FutureOr<ByteData>);
+      if (byteData != null) {
+        final time = DateTime.now().millisecond;
+        final name = "signature_$time.png";
+        final result =
+        await ImageGallerySaver.saveImage(byteData.buffer.asUint8List(),quality:100,name:name);
+        result.toString();
+        print(result);
+       
 
+      final isSuccess = result['isSuccess'];
+      signatureGlobalKey.currentState!.clear();
+      if (isSuccess) {
+        await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return Scaffold(
+                appBar: AppBar(),
+                body: Center(
+                  child: Container(
+                    color: Colors.grey[300],
+                    child: Image.memory(byteData.buffer.asUint8List()),
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      }
+      }
+}
   void logout(BuildContext context) {
     getIt.get<Repository>().sessionRepository!.logout();
     Navigator.pushNamedAndRemoveUntil(
@@ -391,21 +427,36 @@ void recordVehicle(String checklist, Vehicle vehicle) {
 insetPadding: EdgeInsets.all(10),
 child:  Container(
       color: Colors.white,
-      child: SafeArea(
+      child: Padding(
+        padding: EdgeInsets.all(10),
                 child: Center(
                   child: Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                      SfSignaturePad(
-                       key: _signaturePadStateKey,
+                       key: signatureGlobalKey,
                       backgroundColor: Colors.grey,
                       strokeColor: Colors.black,
                       minimumStrokeWidth: 3.0,
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                       _signaturePadStateKey.currentState!.clear();
+                        /*final data = await _signaturePadStateKey.currentState!.toImage();
+                        final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
+                         Image image = Image.memory(bytes!.buffer.asUint8List());
+                        final File file = await file.writeAsBytes(bytes!.buffer.asUint8List(), flush: true);
+
+                         ui.Image image = await _signaturePadStateKey.currentState!.toImage();
+                         final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+                         final Uint8List imageBytes = byteData!.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
+
+                        final String path = (await getApplicationSupportDirectory()).path;
+                        final File file = File(fileName);
+                        await file.writeAsBytes(imageBytes, flush: true);*/
+                        
+SaveSignature();
+                       //signatureGlobalKey.currentState!.clear();
                       },
                       child: Text('Pulisci'),
                     ),

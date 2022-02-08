@@ -221,7 +221,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     EdgeInsetsDirectional.fromSTEB(0, 10, 0, 30),
                     child: Text(
                       'Benvenuto' +
-                          '\n ' +
+                          '\n' +
                           user.name +
                           ' ' +
                           user.lastname,
@@ -234,7 +234,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),
                     ),
                   ),
-                  Expanded(
+                  SingleChildScrollView(
                     child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [

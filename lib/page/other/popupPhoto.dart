@@ -1,7 +1,7 @@
 
 
 import 'dart:typed_data';
-
+import 'dart:io';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -68,7 +68,7 @@ class _PopUpFirmaFotoWidgetState extends State<PopUpFirmaFotoWidget> {
                         // SALVATAGGIO FIRMA SUL DISPOSITIVO
 
 
-                         /* import dart:io
+                         
                          ui.Image image = await _signaturePadStateKey.currentState!.toImage();
                          final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
                          final Uint8List imageBytes = byteData!.buffer.asUint8List(byteData.offsetInBytes, byteData.lenghtInBytes);
@@ -76,7 +76,7 @@ class _PopUpFirmaFotoWidgetState extends State<PopUpFirmaFotoWidget> {
                         final String path = (await getApplicationSupportDirectory()).path;
                         final File file = File(fileName);
                         await file.writeAsBytes(imageBytes, flush: true);
-                        OpenFile.open(fileName); */
+                        OpenFile.open(fileName); 
 
                         },
                         text: 'Chiudi',

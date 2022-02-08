@@ -245,6 +245,8 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                   children: [
                                     Text(
                                           checklist.model +
+                                          '\n' +
+                                          'Utente: ' + checklist.user_id  +
                                           '\n ' +
                                           'Data: ' +
                                           checklist.created_at +

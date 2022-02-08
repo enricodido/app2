@@ -23,6 +23,7 @@ class ChecklistModel {
     final String id = data['id'].toString();
     final String model = data['model'].toString();
     final String user_id = data['user_id'].toString();
+
     final String vehicle_id =  data['vehicle_types']['description'] ;
     String created_at = '';
     if(data['created_at'].toString().substring(0,16).contains('T')) {

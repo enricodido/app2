@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:checklist/blocs/get_section.dart';
 import 'package:checklist/blocs/get_vehicle.dart';
@@ -74,39 +73,9 @@ String? dropDownValue;
     });
   }
   void SaveSignature() async {
-      RenderSignaturePad boundary =
-      signatureGlobalKey.currentContext!.findRenderObject() as RenderSignaturePad;
-      ui.Image image = await boundary.toImage();
-      ByteData byteData = await (image.toByteData(format: ui.ImageByteFormat.png) as FutureOr<ByteData>);
-      if (byteData != null) {
-        final time = DateTime.now().millisecond;
-        final name = "signature_$time.png";
-        final result =
-        await ImageGallerySaver.saveImage(byteData.buffer.asUint8List(),quality:100,name:name);
-        result.toString();
-        print(result);
-       
 
-      final isSuccess = result['isSuccess'];
-      signatureGlobalKey.currentState!.clear();
-      if (isSuccess) {
-        await Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              return Scaffold(
-                appBar: AppBar(),
-                body: Center(
-                  child: Container(
-                    color: Colors.grey[300],
-                    child: Image.memory(byteData.buffer.asUint8List()),
-                  ),
-                ),
-              );
-            },
-          ),
-        );
-      }
-      }
+      final image = await signatureGlobalKey.currentState!.toImage();
+      final imageSignature = await image.toByteData(format: ui.ImageByteFormat.png);
 }
   void logout(BuildContext context) {
     getIt.get<Repository>().sessionRepository!.logout();

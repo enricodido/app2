@@ -77,10 +77,7 @@ TextEditingController textFieldNoteController = TextEditingController();
      String text = textFieldNoteController.text.trim();
     getIt.get<Repository>().itemRepository!.value(context,
         item.value.toString(), item.working.toString(), item.id.toString());
-    print(item.description);
-    print(item.id);
-    print(item.value);
-    print(item.working);
+   
   }
   
   @override

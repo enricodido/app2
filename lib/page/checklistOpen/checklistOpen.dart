@@ -207,11 +207,11 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
               ),
             ),
             Text(
-              'Non hai concluso queste schede',
+              'Non sono state concluse queste schede',
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Open Sans',
                 color: Color.fromARGB(255, 226, 22, 22),
-                fontSize: 20,
+                fontSize: 19,
               ),
             ),
             Expanded(
@@ -244,21 +244,24 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Text(
+                                      
                                           checklist.model +
                                           '\n' +
                                           'Utente: ' + checklist.user_id  +
-                                          '\n ' +
+                                          '\n' +
                                           'Data: ' +
                                           checklist.created_at +
                                           '\n' +
                                           'Mezzo: ' +
-                                          checklist.vehicle_id,  
-                                      textAlign: TextAlign.start,
+                                          checklist.vehicle_id, 
+                                           
+                                      textAlign: TextAlign.left,
                                       style:
                                           FlutterFlowTheme.bodyText1.override(
                                         fontFamily: 'Open Sans',
                                         fontSize: 20,
                                       ),
+                                    
                                     ),
                                     Align(
                                       alignment: AlignmentDirectional(1, 0),

@@ -62,7 +62,7 @@ class _ItemWidgetState extends State<ItemWidget> {
 
       BlocProvider.of<GetTextBloc>(context).add(GetTextBlocRefreshEvent());
       BlocProvider.of<GetTextBloc>(context)
-          .add(GetTextBlocGetEvent(item_id: '102'));
+          .add(GetTextBlocGetEvent(item_id: '1156'));
     });
   }
 
@@ -71,8 +71,8 @@ class _ItemWidgetState extends State<ItemWidget> {
     Navigator.pushNamedAndRemoveUntil(
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
   }
-TextEditingController textFieldNoteController = TextEditingController(); 
- void recordValue(Item item) {
+  TextEditingController textFieldNoteController = TextEditingController(); 
+  void recordValue(Item item) {
 
      String text = textFieldNoteController.text.trim();
     getIt.get<Repository>().itemRepository!.value(context,

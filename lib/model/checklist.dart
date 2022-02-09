@@ -7,6 +7,7 @@ class ChecklistModel {
     required this.user_id,
     required this.vehicle_id, 
     required this.created_at,
+    required this.signature,
 // this.vehicle
   });
 
@@ -15,6 +16,7 @@ class ChecklistModel {
   final String user_id;
   final String vehicle_id;
   final String created_at;
+  final String signature;
  // final Vehicle vehicle;
 
 
@@ -23,8 +25,8 @@ class ChecklistModel {
     final String id = data['id'].toString();
     final String model = data['model'].toString();
     final String user_id = data['user_id'].toString();
-
-    final String vehicle_id =  data['vehicle_types']['description'] ;
+    final String signature = data['signature'].toString();
+    final String vehicle_id =  data['vehicle_types']['description'];
     String created_at = '';
     if(data['created_at'].toString().substring(0,16).contains('T')) {
       created_at = DateFormat('dd-MM-yyy HH:mm').format(DateFormat('yyyy-MM-ddTHH:mm').parse(data['created_at'].toString().substring(0,16)).add(Duration(hours: 1)));
@@ -39,6 +41,7 @@ class ChecklistModel {
       user_id: user_id,
       vehicle_id: vehicle_id,
       created_at: created_at,
+      signature: signature
     //  vehicle: vehicle
     );
 

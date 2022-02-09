@@ -57,7 +57,20 @@ class ChecklistModelRepository {
     throw RequestError(data);
   }
 
+Future<String?> signature(
+      context, String checklist_id, String signature
+      ) async {
+    final response = await repository.http!.post(url: 'signature', bodyParameters: {
+      'checklist_id': checklist_id,
+      'signature': signature,
+    });
+     final data = json.decode(response.body);
+    if (response.statusCode == 200) {
 
+      return data['checklist_id'].toString();
+    }
+    throw RequestError(data);
+  }
 
   Future<List<ChecklistModel>> get() async {
     final response = await repository.http!.get(

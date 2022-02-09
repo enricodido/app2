@@ -243,26 +243,29 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Text(
-                                      
-                                          checklist.model +
-                                          '\n' +
-                                          'Utente: ' + checklist.user_id  +
-                                          '\n' +
-                                          'Data: ' +
-                                          checklist.created_at +
-                                          '\n' +
-                                          'Mezzo: ' +
-                                          checklist.vehicle_id, 
-                                           
-                                      textAlign: TextAlign.left,
-                                      style:
-                                          FlutterFlowTheme.bodyText1.override(
-                                        fontFamily: 'Open Sans',
-                                        fontSize: 20,
-                                      ),
-                                    
+                                    RichText(
+                                        text: TextSpan(
+                                            style: new TextStyle(
+                                            fontSize: 22.0,
+                                            color: Colors.black,
+                                            fontFamily: 'Open Sans'             
+                                            ),
+                                          children: <TextSpan>[
+                                            new TextSpan(text: checklist.model, style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent)),
+                                            new TextSpan(text:     
+                                            '\n' +
+                                            'Utente: ' + checklist.user_id  +
+                                            '\n' +
+                                            'Data: ' +
+                                            checklist.created_at +
+                                            '\n' +
+                                            'Mezzo: ' +
+                                            checklist.vehicle_id , 
+                                            ),
+                                          ]
+                                        ),
                                     ),
+     
                                     Align(
                                       alignment: AlignmentDirectional(1, 0),
                                       child: Padding(
@@ -274,8 +277,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                                 SectionWidget.ROUTE_NAME,
                                                 arguments: SectionWidgetArg(
                                                     user: user,
-                                                    checklist_id:
-                                                        checklist.id));
+                                                   checklist_id: checklist.id));
                                           },
                                           text: 'Modifica',
                                           options: FFButtonOptions(

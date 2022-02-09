@@ -74,10 +74,10 @@ String? dropDownValue;
 
     
   }
-  void SaveSignature() async {
+  void SaveSignature(String checklist_id, String signature) async {
 
-      final image = await signatureGlobalKey.currentState!.toImage();
-      final imageSignature = await image.toByteData(format: ui.ImageByteFormat.png);
+     getIt.get<Repository>().checklistModelRepository!.signature(context, checklist_id.toString(), signature);
+
 }
   void logout(BuildContext context) {
     getIt.get<Repository>().sessionRepository!.logout();
@@ -224,6 +224,25 @@ void recordVehicle(String checklist, Vehicle vehicle) {
                   height: 40,
                   decoration: BoxDecoration(
                     color: Color(0xFF6FBCDB),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'SCEGLI SEZIONE DA CONTROLLARE',
+                          textAlign: TextAlign.center,
+                          style: FlutterFlowTheme.bodyText1.override(
+                            fontFamily: 'Poppins',
+                            color: Color(0xFF005679),
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -425,8 +444,9 @@ child:  Container(
                         final String path = (await getApplicationSupportDirectory()).path;
                         final File file = File(fileName);
                         await file.writeAsBytes(imageBytes, flush: true);*/
-                        
-SaveSignature();
+                          final image = await signatureGlobalKey.currentState!.toImage();
+                          final imageSignature = await image.toByteData(format: ui.ImageByteFormat.png);
+                        SaveSignature(checklist_id, imageSignature.toString());
                        //signatureGlobalKey.currentState!.clear();
                       },
                       child: Text('Pulisci'),
@@ -463,8 +483,13 @@ SaveSignature();
                                   ),
                                 ),
                                 FFButtonWidget(
-                                  onPressed: ()  {
-                                close(checklist_id);
+                                  onPressed: () async {
+                                      final image = await signatureGlobalKey.currentState!.toImage();
+                                      final signature = await image.toByteData(format: ui.ImageByteFormat.png);
+                                      SaveSignature(checklist_id, signature.toString());
+                        
+                                      close(checklist_id);
+                         
                                 Navigator.popAndPushNamed(context, HomePageWidget.ROUTE_NAME);
                                   },
                                   text: 'Firma ed Esci',

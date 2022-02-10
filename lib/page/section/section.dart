@@ -476,8 +476,10 @@ child:  Container(
                                       final image = await signatureGlobalKey.currentState!.toImage();
                                       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
                                       final directory = await getApplicationDocumentsDirectory();
+                                      print(directory);
                                       final file = File(directory.path + '/file.png');
                                       await file.writeAsBytes(byteData!.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+                                      print(file);
                                       SaveSignature(checklist_id, file);
                                       close(checklist_id);
                          

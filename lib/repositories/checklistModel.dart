@@ -58,9 +58,7 @@ class ChecklistModelRepository {
     throw RequestError(data);
   }
 
-Future<String?> signature(
-      context, String checklist_id, File file
-      ) async {
+Future<String?> signature(context, String checklist_id, File file) async {
     final response = await repository.http!.postMultipart(url: 'signature', bodyParameters: {
       'checklist_id': checklist_id,
     },

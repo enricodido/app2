@@ -76,11 +76,11 @@ String? dropDownValue;
 
     
   }
+
   void SaveSignature(String checklist_id, File file) async {
+    getIt.get<Repository>().checklistModelRepository!.signature(context, checklist_id.toString(), file);
+  }
 
-     getIt.get<Repository>().checklistModelRepository!.signature(context, checklist_id.toString(), file);
-
-}
   void logout(BuildContext context) {
     getIt.get<Repository>().sessionRepository!.logout();
     Navigator.pushNamedAndRemoveUntil(
@@ -471,19 +471,23 @@ child:  Container(
                                 ),
                                 FFButtonWidget(
                                   onPressed: () async {
-                                     // final image = await signatureGlobalKey.currentState!.toImage();
-                                    //  final signature = await image.toByteData(format: ui.ImageByteFormat.png);
+
                                       final image = await signatureGlobalKey.currentState!.toImage();
                                       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-                                      final directory = await getApplicationDocumentsDirectory();
-                                      print(directory);
-                                      final file = File(directory.path + '/file.png');
+
+                                      var timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+                                      Directory appDocDir = await getApplicationDocumentsDirectory();
+                                      String appDocPath = appDocDir.path;
+                                      String name = timestamp + '.png';
+
+                                      final file = File(appDocPath + '/' + name);
                                       await file.writeAsBytes(byteData!.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-                                      print(file);
+
                                       SaveSignature(checklist_id, file);
                                       close(checklist_id);
                          
-                                Navigator.popAndPushNamed(context, HomePageWidget.ROUTE_NAME);
+                                      Navigator.popAndPushNamed(context, HomePageWidget.ROUTE_NAME);
+
                                   },
                                   text: 'Firma ed Esci',
                                   options: FFButtonOptions(

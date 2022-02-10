@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:checklist/components/customDialog.dart';
 import 'package:checklist/model/checklist.dart';
 import 'package:checklist/model/selectModel.dart';
@@ -58,12 +59,15 @@ class ChecklistModelRepository {
   }
 
 Future<String?> signature(
-      context, String checklist_id, String signature
+      context, String checklist_id, File file
       ) async {
-    final response = await repository.http!.post(url: 'signature', bodyParameters: {
+    final response = await repository.http!.postMultipart(url: 'signature', bodyParameters: {
       'checklist_id': checklist_id,
-      'signature': signature,
-    });
+    },
+    fileParameters: {
+      'file': file,
+    }
+    );
      final data = json.decode(response.body);
     if (response.statusCode == 200) {
 

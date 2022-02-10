@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:checklist/blocs/get_section.dart';
@@ -16,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import '../../main.dart';
 import '../auth/login.dart';
@@ -74,9 +76,9 @@ String? dropDownValue;
 
     
   }
-  void SaveSignature(String checklist_id, String signature) async {
+  void SaveSignature(String checklist_id, File file) async {
 
-     getIt.get<Repository>().checklistModelRepository!.signature(context, checklist_id.toString(), signature);
+     getIt.get<Repository>().checklistModelRepository!.signature(context, checklist_id.toString(), file);
 
 }
   void logout(BuildContext context) {
@@ -432,22 +434,7 @@ child:  Container(
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        /*final data = await _signaturePadStateKey.currentState!.toImage();
-                        final bytes = await data.toByteData(format: ui.ImageByteFormat.png);
-                         Image image = Image.memory(bytes!.buffer.asUint8List());
-                        final File file = await file.writeAsBytes(bytes!.buffer.asUint8List(), flush: true);
-
-                         ui.Image image = await _signaturePadStateKey.currentState!.toImage();
-                         final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-                         final Uint8List imageBytes = byteData!.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
-
-                        final String path = (await getApplicationSupportDirectory()).path;
-                        final File file = File(fileName);
-                        await file.writeAsBytes(imageBytes, flush: true);*/
-                          final image = await signatureGlobalKey.currentState!.toImage();
-                          final imageSignature = await image.toByteData(format: ui.ImageByteFormat.png);
-                        SaveSignature(checklist_id, imageSignature.toString());
-                       //signatureGlobalKey.currentState!.clear();
+                        signatureGlobalKey.currentState!.clear();
                       },
                       child: Text('Pulisci'),
                     ),
@@ -484,10 +471,14 @@ child:  Container(
                                 ),
                                 FFButtonWidget(
                                   onPressed: () async {
+                                     // final image = await signatureGlobalKey.currentState!.toImage();
+                                    //  final signature = await image.toByteData(format: ui.ImageByteFormat.png);
                                       final image = await signatureGlobalKey.currentState!.toImage();
-                                      final signature = await image.toByteData(format: ui.ImageByteFormat.png);
-                                      SaveSignature(checklist_id, signature.toString());
-                        
+                                      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+                                      final directory = await getApplicationDocumentsDirectory();
+                                      final file = File(directory.path + '/file.png');
+                                      await file.writeAsBytes(byteData!.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+                                      SaveSignature(checklist_id, file);
                                       close(checklist_id);
                          
                                 Navigator.popAndPushNamed(context, HomePageWidget.ROUTE_NAME);

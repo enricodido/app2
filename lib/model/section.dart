@@ -18,6 +18,7 @@ class Section {
     final String id = data['id'].toString();
     final String description = data['description'].toString();
     final String checklist_id = data['checklist_model_id'].toString();
+    
 
 
     return Section(

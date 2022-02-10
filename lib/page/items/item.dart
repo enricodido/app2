@@ -71,17 +71,15 @@ class _ItemWidgetState extends State<ItemWidget> {
     Navigator.pushNamedAndRemoveUntil(
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
   }
-  TextEditingController textFieldNoteController = TextEditingController(); 
-  void recordValue(Item item) {
 
-     String text = textFieldNoteController.text.trim();
+  TextEditingController textFieldNoteController = TextEditingController();
+  void recordValue(Item item) {
+    String text = textFieldNoteController.text.trim();
     getIt.get<Repository>().itemRepository!.value(context,
         item.value.toString(), item.working.toString(), item.id.toString());
-   
   }
-  
+
   @override
-  
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
@@ -172,430 +170,505 @@ class _ItemWidgetState extends State<ItemWidget> {
             ),
             Expanded(
               child: Padding(
-              padding: const EdgeInsets.all(9.0),
-              // width: MediaQuery.of(context).size.width,
-              child: BlocBuilder<GetItemBloc, GetItemBlocState>(
-                  builder: (context, state) {
-                if (state is GetItemBlocStateLoading)
-                  return Center(child: CircularProgressIndicator());
-                else {
-                  final items = (state as GetItemBlocStateLoaded).items;
-                  if (items.isNotEmpty) {
-                    return ListView.builder(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        itemCount: items.length,
-                        itemBuilder: (context, index) {
-                          var item = items[index];
-                          Widget icon = Row();
-                          switch (item.type) {
-                            case T_BOOL:
-                              icon = Checkbox(
-                                value: item.value == 'true',
-                                activeColor: Colors.blue,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    bool ActualValue = item.value == 'true';
-                                    ActualValue = !ActualValue;
-                                    item.value = ActualValue ? 'true' : 'false';
-                                    item.working = !ActualValue ? '1' : '0';
-                                  });
-                                  recordValue(item);
-                                },
-                              );
-                              break;
-                            case T_TEXT:
-                              icon = FlutterFlowIconButton(
-                                borderColor: Colors.transparent,
-                                borderRadius: 30,
-                                borderWidth: 1,
-                                buttonSize: 40,
-                                fillColor: Colors.lightBlueAccent,
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: FlutterFlowTheme.tertiaryColor,
-                                  size: 20,
-                                ),
-                                onPressed: () async {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                          title: Text(item.description),
-                                          content: Container(
-                                              height: 400,
-                                              child: SingleChildScrollView(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                      ),
-                                                      Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: TextField(
-                                                           onChanged: (_) => EasyDebounce.debounce(
-                                                                'textFieldNoteController',
-                                                                Duration(milliseconds: 2000),
-                                                                    () => setState(() {}),
-                                                              ),
-                                                               controller: textFieldNoteController,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            border:
-                                                                OutlineInputBorder(),
+                padding: const EdgeInsets.all(9.0),
+                // width: MediaQuery.of(context).size.width,
+                child: BlocBuilder<GetItemBloc, GetItemBlocState>(
+                    builder: (context, state) {
+                  if (state is GetItemBlocStateLoading)
+                    return Center(child: CircularProgressIndicator());
+                  else {
+                    final items = (state as GetItemBlocStateLoaded).items;
+                    if (items.isNotEmpty) {
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          itemCount: items.length,
+                          itemBuilder: (context, index) {
+                            var item = items[index];
+                            Widget icon = Row();
+                            switch (item.type) {
+                              case T_BOOL:
+                                icon = Checkbox(
+                                  value: item.value == 'true',
+                                  activeColor: Colors.blue,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      bool ActualValue = item.value == 'true';
+                                      ActualValue = !ActualValue;
+                                      item.value =
+                                          ActualValue ? 'true' : 'false';
+                                      item.working = !ActualValue ? '1' : '0';
+                                    });
+                                    recordValue(item);
+                                  },
+                                );
+                                break;
+                              case T_TEXT:
+                                icon = FlutterFlowIconButton(
+                                  borderColor: Colors.transparent,
+                                  borderRadius: 30,
+                                  borderWidth: 1,
+                                  buttonSize: 40,
+                                  fillColor: Colors.lightBlueAccent,
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: FlutterFlowTheme.tertiaryColor,
+                                    size: 20,
+                                  ),
+                                  onPressed: () async {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (alertDialogContext) {
+                                        return AlertDialog(
+                                            title: Text(item.description),
+                                            content: Container(
+                                                height: 400,
+                                                child: SingleChildScrollView(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                        ),
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: TextField(
+                                                            onChanged: (_) =>
+                                                                EasyDebounce
+                                                                    .debounce(
+                                                              'textFieldNoteController',
+                                                              Duration(
+                                                                  milliseconds:
+                                                                      2000),
+                                                              () => setState(
+                                                                  () {}),
+                                                            ),
+                                                            controller:
+                                                                textFieldNoteController,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  OutlineInputBorder(),
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                      Container(
-                                                        width: double.infinity,
-                                                        height: 60,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                           item.value = textFieldNoteController.text;
-                                                           item.working = '0';
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            recordValue(item);
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            primary:
-                                                                Colors.black,
-                                                            // fixedSize: Size(250, 50),
-                                                          ),
-                                                          child: TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    alertDialogContext),
-                                                            child: Text('Ok'),
+                                                        Container(
+                                                          width:
+                                                              double.infinity,
+                                                          height: 60,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: ElevatedButton(
+                                                            onPressed: () {
+                                                              item.value =
+                                                                  textFieldNoteController
+                                                                      .text;
+                                                              item.working =
+                                                                  '0';
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                              recordValue(item);
+                                                            },
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              primary:
+                                                                  Colors.black,
+                                                              // fixedSize: Size(250, 50),
+                                                            ),
+                                                            child: TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      alertDialogContext),
+                                                              child: Text('Ok'),
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ]),
-                                              )));
-                                    },
-                                  );
-                                },
-                              );
-                              break;
+                                                      ]),
+                                                )));
+                                      },
+                                    );
+                                  },
+                                );
+                                break;
                               case T_NUMBER:
-                              icon = FlutterFlowIconButton(
-                                borderColor: Colors.transparent,
-                                borderRadius: 30,
-                                borderWidth: 1,
-                                buttonSize: 40,
-                                fillColor: Colors.lightBlueAccent,
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: FlutterFlowTheme.tertiaryColor,
-                                  size: 20,
-                                ),
-                                onPressed: () async {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                          title: Text(item.description),
-                                          content: Container(
+                                icon = FlutterFlowIconButton(
+                                  borderColor: Colors.transparent,
+                                  borderRadius: 30,
+                                  borderWidth: 1,
+                                  buttonSize: 40,
+                                  fillColor: Colors.lightBlueAccent,
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: FlutterFlowTheme.tertiaryColor,
+                                    size: 20,
+                                  ),
+                                  onPressed: () async {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (alertDialogContext) {
+                                        return AlertDialog(
+                                            title: Text(item.description),
+                                            content: Container(
+                                                height: 400,
+                                                child: SingleChildScrollView(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                        ),
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: TextField(
+                                                            onChanged: (_) =>
+                                                                EasyDebounce
+                                                                    .debounce(
+                                                              'textFieldNoteController',
+                                                              Duration(
+                                                                  milliseconds:
+                                                                      2000),
+                                                              () => setState(
+                                                                  () {}),
+                                                            ),
+                                                            controller:
+                                                                textFieldNoteController,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              border:
+                                                                  OutlineInputBorder(),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          width:
+                                                              double.infinity,
+                                                          height: 60,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: ElevatedButton(
+                                                            onPressed: () {
+                                                              item.value =
+                                                                  textFieldNoteController
+                                                                      .text;
+                                                              item.working =
+                                                                  '0';
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                              recordValue(item);
+                                                            },
+                                                            style:
+                                                                ElevatedButton
+                                                                    .styleFrom(
+                                                              primary:
+                                                                  Colors.black,
+                                                              // fixedSize: Size(250, 50),
+                                                            ),
+                                                            child: TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      alertDialogContext),
+                                                              child: Text('Ok'),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ]),
+                                                )));
+                                      },
+                                    );
+                                  },
+                                );
+                                break;
+                              case T_LIST:
+                                icon = FlutterFlowIconButton(
+                                  borderColor: Colors.transparent,
+                                  borderRadius: 30,
+                                  borderWidth: 1,
+                                  buttonSize: 40,
+                                  fillColor: Colors.lightBlueAccent,
+                                  icon: Icon(
+                                    Icons.list,
+                                    color: FlutterFlowTheme.tertiaryColor,
+                                    size: 20,
+                                  ),
+                                  onPressed: () async {
+                                    await showDialog(
+                                      context: context,
+                                      builder: (alertDialogContext) {
+                                        return AlertDialog(
+                                            title: Text(item.description),
+                                            content: SizedBox(
+                                              
                                               height: 400,
-                                              child: SingleChildScrollView(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: <Widget>[
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                      ),
-                                                      Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: TextField(
-                                                           onChanged: (_) => EasyDebounce.debounce(
-                                                                'textFieldNoteController',
-                                                                Duration(milliseconds: 2000),
-                                                                    () => setState(() {}),
-                                                              ),
-                                                               controller: textFieldNoteController,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            border:
-                                                                OutlineInputBorder(),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: double.infinity,
-                                                        height: 60,
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                           item.value = textFieldNoteController.text;
-                                                           item.working = '0';
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            recordValue(item);
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            primary:
-                                                                Colors.black,
-                                                            // fixedSize: Size(250, 50),
-                                                          ),
-                                                          child: TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    alertDialogContext),
-                                                            child: Text('Ok'),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ]),
-                                              )));
-                                    },
-                                  );
-                                },
-                              );
-                              break;
-                            case T_LIST:
-                              icon = FlutterFlowIconButton(
-                                borderColor: Colors.transparent,
-                                borderRadius: 30,
-                                borderWidth: 1,
-                                buttonSize: 40,
-                                fillColor: Colors.lightBlueAccent,
-                                icon: Icon(
-                                  Icons.list,
-                                  color: FlutterFlowTheme.tertiaryColor,
-                                  size: 20,
-                                ),
-                                onPressed: () async {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                          title: Text(item.description),
-                                          content: Container(
-                                              height: 300,
                                               child: Expanded(
-              child: BlocBuilder<GetTextBloc, GetTextBlocState>(
-                  builder: (context, state) {
-                if (state is GetTextBlocStateLoading)
-                  return Center(child: CircularProgressIndicator());
-                else {
-                  final texts =
-                      (state as GetTextBlocStateLoaded).texts;
-                  if (texts.isNotEmpty) {
-                    return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: texts.length,
-                        itemBuilder: (context, index) {
-                          final text = texts[index];
+                                                child: BlocBuilder<GetTextBloc,
+                                                        GetTextBlocState>(
+                                                    builder: (context, state) {
+                                                  if (state
+                                                      is GetTextBlocStateLoading)
+                                                    return Center(
+                                                        child:
+                                                            CircularProgressIndicator());
+                                                  else {
+                                                    final texts = (state
+                                                            as GetTextBlocStateLoaded)
+                                                        .texts;
+                                                    if (texts.isNotEmpty) {
+                                                      return ListView.builder(
+                                                          padding:
+                                                              EdgeInsets.zero,
+                                                          itemCount:
+                                                              texts.length,
+                                                          itemBuilder:
+                                                              (context, index) {
+                                                            final text =
+                                                                texts[index];
 
-                          return Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(7, 30, 7, 0),
-                            child: FFButtonWidget(
-                              onPressed: () {
-                                item.value = text.description.toString();
-                                item.working = '0';
-                                Navigator.pop(context);
-                               recordValue(item);
-                              },
-                              text: text.description,
-                              options: FFButtonOptions(
-                                width: double.infinity,
-                                height: 40,
-                                color: Colors.white,
-                                textStyle: FlutterFlowTheme.subtitle2.override(
-                                  fontFamily: 'Open Sans',
-                                  color: Color(0xFF2CA4D4),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                borderSide: BorderSide(
-                                  color: Color(0xFF2CA4D4),
-                                  width: 3,
-                                ),
-                                borderRadius: 15,
-                              ),
-                            ),
-                          );
-                        });
-                  } else {
-                    return Container(
-                      child: Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Icon(
-                                FontAwesomeIcons.folderOpen,
-                                color: firstColor,
-                                size: 50,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: AutoSizeText(
-                                'NESSUN ELEMENTO',
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }
-                }
-              }),
-            ),
-                                              )
-                                              );
-                                    },
-                                  );
-                                },
-                              );
-                              break;
-                            case T_WORK:
-                              icon = Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  
-                                  Checkbox(
-                                      value: item.value == 'true',
-                                      activeColor: Colors.blue,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          bool ActualValue =
-                                              item.value == 'true';
-                                          ActualValue = !ActualValue;
-                                          item.value =
-                                              ActualValue ? 'true' : 'false';
-                                          item.working =
-                                              !ActualValue ? '0' : '0';
-                                        });
-                                        recordValue(item);
-                                      }),
-                                  if (item.value == 'true')
-                                    Row(children: [
-                                      Text('Non Funziona'),
-                                      Checkbox(
-                                          value: item.working == '1',
-                                          activeColor: Colors.red,
-                                          onChanged: (bool? value) {
-                                            setState(() {
-                                              bool ActualValue =
-                                                  item.working == '1';
-                                              ActualValue = !ActualValue;
-                                              item.working =
-                                                  ActualValue ? '1' : '0';
-                                            });
-                                            recordValue(item);
-                                          })
-                                    ])
+                                                            return Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          7,
+                                                                          30,
+                                                                          7,
+                                                                          0),
+                                                              child:
+                                                                  FFButtonWidget(
+                                                                onPressed: () {
+                                                                  item.value = text
+                                                                      .description
+                                                                      .toString();
+                                                                  item.working =
+                                                                      '0';
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  recordValue(
+                                                                      item);
+                                                                },
+                                                                text: text
+                                                                    .description,
+                                                                options:
+                                                                    FFButtonOptions(
+                                                                  width: double
+                                                                      .infinity,
+                                                                  height: 40,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  textStyle: FlutterFlowTheme
+                                                                      .subtitle2
+                                                                      .override(
+                                                                    fontFamily:
+                                                                        'Open Sans',
+                                                                    color: Color(
+                                                                        0xFF2CA4D4),
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                  ),
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                    color: Color(
+                                                                        0xFF2CA4D4),
+                                                                    width: 3,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      15,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          });
+                                                    } else {
+                                                      return Container(
+                                                        child: Center(
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        10.0),
+                                                                child: Icon(
+                                                                  FontAwesomeIcons
+                                                                      .folderOpen,
+                                                                  color:
+                                                                      firstColor,
+                                                                  size: 50,
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        10.0),
+                                                                child:
+                                                                    AutoSizeText(
+                                                                  'NESSUN ELEMENTO',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  maxLines: 1,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        30,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+                                                  }
+                                                }),
+                                              ),
+                                            ));
+                                      },
+                                    );
+                                  },
+                                );
+                                break;
+                              case T_WORK:
+                                icon = Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Checkbox(
+                                        value: item.value == 'true',
+                                        activeColor: Colors.blue,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            bool ActualValue =
+                                                item.value == 'true';
+                                            ActualValue = !ActualValue;
+                                            item.value =
+                                                ActualValue ? 'true' : 'false';
+                                            item.working =
+                                                !ActualValue ? '0' : '0';
+                                          });
+                                          recordValue(item);
+                                        }),
+                                    if (item.value == 'true')
+                                      Row(children: [
+                                        Text('Non Funziona'),
+                                        Checkbox(
+                                            value: item.working == '1',
+                                            activeColor: Colors.red,
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                bool ActualValue =
+                                                    item.working == '1';
+                                                ActualValue = !ActualValue;
+                                                item.working =
+                                                    ActualValue ? '1' : '0';
+                                              });
+                                              recordValue(item);
+                                            })
+                                      ])
                                   ],
-                              );
-                              break;
-                          }
-                          return Container(
-                            decoration: BoxDecoration(
+                                );
+                                break;
+                            }
+                            return Container(
+                              decoration: BoxDecoration(
                                 border: Border(
-                                  bottom: BorderSide(color: Colors.lightBlueAccent),
+                                  bottom:
+                                      BorderSide(color: Colors.lightBlueAccent),
                                 ),
                               ),
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                AutoSizeText(
-                                  item.description,
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  AutoSizeText(
+                                    item.description,
+                                    maxLines: 1,
+                                    style: FlutterFlowTheme.subtitle2.override(
+                                      fontFamily: 'Open Sans',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Row(children: [
+                                    icon,
+                                  ]),
+                                ],
+                              ),
+                            );
+                          });
+                    } else {
+                      return Container(
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Icon(
+                                  FontAwesomeIcons.folderOpen,
+                                  color: firstColor,
+                                  size: 50,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: AutoSizeText(
+                                  'NESSUN ELEMENTO',
+                                  textAlign: TextAlign.center,
                                   maxLines: 1,
-                                  style: FlutterFlowTheme.subtitle2.override(
-                                    fontFamily: 'Open Sans',
-                                    fontSize: 14,
+                                  style: TextStyle(
+                                    fontSize: 30,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              
-                                Row(children: [
-                                  icon,
-                                ]),
-                                
-                              
-                              ],
-                            ),
-                          );
-                        });
-                  } else {
-                    return Container(
-                      child: Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Icon(
-                                FontAwesomeIcons.folderOpen,
-                                color: firstColor,
-                                size: 50,
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: AutoSizeText(
-                                'NESSUN ELEMENTO',
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   }
-                }
-              }),
-            ),
+                }),
+              ),
             ),
             Align(
               alignment: AlignmentDirectional(0, 1),

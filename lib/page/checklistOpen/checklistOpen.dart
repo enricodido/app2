@@ -254,7 +254,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                             new TextSpan(text: checklist.model, style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent)),
                                             new TextSpan(text:     
                                             '\n' +
-                                            'Utente: ' + checklist.user_id  +
+                                            'Utente: ' + checklist.user.name  + ' ' + checklist.user.lastname + 
                                             '\n' +
                                             'Data: ' +
                                             checklist.created_at +

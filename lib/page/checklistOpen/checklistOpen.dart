@@ -260,7 +260,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                             checklist.created_at +
                                             '\n' +
                                             'Mezzo: ' +
-                                            checklist.vehicle_id , 
+                                            checklist.vehicle_id.toString() ,
                                             ),
                                           ]
                                         ),

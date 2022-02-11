@@ -18,6 +18,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import '../../main.dart';
 import '../auth/login.dart';
@@ -54,31 +55,55 @@ String? dropDownValue;
 
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
-
+    SchedulerBinding.instance!.addPostFrameCallback((_) async {
+      await getData();
+    });
     SchedulerBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
         final args =
-            ModalRoute.of(context)!.settings.arguments as SectionWidgetArg;
+        ModalRoute
+            .of(context)!
+            .settings
+            .arguments as SectionWidgetArg;
         user = args.user;
         checklist_id = args.checklist_id!;
-
-        
       });
+    });
+  }
+    Future getData() async {
+
+
+
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        String val = preferences.getString('VEHICLE_TYPE_ID') ?? '0';
+        if(vehicles.length > 0) {
+          vehicles.forEach((vehicle) {
+            print(val == vehicle.id);
+            if(val == vehicle.id) {
+              setState(() {
+                selectedVehicle = vehicle;
+              });
+            }
+          });
+        }
+
+
       BlocProvider.of<GetSectionBloc>(context).add(GetSectionBlocRefreshEvent());
       BlocProvider.of<GetSectionBloc>(context).add(GetSectionBlocGetEvent(checklist_id: checklist_id));
 
       BlocProvider.of<GetVehicleBloc>(context).add(GetVehicleBlocRefreshEvent());
       BlocProvider.of<GetVehicleBloc>(context).add(GetVehicleBlocGetEvent());
       
-    });
+    }
 
     
-  }
+
 
   void SaveSignature(String checklist_id, File file) async {
     getIt.get<Repository>().checklistModelRepository!.signature(context, checklist_id.toString(), file);
+
   }
 
   void logout(BuildContext context) {
@@ -423,15 +448,21 @@ child:  Container(
         padding: EdgeInsets.all(10),
                 child: Center(
                   child: Container(
+
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                      SfSignaturePad(
                        key: signatureGlobalKey,
-                      backgroundColor: Colors.grey,
+                      backgroundColor: Colors.white,
                       strokeColor: Colors.black,
                       minimumStrokeWidth: 3.0,
+                      maximumStrokeWidth: 6,
                     ),
+                        Divider(
+                            color: Colors.black,
+                            height: 50,
+                        ),
                     ElevatedButton(
                       onPressed: () async {
                         signatureGlobalKey.currentState!.clear();
@@ -485,7 +516,7 @@ child:  Container(
 
                                       SaveSignature(checklist_id, file);
                                       close(checklist_id);
-                         
+
                                       Navigator.popAndPushNamed(context, HomePageWidget.ROUTE_NAME);
 
                                   },
@@ -513,7 +544,7 @@ child:  Container(
                         ),
                       ),
                     ]
-                
+
                     ),
                     height: MediaQuery.of(context).size.height,
                     width:  MediaQuery.of(context).size.width,

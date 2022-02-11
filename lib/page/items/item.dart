@@ -60,9 +60,7 @@ class _ItemWidgetState extends State<ItemWidget> {
       BlocProvider.of<GetItemBloc>(context)
           .add(GetItemBlocGetEvent(section_id: section.id));
 
-      BlocProvider.of<GetTextBloc>(context).add(GetTextBlocRefreshEvent());
-      BlocProvider.of<GetTextBloc>(context)
-          .add(GetTextBlocGetEvent(item_id: '1156'));
+
     });
   }
 
@@ -425,12 +423,15 @@ class _ItemWidgetState extends State<ItemWidget> {
                                     await showDialog(
                                       context: context,
                                       builder: (alertDialogContext) {
+                                        BlocProvider.of<GetTextBloc>(context).add(GetTextBlocRefreshEvent());
+                                        BlocProvider.of<GetTextBloc>(context)
+                                            .add(GetTextBlocGetEvent(item_id: item.id));
                                         return AlertDialog(
                                             title: Text(item.description),
                                             content: SizedBox(
                                               
                                               height: 400,
-                                              child: Expanded(
+                                              child: Container(
                                                 child: BlocBuilder<GetTextBloc,
                                                         GetTextBlocState>(
                                                     builder: (context, state) {
@@ -445,6 +446,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                         .texts;
                                                     if (texts.isNotEmpty) {
                                                       return ListView.builder(
+                                                          shrinkWrap: true,
                                                           padding:
                                                               EdgeInsets.zero,
                                                           itemCount:

@@ -429,9 +429,9 @@ class _ItemWidgetState extends State<ItemWidget> {
                                         return AlertDialog(
                                             title: Text(item.description),
                                             content: SizedBox(
-                                              
-                                              height: 400,
+                                                height: 400,
                                               child: Container(
+                                                  width: double.maxFinite,
                                                 child: BlocBuilder<GetTextBloc,
                                                         GetTextBlocState>(
                                                     builder: (context, state) {
@@ -446,7 +446,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                         .texts;
                                                     if (texts.isNotEmpty) {
                                                       return ListView.builder(
-                                                          shrinkWrap: true,
+
                                                           padding:
                                                               EdgeInsets.zero,
                                                           itemCount:

@@ -277,7 +277,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                                 SectionWidget.ROUTE_NAME,
                                                 arguments: SectionWidgetArg(
                                                     user: user,
-                                                   checklist_id: checklist.id));
+                                                   checklist_id: checklist.id,));
                                           },
                                           text: 'Modifica',
                                           options: FFButtonOptions(

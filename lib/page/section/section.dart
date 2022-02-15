@@ -267,12 +267,15 @@ class _SectionWidgetState extends State<SectionWidget> {
               ),
               Expanded(
                 child: Column(mainAxisSize: MainAxisSize.max, children: [
-                  Text(
-                    'Seleziona Mezzo',
-                  ),
-                  Align(
-                      alignment: AlignmentDirectional(-0.05, 0.05),
-                      child: BlocBuilder<GetVehicleBloc, GetVehicleBlocState>(
+
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FaIcon(
+                        FontAwesomeIcons.ambulance,
+                        color: Color(0xFF2CA4D4),
+                        size: 40,
+                      ), BlocBuilder<GetVehicleBloc, GetVehicleBlocState>(
                         builder: (context, state) {
                           if (state is GetVehicleBlocStateLoading)
                             return Center(child: CircularProgressIndicator());
@@ -294,6 +297,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                   height: 1,
                                   color: Colors.black,
                                 ),
+
                                 onChanged: (Vehicle? value) async {
                                   setState(() {
                                     selectedVehicle = value;
@@ -320,7 +324,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                             }
                           }
                         },
-                      )),
+                      )]),
                   Expanded(
                     child: BlocBuilder<GetSectionBloc, GetSectionBlocState>(
                         builder: (context, state) {

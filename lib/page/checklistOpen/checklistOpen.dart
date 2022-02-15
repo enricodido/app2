@@ -251,7 +251,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                             fontFamily: 'Open Sans'             
                                             ),
                                           children: <TextSpan>[
-                                            new TextSpan(text: checklist.model, style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent)),
+                                            new TextSpan(text: checklist.model, style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.deepOrangeAccent)),
                                             new TextSpan(text:     
                                             '\n' +
                                             'Utente: ' + checklist.user.name  + ' ' + checklist.user.lastname + 

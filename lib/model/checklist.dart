@@ -19,7 +19,6 @@ class ChecklistModel {
   final String created_at;
   final String signature;
   final UserModel user;
- // final Vehicle vehicle;
 
 
   factory ChecklistModel.fromData(Map<String, dynamic> data) {
@@ -27,7 +26,7 @@ class ChecklistModel {
     final String id = data['id'].toString();
     final String model = data['model'].toString();
     final String signature = data['signature'].toString();
-    final String? vehicle_id = data['vehicle_type_id'] != null?  data['vehicle_types']['description'].toString() : null ;
+    final String? vehicle_id = data['vehicle_type_id'] != null?  data['vehicle_types']['description'].toString() : 'Non selezionato' ;
     String created_at = '';
     if(data['created_at'].toString().substring(0,16).contains('T')) {
       created_at = DateFormat('dd-MM-yyy HH:mm').format(DateFormat('yyyy-MM-ddTHH:mm').parse(data['created_at'].toString().substring(0,16)).add(Duration(hours: 1)));
@@ -35,7 +34,6 @@ class ChecklistModel {
       created_at = DateFormat('HH:mm').format(DateFormat('yyyy-MM-dd HH:mm').parse(data['created_at'].toString().substring(0,16)));
     }
     final UserModel user = UserModel.fromData(data['user']);
- // final Vehicle vehicle = Vehicle.fromData(data['vehicle']);
 
     return ChecklistModel(
       id: id,
@@ -44,7 +42,6 @@ class ChecklistModel {
       vehicle_id: vehicle_id,
       created_at: created_at,
       signature: signature
-    //  vehicle: vehicle
     );
 
   }

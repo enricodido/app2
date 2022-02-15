@@ -242,8 +242,9 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                         Container(
                                                           padding:
                                                               const EdgeInsets
-                                                                  .all(8.0),
+                                                                  .all(10.0),
                                                           child: TextField(
+                                                             // <-- SEE HERE
                                                             onChanged: (_) =>
                                                                 EasyDebounce
                                                                     .debounce(
@@ -286,14 +287,15 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                 ElevatedButton
                                                                     .styleFrom(
                                                               primary:
-                                                                  Colors.black,
+                                                                  Colors.green,
                                                               // fixedSize: Size(250, 50),
                                                             ),
                                                             child: TextButton(
                                                               onPressed: () =>
                                                                   Navigator.pop(
                                                                       alertDialogContext),
-                                                              child: Text('Ok'),
+                                                              child: Text('Ok',
+                                                              ),
                                                             ),
                                                           ),
                                                         ),

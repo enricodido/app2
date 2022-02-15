@@ -63,6 +63,8 @@ class _SectionWidgetState extends State<SectionWidget> {
             ModalRoute.of(context)!.settings.arguments as SectionWidgetArg;
         user = args.user;
         checklist_id = args.checklist_id!;
+
+
       });
     });
   }
@@ -440,18 +442,21 @@ class _SectionWidgetState extends State<SectionWidget> {
                                                         MainAxisAlignment
                                                             .center,
                                                     children: [
-                                                      SfSignaturePad(
-                                                        key: signatureGlobalKey,
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        strokeColor:
-                                                            Colors.black,
-                                                        minimumStrokeWidth: 3.0,
-                                                        maximumStrokeWidth: 6,
-                                                      ),
-                                                      Divider(
-                                                        color: Colors.black,
-                                                        height: 50,
+                                                      Container(
+                                                        decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color: Colors.black,
+                                                              width: 3,)
+                                                        ),
+                                                        child: SfSignaturePad(
+                                                          key: signatureGlobalKey,
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          strokeColor:
+                                                              Colors.black,
+                                                          minimumStrokeWidth: 3.0,
+                                                          maximumStrokeWidth: 6,
+                                                        ),
                                                       ),
                                                       ElevatedButton(
                                                         onPressed: () async {

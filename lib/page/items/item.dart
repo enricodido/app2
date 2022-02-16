@@ -77,6 +77,7 @@ class _ItemWidgetState extends State<ItemWidget> {
         item.value.toString(), item.working.toString(), item.id.toString());
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -704,7 +705,11 @@ class _ItemWidgetState extends State<ItemWidget> {
                       padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          Navigator.pop(context);
+                          if(items == 'true') {
+                          Navigator.pop(context);}
+                          else {
+                            AlertDialog(content: Text('Alert'));
+                          }
                         },
                         text: 'Salva',
                         options: FFButtonOptions(

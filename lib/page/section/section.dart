@@ -59,10 +59,10 @@ class _SectionWidgetState extends State<SectionWidget> {
     });
     SchedulerBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
-        final args =
-            ModalRoute.of(context)!.settings.arguments as SectionWidgetArg;
+        final args = ModalRoute.of(context)!.settings.arguments as SectionWidgetArg;
         user = args.user;
         checklist_id = args.checklist_id!;
+
 
 
       });
@@ -84,11 +84,11 @@ class _SectionWidgetState extends State<SectionWidget> {
     }
 
     BlocProvider.of<GetSectionBloc>(context).add(GetSectionBlocRefreshEvent());
-    BlocProvider.of<GetSectionBloc>(context)
-        .add(GetSectionBlocGetEvent(checklist_id: checklist_id));
+    BlocProvider.of<GetSectionBloc>(context).add(GetSectionBlocGetEvent(checklist_id: checklist_id));
 
     BlocProvider.of<GetVehicleBloc>(context).add(GetVehicleBlocRefreshEvent());
-    BlocProvider.of<GetVehicleBloc>(context).add(GetVehicleBlocGetEvent());
+    BlocProvider.of<GetVehicleBloc>(context).add(GetVehicleBlocGetEvent(checklist_id: checklist_id));
+
   }
 
   void SaveSignature(String checklist_id, File file) async {
@@ -280,8 +280,10 @@ class _SectionWidgetState extends State<SectionWidget> {
                           if (state is GetVehicleBlocStateLoading)
                             return Center(child: CircularProgressIndicator());
                           else {
-                            final vehicles =
-                                (state as GetVehicleBlocStateLoaded).vehicles;
+
+                            List<Vehicle> vehicles = (state as GetVehicleBlocStateLoaded).vehicles;
+                            selectedVehicle = (state as GetVehicleBlocStateLoaded).selectedVehicle;
+
                             if (vehicles.isNotEmpty) {
                               return DropdownButton<Vehicle>(
                                 isExpanded: false,
@@ -297,7 +299,6 @@ class _SectionWidgetState extends State<SectionWidget> {
                                   height: 1,
                                   color: Colors.black,
                                 ),
-
                                 onChanged: (Vehicle? value) async {
                                   setState(() {
                                     selectedVehicle = value;

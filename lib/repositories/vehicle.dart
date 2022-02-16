@@ -24,5 +24,18 @@ class VehicleRepository {
     throw RequestError(data);
   }
 
+  Future<Vehicle> getSingle({required String checklist_id}) async {
+    final response = await repository.http!.post(
+      url: 'vehicle/single', bodyParameters: {
+        'checklist_id': checklist_id
+      });
+    final data = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      return Vehicle.fromData(data['vehicle']);
+    }
+
+    throw RequestError(data);
+  }
 
 }

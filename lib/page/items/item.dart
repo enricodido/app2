@@ -705,11 +705,9 @@ class _ItemWidgetState extends State<ItemWidget> {
                       padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          if(items == 'true') {
-                          Navigator.pop(context);}
-                          else {
-                            AlertDialog(content: Text('Alert'));
-                          }
+
+                          Navigator.pop(context);
+
                         },
                         text: 'Salva',
                         options: FFButtonOptions(

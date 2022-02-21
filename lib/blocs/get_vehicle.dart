@@ -12,8 +12,8 @@ class GetVehicleBloc extends Bloc<GetVehicleBlocEvent, GetVehicleBlocState> {
   Stream<GetVehicleBlocState> mapEventToState(GetVehicleBlocEvent event) async* {
     if (event is GetVehicleBlocGetEvent) {
       List<Vehicle> vehicles = await getIt.get<Repository>().vehicleRepository!.get();
-      Vehicle selectedVehicle = await getIt.get<Repository>().vehicleRepository!.getSingle(checklist_id: event.checklist_id);
-      yield GetVehicleBlocStateLoaded(vehicles, selectedVehicle);
+
+      yield GetVehicleBlocStateLoaded(vehicles);
     } else {
       yield GetVehicleBlocStateLoading();
     }
@@ -34,7 +34,7 @@ abstract class GetVehicleBlocState {}
 class GetVehicleBlocStateLoading extends GetVehicleBlocState {}
 
 class GetVehicleBlocStateLoaded extends GetVehicleBlocState {
-  GetVehicleBlocStateLoaded(this.vehicles, this.selectedVehicle);
+  GetVehicleBlocStateLoaded(this.vehicles);
   final List<Vehicle> vehicles;
-  final Vehicle selectedVehicle;
+
 }

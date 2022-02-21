@@ -11,6 +11,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../main.dart';
+import '../../model/vehicle.dart';
 import '../section/section.dart';
 import '../auth/login.dart';
 
@@ -272,12 +273,14 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             10, 5, 10, 0),
                                         child: FFButtonWidget(
-                                          onPressed: () {
+                                          onPressed: () async {
+                                            Vehicle? selectedVehicle = await getIt.get<Repository>().vehicleRepository!.getSingle(checklist_id: checklist.id);
                                             Navigator.pushNamed(context,
                                                 SectionWidget.ROUTE_NAME,
                                                 arguments: SectionWidgetArg(
                                                     user: user,
-                                                   checklist_id: checklist.id,));
+                                                   checklist_id: checklist.id,
+                                                selectedVehicle: selectedVehicle));
                                           },
                                           text: 'Modifica',
                                           options: FFButtonOptions(

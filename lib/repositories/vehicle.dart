@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:checklist/model/item.dart';
 import 'package:checklist/model/vehicle.dart';
 import 'package:checklist/repositories/repository.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
 class VehicleRepository {
   late Repository repository;
@@ -24,7 +25,7 @@ class VehicleRepository {
     throw RequestError(data);
   }
 
-  Future<Vehicle> getSingle({required String checklist_id}) async {
+  Future<Vehicle?> getSingle( {required String checklist_id}) async {
     final response = await repository.http!.post(
       url: 'vehicle/single', bodyParameters: {
         'checklist_id': checklist_id
@@ -32,7 +33,8 @@ class VehicleRepository {
     final data = json.decode(response.body);
 
     if (response.statusCode == 200) {
-      return Vehicle.fromData(data['vehicle']);
+      return data['vehicle'] != null ? Vehicle.fromData(data['vehicle']) : null;
+
     }
 
     throw RequestError(data);

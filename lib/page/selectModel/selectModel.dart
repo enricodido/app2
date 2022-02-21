@@ -69,7 +69,7 @@ class _SchedaControlliSceltaWidgetState
 
     if(result != null) {
       Navigator.pushNamed(context, SectionWidget.ROUTE_NAME,
-          arguments: SectionWidgetArg(user: user, checklist_id: result)
+          arguments: SectionWidgetArg(user: user, checklist_id: result, selectedVehicle: null)
       );
       setState(() {
         isLoading = false;

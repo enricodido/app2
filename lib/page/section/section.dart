@@ -63,7 +63,7 @@ class _SectionWidgetState extends State<SectionWidget> {
         final args = ModalRoute.of(context)!.settings.arguments as SectionWidgetArg;
         user = args.user;
         checklist_id = args.checklist_id!;
-        selectedVehicle = args.selectedVehicle;
+      //  selectedVehicle = args.selectedVehicle;
 
       });
       BlocProvider.of<GetSectionBloc>(context).add(GetSectionBlocRefreshEvent());
@@ -278,13 +278,12 @@ class _SectionWidgetState extends State<SectionWidget> {
                             // Vehicle? selectedVehicle = (state as GetVehicleBlocStateLoaded).selectedVehicle;
                             // print(selectedVehicle?.description);
                              print(selectedVehicle?.id);
-
                              print(selectedVehicle);
 
                               if (vehicles.isNotEmpty) {
                                 return DropdownButton<Vehicle>(
 
-                                 // hint: Text('Seleziona Mezzo'),
+                                  hint: Text('Seleziona Mezzo'),
                                   isExpanded: false,
                                   value: selectedVehicle,
                                   icon: const Icon(Icons.arrow_drop_down),

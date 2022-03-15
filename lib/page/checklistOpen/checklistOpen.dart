@@ -216,8 +216,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
               ),
             ),
             Expanded(
-              // width: MediaQuery.of(context).size.width,
-              // margin: EdgeInsets.only(left: 15.0, right: 15.0),
+             
               child: BlocBuilder<GetChecklistBloc, GetChecklistBlocState>(
                   builder: (context, state) {
                 if (state is GetChecklistBlocStateLoading)

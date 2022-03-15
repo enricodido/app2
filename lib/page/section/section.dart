@@ -52,8 +52,7 @@ class _SectionWidgetState extends State<SectionWidget> {
   late String checklist_id;
 
   Vehicle? selectedVehicle;
- // List<Vehicle> vehicles = [];
-
+  String? vehicle;
   @override
   void initState() {
     super.initState();
@@ -63,6 +62,7 @@ class _SectionWidgetState extends State<SectionWidget> {
         final args = ModalRoute.of(context)!.settings.arguments as SectionWidgetArg;
         user = args.user;
         checklist_id = args.checklist_id!;
+        vehicle = args.selectedVehicle!.description;
       //  selectedVehicle = args.selectedVehicle;
 
       });
@@ -275,15 +275,11 @@ class _SectionWidgetState extends State<SectionWidget> {
                             else {
 
                              List<Vehicle> vehicles = (state as GetVehicleBlocStateLoaded).vehicles;
-                            // Vehicle? selectedVehicle = (state as GetVehicleBlocStateLoaded).selectedVehicle;
-                            // print(selectedVehicle?.description);
-                             print(selectedVehicle?.id);
-                             print(selectedVehicle);
-
+                          
                               if (vehicles.isNotEmpty) {
                                 return DropdownButton<Vehicle>(
 
-                                  hint: Text('Seleziona Mezzo'),
+                                  hint: Text(vehicle ?? 'Non selezionato'),
                                   isExpanded: false,
                                   value: selectedVehicle,
                                   icon: const Icon(Icons.arrow_drop_down),

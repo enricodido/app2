@@ -72,7 +72,6 @@ class _ItemWidgetState extends State<ItemWidget> {
 
   TextEditingController textFieldNoteController = TextEditingController();
   void recordValue(Item item) {
-    String text = textFieldNoteController.text.trim();
     getIt.get<Repository>().itemRepository!.value(context,
         item.value.toString(), item.working.toString(), item.id.toString());
   }

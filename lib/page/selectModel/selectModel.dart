@@ -62,14 +62,12 @@ class _SchedaControlliSceltaWidgetState
   }
 
   void clickModel(SelectModel model, UserModel user) async {
-
-
     final  result = await
     getIt.get<Repository>().checklistModelRepository!.create(context,  user.id.toString(), model.id.toString());
 
     if(result != null) {
       Navigator.pushNamed(context, SectionWidget.ROUTE_NAME,
-          arguments: SectionWidgetArg(user: user, checklist_id: result, selectedVehicle: null)
+          arguments: SectionWidgetArg(user: user, checklist_id: result)
       );
       setState(() {
         isLoading = false;

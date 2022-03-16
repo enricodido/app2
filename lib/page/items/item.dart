@@ -18,6 +18,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../components/customDialog.dart';
 import '../../main.dart';
 
 class ItemWidgetArg {
@@ -196,9 +197,11 @@ class _ItemWidgetState extends State<ItemWidget> {
                                       item.value =
                                           ActualValue ? 'true' : 'false';
                                       item.working = !ActualValue ? '1' : '0';
+                                      
                                     });
                                     recordValue(item);
                                   },
+                                  
                                 );
                                 break;
                               case T_TEXT:
@@ -299,8 +302,11 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                             ),
                                                           ),
                                                         ),
-                                                      ]),
-                                                )));
+                                                      ]
+                                                  ),
+                                                )
+                                            )
+                                        );
                                       },
                                     );
                                   },
@@ -402,8 +408,11 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                             ),
                                                           ),
                                                         ),
-                                                      ]),
-                                                )));
+                                                      ]
+                                                  ),
+                                                )
+                                            )
+                                        );
                                       },
                                     );
                                   },
@@ -536,9 +545,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                               ),
                                                               Padding(
                                                                 padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        10.0),
+                                                                    const EdgeInsets.all(10.0),
                                                                 child:
                                                                     AutoSizeText(
                                                                   'NESSUN ELEMENTO',
@@ -704,9 +711,10 @@ class _ItemWidgetState extends State<ItemWidget> {
                       padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                       child: FFButtonWidget(
                         onPressed: () async {
-
+                          
+                          
                           Navigator.pop(context);
-
+                          
                         },
                         text: 'Salva',
                         options: FFButtonOptions(

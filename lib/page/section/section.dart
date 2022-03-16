@@ -20,6 +20,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
+import '../../components/customDialog.dart';
 import '../../main.dart';
 import '../auth/login.dart';
 import 'dart:ui' as ui;
@@ -27,7 +28,7 @@ import 'dart:ui' as ui;
 class SectionWidgetArg {
   SectionWidgetArg({required this.user,
     required this.checklist_id,
-    required this.selectedVehicle
+    this.selectedVehicle
   });
 
   final UserModel? user;
@@ -52,7 +53,8 @@ class _SectionWidgetState extends State<SectionWidget> {
   late String checklist_id;
 
   Vehicle? selectedVehicle;
-  String? vehicle;
+  String? vehicleId;
+
   @override
   void initState() {
     super.initState();
@@ -62,7 +64,9 @@ class _SectionWidgetState extends State<SectionWidget> {
         final args = ModalRoute.of(context)!.settings.arguments as SectionWidgetArg;
         user = args.user;
         checklist_id = args.checklist_id!;
-        vehicle = args.selectedVehicle!.description;
+        if(selectedVehicle != null) {
+        vehicleId = args.selectedVehicle!.id;
+        }
       //  selectedVehicle = args.selectedVehicle;
 
       });
@@ -275,11 +279,22 @@ class _SectionWidgetState extends State<SectionWidget> {
                             else {
 
                              List<Vehicle> vehicles = (state as GetVehicleBlocStateLoaded).vehicles;
-                          
+                     /*    String val = vehicleId!;
+                        if(vehicles.length > 0) {
+                            vehicles.forEach((vehicle) {                         
+                              if(val == vehicle.id) {                              
+                                  selectedVehicle = vehicle;                         
+                              } else {
+                                  
+                              }
+                            });
+                          }*/
+                          var selectedVehicle =
+                            vehicles.firstWhere((vehicle) =>
+                                vehicle.id == vehicleId,  orElse: () => vehicles.first);
+                                
                               if (vehicles.isNotEmpty) {
-                                return DropdownButton<Vehicle>(
-
-                                  hint: Text(vehicle ?? 'Non selezionato'),
+                                return DropdownButton<Vehicle>(                             
                                   isExpanded: false,
                                   value: selectedVehicle,
                                   icon: const Icon(Icons.arrow_drop_down),
@@ -296,7 +311,8 @@ class _SectionWidgetState extends State<SectionWidget> {
                                   onChanged: (Vehicle? value)  {
                                     setState(() {
                                       print(value);
-                                      selectedVehicle = value;
+                                      selectedVehicle = value!;
+                                      vehicleId = selectedVehicle.id;
                                     });
                                     recordVehicle(checklist_id, value!);
                                   },
@@ -342,10 +358,11 @@ class _SectionWidgetState extends State<SectionWidget> {
                                         7, 30, 7, 0),
                                     child: FFButtonWidget(
                                       onPressed: () {
+                                         
                                         Navigator.pushNamed(
                                             context, ItemWidget.ROUTE_NAME,
                                             arguments: ItemWidgetArg(
-                                                user: user, section: section));
+                                                user: user, section: section));                                               
                                       },
                                       text: section.description,
                                       options: FFButtonOptions(

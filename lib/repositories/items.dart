@@ -44,20 +44,19 @@ class ItemRepository {
     throw RequestError(data);
   }
 
-Future<bool> check({required String section_id}) async {
-    final response = await repository.http!.get(
-      url: 'get/check/' + section_id, );
-    final data = json.decode(response.body);
+  Future<bool> check({required String section_id}) async {
+      final response = await repository.http!.get(
+        url: 'get/check/' + section_id, );
+      final data = json.decode(response.body);
 
-     if (response.statusCode == 200) {
+      if (response.statusCode == 200) {
+        
+        return data['success'];
+      } else {
 
-      return true;
-    } else {
+        return false;
+      }
 
-      return false;
     }
-
-    throw RequestError(data);
-  }
 
 }

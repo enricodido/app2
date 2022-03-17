@@ -4,6 +4,7 @@ class Vehicle {
   Vehicle({
     required this.id,
     required this.description,
+    
 
   });
 

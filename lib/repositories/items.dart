@@ -33,9 +33,9 @@ class ItemRepository {
       'value': value,
       'working': working,
     });
-print(item_id);
-print(value);
-print(working);
+    print(item_id);
+    print(value);
+    print(working);
     final data = json.decode(response.body);
     if (response.statusCode == 200) {
 
@@ -44,5 +44,20 @@ print(working);
     throw RequestError(data);
   }
 
+Future<bool> check({required String section_id}) async {
+    final response = await repository.http!.get(
+      url: 'get/check/' + section_id, );
+    final data = json.decode(response.body);
+
+     if (response.statusCode == 200) {
+
+      return true;
+    } else {
+
+      return false;
+    }
+
+    throw RequestError(data);
+  }
 
 }

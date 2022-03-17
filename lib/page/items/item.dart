@@ -10,6 +10,8 @@ import 'package:checklist/model/item.dart';
 import 'package:checklist/model/section.dart';
 import 'package:checklist/model/user.dart';
 import 'package:checklist/page/auth/login.dart';
+import 'package:checklist/page/homePage/home.dart';
+import 'package:checklist/page/section/section.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:checklist/theme/color.dart';
 import 'package:easy_debounce/easy_debounce.dart';
@@ -40,7 +42,7 @@ class ItemWidget extends StatefulWidget {
 
 class _ItemWidgetState extends State<ItemWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
+  bool isLoading = false;
   UserModel? user;
   late Section section;
   List<Item> items = [];
@@ -64,8 +66,52 @@ class _ItemWidgetState extends State<ItemWidget> {
 
     });
   }
+    Future<void> check(section_id) async {
 
-  void logout(BuildContext context) {
+      setState(() {
+            isLoading = true;
+          });
+     
+      try {
+        final data = await getIt.get<Repository>().itemRepository!.check(
+          section_id: section.id);
+      print(section_id);
+      if(data) {
+
+          Navigator.pop(
+              context);
+
+          setState(() {
+            isLoading = false;                   
+                    });
+
+          showCustomDialog(
+            context: context,
+            type: CustomDialog.SUCCESS,
+            msg:  'Sezione Completata con Successo',
+          );
+         
+
+      }
+
+      } catch (error) {
+        print(error);
+        showCustomDialog(
+          context: context,
+          type: CustomDialog.WARNING,
+          msg: 'Non hai completato tutte le voci!',
+        );
+      }
+
+      setState(() {
+        isLoading = false;
+      });
+
+    }
+
+    
+
+    void logout(BuildContext context) {
     getIt.get<Repository>().sessionRepository!.logout();
     Navigator.pushNamedAndRemoveUntil(
         context, LoginPageWidget.ROUTE_NAME, ModalRoute.withName('/'));
@@ -76,11 +122,16 @@ class _ItemWidgetState extends State<ItemWidget> {
     getIt.get<Repository>().itemRepository!.value(context,
         item.value.toString(), item.working.toString(), item.id.toString());
   }
+  
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
       key: scaffoldKey,
       backgroundColor: Color(0xFFF5F5F5),
       body: Container(
@@ -713,7 +764,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                         onPressed: () async {
                           
                           
-                          Navigator.pop(context);
+                         check(section.id);
                           
                         },
                         text: 'Salva',
@@ -742,6 +793,7 @@ class _ItemWidgetState extends State<ItemWidget> {
           ],
         ),
       ),
+    )
     );
   }
 }

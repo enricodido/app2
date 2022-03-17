@@ -23,6 +23,7 @@ import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import '../../components/customDialog.dart';
 import '../../main.dart';
 import '../auth/login.dart';
+import 'package:collection/collection.dart';
 import 'dart:ui' as ui;
 
 class SectionWidgetArg {
@@ -278,23 +279,17 @@ class _SectionWidgetState extends State<SectionWidget> {
                               return Center(child: CircularProgressIndicator());
                             else {
 
-                             List<Vehicle> vehicles = (state as GetVehicleBlocStateLoaded).vehicles;
-                     /*    String val = vehicleId!;
-                        if(vehicles.length > 0) {
-                            vehicles.forEach((vehicle) {                         
-                              if(val == vehicle.id) {                              
-                                  selectedVehicle = vehicle;                         
-                              } else {
-                                  
-                              }
-                            });
-                          }*/
-                          var selectedVehicle =
-                            vehicles.firstWhere((vehicle) =>
-                                vehicle.id == vehicleId,  orElse: () => vehicles.first);
+                            List<Vehicle> vehicles = (state as GetVehicleBlocStateLoaded).vehicles;
+                          
+                    
+                             var selectedVehicle =
+                            vehicles.firstWhereOrNull((vehicle) =>
+                                vehicle.id == vehicleId);
+
                                 
                               if (vehicles.isNotEmpty) {
-                                return DropdownButton<Vehicle>(                             
+                                return DropdownButton<Vehicle>(    
+                                  hint: Text('Seleziona Mezzo'),                         
                                   isExpanded: false,
                                   value: selectedVehicle,
                                   icon: const Icon(Icons.arrow_drop_down),
@@ -312,7 +307,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                     setState(() {
                                       print(value);
                                       selectedVehicle = value!;
-                                      vehicleId = selectedVehicle.id;
+                                      vehicleId = selectedVehicle!.id;
                                     });
                                     recordVehicle(checklist_id, value!);
                                   },
@@ -445,6 +440,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                 ),
                                 FFButtonWidget(
                                   onPressed: () async {
+                                    if(vehicleId != null) {
                                     await showDialog(
                                         context: context,
                                         builder: (AlertDialogContext) {
@@ -546,6 +542,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                                                     FFButtonWidget(
                                                                       onPressed:
                                                                           () async {
+                                                                        
                                                                         final image =
                                                                             await signatureGlobalKey
                                                                                 .currentState!
@@ -591,6 +588,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                                                             context,
                                                                             HomePageWidget
                                                                                 .ROUTE_NAME);
+                                                                          
                                                                       },
                                                                       text:
                                                                           'Firma ed Esci',
@@ -639,8 +637,14 @@ class _SectionWidgetState extends State<SectionWidget> {
                                                 ),
                                               ),
                                             ),
-                                          );
-                                        });
+                                          );}
+                                    );
+                                        }
+                                          else { showCustomDialog(
+                                                                          context: context,
+                                                                          type: CustomDialog.ERROR,
+                                                                          msg: 'Attenzione!\nselezionare un mezzo per continuare!');
+                                                                          }
                                   },
                                   text: 'Firma',
                                   options: FFButtonOptions(

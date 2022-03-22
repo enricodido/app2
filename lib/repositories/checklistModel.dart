@@ -98,7 +98,7 @@ class ChecklistModelRepository {
     final data = json.decode(response.body);
     print(response.statusCode);
     if (response.statusCode == 200) {
-      return data['success'];
+      return true;
     } else {
       return false;
     }

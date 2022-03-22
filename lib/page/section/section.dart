@@ -52,6 +52,8 @@ class _SectionWidgetState extends State<SectionWidget> {
   String? vehicleId;
   bool isLoading = false;
 
+  
+
   @override
   void initState() {
     super.initState();
@@ -412,7 +414,6 @@ class _SectionWidgetState extends State<SectionWidget> {
                                                                     .styleFrom(
                                                                   primary: Colors
                                                                       .blue,
-                                                                  // fixedSize: Size(250, 50),
                                                                 ),
                                                                 child:
                                                                     TextButton(
@@ -592,16 +593,16 @@ class _SectionWidgetState extends State<SectionWidget> {
                                       options: FFButtonOptions(
                                         width: double.infinity,
                                         height: 75,
-                                        color: Colors.white,
-                                        textStyle:
-                                            FlutterFlowTheme.subtitle2.override(
+                                        color: Colors.white,                                 
+                                        textStyle:                                        
+                                          FlutterFlowTheme.subtitle2.override(
                                           fontFamily: 'Open Sans',
-                                          color: Color(0xFF2CA4D4),
+                                          color: section.done ? Colors.green : Color(0xFF2CA4D4),
                                           fontSize: 20,
                                           fontWeight: FontWeight.w600,
                                         ),
                                         borderSide: BorderSide(
-                                          color: Color(0xFF2CA4D4),
+                                          color: section.done ? Colors.green : Color(0xFF2CA4D4),
                                           width: 3,
                                         ),
                                         borderRadius: 15,
@@ -670,7 +671,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                 ),
                                 FFButtonWidget(
                                   onPressed: () async {
-                                    if (vehicleId != 'Non selezionato') {
+                                    if (vehicleId != 'Non selezionato' && vehicleId != 'Seleziona Mezzo') {
                                       check(checklist_id);
                                     } else {
                                       showCustomDialog(

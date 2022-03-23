@@ -93,12 +93,16 @@ class ChecklistModelRepository {
 
   Future<bool> check({required String checklist_id}) async {
     final response = await repository.http!.get(
-      url: 'get/check/' + checklist_id,
+      url: 'get/checklist/' + checklist_id,
+      
     );
+    print(checklist_id);
     final data = json.decode(response.body);
     print(response.statusCode);
+    print(data);
     if (response.statusCode == 200) {
-      return true;
+      
+      return data['success'];
     } else {
       return false;
     }

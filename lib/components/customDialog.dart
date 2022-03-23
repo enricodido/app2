@@ -137,7 +137,7 @@ class CustomDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              color: Colors.red,
+              color:  Colors.green,
               minWidth: double.infinity,
               height: 40,
               shape: RoundedRectangleBorder(

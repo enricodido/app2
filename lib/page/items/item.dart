@@ -27,9 +27,11 @@ class ItemWidgetArg {
   ItemWidgetArg({
     required this.user,
     required this.section,
+    this.selectedVehicle,
   });
 
   final UserModel? user;
+  String? selectedVehicle;
   Section section;
 }
 
@@ -44,6 +46,7 @@ class _ItemWidgetState extends State<ItemWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   bool isLoading = false;
   UserModel? user;
+  String? selectedVehicle;
   late Section section;
   List<Item> items = [];
 
@@ -57,6 +60,7 @@ class _ItemWidgetState extends State<ItemWidget> {
             ModalRoute.of(context)!.settings.arguments as ItemWidgetArg;
         user = args.user;
         section = args.section;
+        selectedVehicle = args.selectedVehicle;
       });
 
       BlocProvider.of<GetItemBloc>(context).add(GetItemBlocRefreshEvent());
@@ -77,7 +81,11 @@ class _ItemWidgetState extends State<ItemWidget> {
           .check(section_id: section.id);
       print(section_id);
       if (data) {
-        Navigator.pop(context);
+        Navigator.pushNamed(context, SectionWidget.ROUTE_NAME, arguments: SectionWidgetArg(
+                                                    user: user,
+                                                    checklist_id: section.checklist_id,
+                                                    selectedVehicle:  selectedVehicle));
+         
         
         setState(() {
           isLoading = false;
@@ -116,9 +124,11 @@ class _ItemWidgetState extends State<ItemWidget> {
   }
 
   TextEditingController textFieldNoteController = TextEditingController();
-  void recordValue(Item item) {
-    getIt.get<Repository>().itemRepository!.value(context,
+  dynamic recordValue(Item item) async {
+    
+    return await getIt.get<Repository>().itemRepository!.value(context,
         item.value.toString(), item.working.toString(), item.id.toString());
+      
   }
 
   @override
@@ -238,7 +248,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                     icon = Checkbox(
                                       value: item.value == 'true',
                                       activeColor: Colors.blue,
-                                      onChanged: (bool? value) {
+                                      onChanged: (bool? value) async {
                                         setState(() {
                                           bool ActualValue =
                                               item.value == 'true';
@@ -248,7 +258,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                           item.working =
                                               !ActualValue ? '1' : '0';
                                         });
-                                        recordValue(item);
+                                        dynamic response = await recordValue(item);
                                       },
                                     );
                                     break;
@@ -327,17 +337,24 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                       .all(8.0),
                                                               child:
                                                                   ElevatedButton(
-                                                                onPressed: () {
+                                                                onPressed: () async {
+                                                                 print('sant ascanio');
                                                                   item.value =
                                                                       textFieldNoteController
                                                                           .text;
+                                                                  print(item.value);
                                                                   item.working =
                                                                       '0';
-                                                                  Navigator.of(
+                                                                 dynamic response = await  recordValue(
+                                                                      item); 
+
+                                                                    print(textFieldNoteController.text);     
+                                                                 Navigator.of(
                                                                           context)
                                                                       .pop();
-                                                                  recordValue(
-                                                                      item);
+                                                                  
+                                                                      
+                                                                     
                                                                 },
                                                                 style: ElevatedButton
                                                                     .styleFrom(
@@ -436,7 +453,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                       .all(8.0),
                                                               child:
                                                                   ElevatedButton(
-                                                                onPressed: () {
+                                                                onPressed: () async {
                                                                   item.value =
                                                                       textFieldNoteController
                                                                           .text;
@@ -445,7 +462,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                   Navigator.of(
                                                                           context)
                                                                       .pop();
-                                                                  recordValue(
+                                                                dynamic response = await   recordValue(
                                                                       item);
                                                                 },
                                                                 style: ElevatedButton
@@ -539,7 +556,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                       child:
                                                                           FFButtonWidget(
                                                                         onPressed:
-                                                                            () {
+                                                                            () async {
                                                                           item.value = text
                                                                               .description
                                                                               .toString();
@@ -547,7 +564,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                               '0';
                                                                           Navigator.pop(
                                                                               context);
-                                                                          recordValue(
+                                                                         dynamic response = await  recordValue(
                                                                               item);
                                                                         },
                                                                         text: text
@@ -667,7 +684,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                             Checkbox(
                                                 value: item.working == '1',
                                                 activeColor: Colors.red,
-                                                onChanged: (bool? value) {
+                                                onChanged: (bool? value) async {
                                                   setState(() {
                                                     bool ActualValue =
                                                         item.working == '1';
@@ -675,7 +692,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                     item.working =
                                                         ActualValue ? '1' : '0';
                                                   });
-                                                  recordValue(item);
+                                                dynamic response = await   recordValue(item);
                                                 })
                                           ])
                                       ],
@@ -770,7 +787,9 @@ class _ItemWidgetState extends State<ItemWidget> {
                               size: 40,
                             ),
                             onPressed: () async {
-                              AlertDialog(
+                              Navigator.pop(context);
+                            },
+                        /*      AlertDialog(
                                             title: Text('Sicuro di voler\n tornare indietro?',
                                              textAlign: TextAlign.center,
                                                                     style: FlutterFlowTheme.bodyText1.override(
@@ -880,7 +899,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                             ]),
                                           ))
                               );
-                            },
+                            },*/
                           ),
                         ),
                         Padding(

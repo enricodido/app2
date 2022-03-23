@@ -587,7 +587,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                         Navigator.pushNamed(
                                             context, ItemWidget.ROUTE_NAME,
                                             arguments: ItemWidgetArg(
-                                                user: user, section: section));
+                                                user: user, section: section, selectedVehicle: selectedVehicle!.description));
                                       },
                                       text: section.description,
                                       options: FFButtonOptions(
@@ -665,9 +665,125 @@ class _SectionWidgetState extends State<SectionWidget> {
                                     color: FlutterFlowTheme.tertiaryColor,
                                     size: 40,
                                   ),
-                                  onPressed: () async {
-                                    Navigator.pop(context);
-                                  },
+onPressed: () async {
+                                    await showDialog(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            title: Text('Sicuro di voler tornare alla Home?',
+                                             textAlign: TextAlign.center,
+                                                                    style: FlutterFlowTheme.bodyText1.override(
+                                                                      fontFamily: 'Open Sans',
+                                                                      color: Colors.blue,
+                                                                      fontSize: 20,
+                                                                      fontWeight: FontWeight.w600,
+                                                                    ),),
+                                            content: Container(
+                                                    height: 200,
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                            ),
+                                                            Column(children: [
+                                                            Container(
+                                                               width: double
+                                                                  .infinity,
+                                                              height: 60,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .all(
+                                                                      8.0),
+                                                              child: ElevatedButton(
+                                                                onPressed: () {
+                                                                 
+                                                                  Navigator.pop(context) ;                                                                                                                                                                                                           
+                                                                },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  primary: Colors
+                                                                      .red,
+                                                                  // fixedSize: Size(250, 50),
+                                                                ),
+                                                                child:
+                                                                    TextButton(
+                                                                  onPressed: () =>
+                                                                     Navigator.pushNamed(context, HomePageWidget.ROUTE_NAME),
+                                                                  child: Text(
+                                                                    'Si',
+                                                                      textAlign: TextAlign.center,
+                                                                    style: FlutterFlowTheme.bodyText1.override(
+                                                                      fontFamily: 'Open Sans',
+                                                                      color: Colors.white,
+                                                                      fontSize: 25,
+                                                                      fontWeight: FontWeight.w600,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              width: double
+                                                                  .infinity,
+                                                              height: 60,
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                    
+                                                                child:ElevatedButton(
+                                                                onPressed: () {
+                                                                 
+                                                                  Navigator.pop(context) ;                                                                                                                                                                                                           
+                                                                },
+                                                                style: ElevatedButton
+                                                                    .styleFrom(
+                                                                  primary: Colors
+                                                                      .blue,
+                                                                ),
+                                                                child:
+                                                                    TextButton(
+                                                                  onPressed: () =>
+                                                                      Navigator.pop(
+                                                                          alertDialogContext),
+                                                                  child: Text(
+                                                                    'No',
+                                                                      textAlign: TextAlign.center,
+                                                                    style: FlutterFlowTheme.bodyText1.override(
+                                                                      fontFamily: 'Open Sans',
+                                                                      color: Colors.white,
+                                                                      fontSize: 25,
+                                                                      fontWeight: FontWeight.w600,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              ),
+                                                              ])
+                                                            
+                                                            ]),
+                                          )));
+                                        },
+                                      );
+}
+  
+                                /*  onPressed: () async {
+                                    Navigator.pushNamed(context, HomePageWidget.ROUTE_NAME);
+                                  },*/
                                 ),
                                 FFButtonWidget(
                                   onPressed: () async {

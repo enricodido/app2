@@ -359,7 +359,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                 style: ElevatedButton
                                                                     .styleFrom(
                                                                   primary: Colors
-                                                                      .green,
+                                                                      .white,
                                                                   // fixedSize: Size(250, 50),
                                                                 ),
                                                                 child:

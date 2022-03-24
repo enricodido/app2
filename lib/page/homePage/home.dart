@@ -41,7 +41,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
     refreshUserMe(context);
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Color(0xFFF5F5F5),
         body:
@@ -305,7 +309,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                   borderSide: BorderSide(
-                                    color: Color(0xFF2CA4D4),
+                                    color: Colors.lightBlueAccent,
                                     width: 4,
                                   ),
                                   borderRadius: 15,
@@ -335,7 +339,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 options: FFButtonOptions(
                                   width: double.infinity,
                                   height: 170,
-                                  color: Colors.green,
+                                  color: Colors.orange,
                                   textStyle: FlutterFlowTheme.subtitle2
                                       .override(
                                     fontFamily: 'Open Sans',
@@ -344,7 +348,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                   borderSide: BorderSide(
-                                    color: Color(0xFF2CA4D4),
+                                    color: Colors.orange,
                                     width: 4,
                                   ),
                                   borderRadius: 15,
@@ -358,74 +362,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   ),
                   
                  
-                 /* GestureDetector(
-                    child: Material(
-                      color: Colors.transparent,
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width *
-                            0.85,
-                        height:
-                        MediaQuery
-                            .of(context)
-                            .size
-                            .height *
-                            0.09,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFEEEEEE),
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 4,
-                              color: Colors.lightBlueAccent,
-                            )
-                          ],
-                          borderRadius: BorderRadius.circular(8),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: FFButtonWidget(
-                          onPressed: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    LoginPageWidget(),
-                              ),
-                            );
-                          },
-                          text: 'LOGOUT',
-                          options: FFButtonOptions(
-                            width: double.infinity,
-                            height: 90,
-                            color: Colors.white,
-                            textStyle: FlutterFlowTheme.subtitle2
-                                .override(
-                              fontFamily: 'Open Sans',
-                              color: Color(0xFF2CA4D4),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            borderSide: BorderSide(
-                              color: Color(0xFF2CA4D4),
-                              width: 3,
-                            ),
-                            borderRadius: 15,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )*/
+                 
                 ],
               ),
             );
           }
         })
-    );
+    ));
     
   }
 }

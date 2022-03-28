@@ -64,11 +64,12 @@ class _SchedaControlliSceltaWidgetState
   void clickModel(SelectModel model, UserModel user) async {
     final  result = await
     getIt.get<Repository>().checklistModelRepository!.create(context,  user.id.toString(), model.id.toString());
-
     if(result != null) {
       Navigator.pushNamed(context, SectionWidget.ROUTE_NAME,
           arguments: SectionWidgetArg(user: user, checklist_id: result, selectedVehicle: 'Seleziona Mezzo')
+         
       );
+       
       setState(() {
         isLoading = false;
       });
@@ -89,7 +90,7 @@ class _SchedaControlliSceltaWidgetState
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: Colors.black,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 1,
@@ -103,6 +104,7 @@ class _SchedaControlliSceltaWidgetState
               mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
+                  margin: const EdgeInsets.only(top: 20.0),
                   width: MediaQuery.of(context).size.width,
                   height: 90,
                   decoration: BoxDecoration(

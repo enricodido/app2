@@ -46,8 +46,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           return false;
         },
         child: Scaffold(
+          
         key: scaffoldKey,
-        backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: Colors.white,
         body:
         BlocBuilder<UserMeBloc, UserMeBlocState>(builder: (context, state) {
           if (state is UserMeBlocStateLoading)
@@ -65,6 +66,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           else {
             final user = (state as UserMeBlocStateLoaded).user;
             return Container(
+              margin: const EdgeInsets.only(top: 20.0),
+            
               width: MediaQuery
                   .of(context)
                   .size

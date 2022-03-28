@@ -141,6 +141,7 @@ class _ItemWidgetState extends State<ItemWidget> {
           key: scaffoldKey,
           backgroundColor: Color(0xFFF5F5F5),
           body: Container(
+            margin: const EdgeInsets.only(top: 20.0),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 1,
             decoration: BoxDecoration(
@@ -338,7 +339,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                               child:
                                                                   ElevatedButton(
                                                                 onPressed: () async {
-                                                                 print('sant ascanio');
+                                                                
                                                                   item.value =
                                                                       textFieldNoteController
                                                                           .text;
@@ -352,9 +353,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                  Navigator.of(
                                                                           context)
                                                                       .pop();
-                                                                  
-                                                                      
-                                                                     
+                                                                                                                                                                                                           
                                                                 },
                                                                 style: ElevatedButton
                                                                     .styleFrom(
@@ -362,17 +361,12 @@ class _ItemWidgetState extends State<ItemWidget> {
                                                                       .white,
                                                                   // fixedSize: Size(250, 50),
                                                                 ),
-                                                                child:
-                                                                    TextButton(
-                                                                  onPressed: () =>
-                                                                      Navigator.pop(
-                                                                          alertDialogContext),
+                                                                
                                                                   child: Text(
                                                                     'Ok',
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ),
+                                                              ),                                                         
                                                           ]),
                                                     )));
                                           },
@@ -799,9 +793,14 @@ class _ItemWidgetState extends State<ItemWidget> {
                               EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
                           child: FFButtonWidget(
                             onPressed: () async {
-                              check(section.id);
+                             // check(section.id);
+                             Navigator.pushNamed(context, SectionWidget.ROUTE_NAME, arguments: SectionWidgetArg(
+                                                    user: user,
+                                                    checklist_id: section.checklist_id,
+                                                    selectedVehicle:  selectedVehicle));
+                             
                             },
-                            text: 'Controlla',
+                            text: 'Salva',
                             options: FFButtonOptions(
                               width: 155,
                               height: 60,

@@ -23,6 +23,8 @@ import '../../main.dart';
 import '../auth/login.dart';
 import 'dart:ui' as ui;
 
+import '../checklistOpen/checklistOpen.dart';
+
 class SectionWidgetArg {
   SectionWidgetArg(
       {required this.user, required this.checklist_id, required this.selectedVehicle});
@@ -290,6 +292,7 @@ class _SectionWidgetState extends State<SectionWidget> {
         key: scaffoldKey,
         backgroundColor: Color(0xFFF5F5F5),
         body: Container(
+          margin: const EdgeInsets.only(top: 20.0),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 1,
             decoration: BoxDecoration(
@@ -369,19 +372,15 @@ class _SectionWidgetState extends State<SectionWidget> {
                                                                   const EdgeInsets
                                                                           .all(
                                                                       8.0),
-                                                              child: ElevatedButton(
-                                                                onPressed: () {
-                                                                 
-                                                                  Navigator.pop(context) ;                                                                                                                                                                                                           
-                                                                },
-                                                                style: ElevatedButton
+                                                              child: 
+                                                              
+                                                                    ElevatedButton(
+                                                                       style: ElevatedButton
                                                                     .styleFrom(
                                                                   primary: Colors
                                                                       .red,
                                                                   // fixedSize: Size(250, 50),
                                                                 ),
-                                                                child:
-                                                                    TextButton(
                                                                   onPressed: () =>
                                                                      logout(context),
                                                                   child: Text(
@@ -396,7 +395,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
+                                                           
                                                             Container(
                                                               width: double
                                                                   .infinity,
@@ -406,17 +405,10 @@ class _SectionWidgetState extends State<SectionWidget> {
                                                                       .all(8.0),
                                                     
                                                                 child:ElevatedButton(
-                                                                onPressed: () {
-                                                                 
-                                                                  Navigator.pop(context) ;                                                                                                                                                                                                           
-                                                                },
-                                                                style: ElevatedButton
+                                                               style: ElevatedButton
                                                                     .styleFrom(
                                                                   primary: Colors
-                                                                      .blue,
-                                                                ),
-                                                                child:
-                                                                    TextButton(
+                                                                      .blue,),
                                                                   onPressed: () =>
                                                                       Navigator.pop(
                                                                           alertDialogContext),
@@ -432,7 +424,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                              ),
+                                                             
                                                               ])
                                                             
                                                             ]),
@@ -584,10 +576,19 @@ class _SectionWidgetState extends State<SectionWidget> {
                                         7, 30, 7, 0),
                                     child: FFButtonWidget(
                                       onPressed: () {
-                                        Navigator.pushNamed(
+                                        if (vehicleId != 'Non selezionato' && vehicleId != 'Seleziona Mezzo') {
+                                     Navigator.pushNamed(
                                             context, ItemWidget.ROUTE_NAME,
                                             arguments: ItemWidgetArg(
                                                 user: user, section: section, selectedVehicle: selectedVehicle!.description));
+                                    } else {
+                                      showCustomDialog(
+                                          context: context,
+                                          type: CustomDialog.ERROR,
+                                          msg:
+                                              'Attenzione!\nselezionare un mezzo per continuare!');
+                                    }
+                                        
                                       },
                                       text: section.description,
                                       options: FFButtonOptions(
@@ -670,7 +671,7 @@ onPressed: () async {
                                         context: context,
                                         builder: (alertDialogContext) {
                                           return AlertDialog(
-                                            title: Text('Sicuro di voler tornare alla Home?',
+                                            title: Text('Sicuro di voler tornare indietro?',
                                              textAlign: TextAlign.center,
                                                                     style: FlutterFlowTheme.bodyText1.override(
                                                                       fontFamily: 'Open Sans',
@@ -709,21 +710,16 @@ onPressed: () async {
                                                                   const EdgeInsets
                                                                           .all(
                                                                       8.0),
-                                                              child: ElevatedButton(
-                                                                onPressed: () {
-                                                                 
-                                                                  Navigator.pop(context) ;                                                                                                                                                                                                           
-                                                                },
-                                                                style: ElevatedButton
+                                                              child: 
+                                                                    ElevatedButton(
+                                                                      style: ElevatedButton
                                                                     .styleFrom(
                                                                   primary: Colors
                                                                       .red,
                                                                   // fixedSize: Size(250, 50),
                                                                 ),
-                                                                child:
-                                                                    TextButton(
                                                                   onPressed: () =>
-                                                                     Navigator.pushNamed(context, HomePageWidget.ROUTE_NAME),
+                                                                     Navigator.pushNamed(context, ChecklistAperteWidget.ROUTE_NAME, arguments: ChecklistAperteWidgetArg(user: user)),
                                                                   child: Text(
                                                                     'Si',
                                                                       textAlign: TextAlign.center,
@@ -736,7 +732,7 @@ onPressed: () async {
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
+                                                           
                                                             Container(
                                                               width: double
                                                                   .infinity,
@@ -745,18 +741,13 @@ onPressed: () async {
                                                                   const EdgeInsets
                                                                       .all(8.0),
                                                     
-                                                                child:ElevatedButton(
-                                                                onPressed: () {
-                                                                 
-                                                                  Navigator.pop(context) ;                                                                                                                                                                                                           
-                                                                },
-                                                                style: ElevatedButton
+                                                                child:
+                                                                    ElevatedButton(
+                                                                       style: ElevatedButton
                                                                     .styleFrom(
                                                                   primary: Colors
                                                                       .blue,
                                                                 ),
-                                                                child:
-                                                                    TextButton(
                                                                   onPressed: () =>
                                                                       Navigator.pop(
                                                                           alertDialogContext),
@@ -772,7 +763,7 @@ onPressed: () async {
                                                                   ),
                                                                 ),
                                                               ),
-                                                              ),
+                                                             
                                                               ])
                                                             
                                                             ]),
@@ -788,7 +779,144 @@ onPressed: () async {
                                 FFButtonWidget(
                                   onPressed: () async {
                                     if (vehicleId != 'Non selezionato' && vehicleId != 'Seleziona Mezzo') {
-                                      check(checklist_id);
+                                    //  check(checklist_id);
+showDialog(
+            context: context,
+            builder: (AlertDialogContext) {
+              return Dialog(
+                insetPadding: EdgeInsets.all(10),
+                child: Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Center(
+                      child: Container(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                  color: Colors.black,
+                                  width: 3,
+                                )),
+                                child: SfSignaturePad(
+                                  key: signatureGlobalKey,
+                                  backgroundColor: Colors.white,
+                                  strokeColor: Colors.black,
+                                  minimumStrokeWidth: 3.0,
+                                  maximumStrokeWidth: 6,
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  signatureGlobalKey.currentState!.clear();
+                                },
+                                child: Text('Pulisci'),
+                              ),
+                              Expanded(
+                                child: Align(
+                                  alignment: AlignmentDirectional(0, 1),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10, 10, 10, 15),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        FFButtonWidget(
+                                          onPressed: () async {
+                                            Navigator.pop(context);
+                                          },
+                                          text: 'Chiudi',
+                                          options: FFButtonOptions(
+                                            width: 135,
+                                            height: 60,
+                                            color: Color(0xFFBDBDBD),
+                                            textStyle: FlutterFlowTheme
+                                                .subtitle2
+                                                .override(
+                                              fontFamily: 'Open Sans',
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1,
+                                            ),
+                                            borderRadius: 12,
+                                          ),
+                                        ),
+                                        FFButtonWidget(
+                                          onPressed: () async {
+                                            final image =
+                                                await signatureGlobalKey
+                                                    .currentState!
+                                                    .toImage();
+                                            final byteData =
+                                                await image.toByteData(
+                                                    format:
+                                                        ui.ImageByteFormat.png);
+
+                                            var timestamp = DateTime.now()
+                                                .millisecondsSinceEpoch
+                                                .toString();
+                                            Directory appDocDir =
+                                                await getApplicationDocumentsDirectory();
+                                            String appDocPath = appDocDir.path;
+                                            String name = timestamp + '.png';
+
+                                            final file =
+                                                File(appDocPath + '/' + name);
+                                            await file.writeAsBytes(
+                                                byteData!.buffer.asUint8List(
+                                                    byteData.offsetInBytes,
+                                                    byteData.lengthInBytes));
+
+                                            SaveSignature(checklist_id, file);
+                                            close(checklist_id);
+
+                                            Navigator.popAndPushNamed(context,
+                                                HomePageWidget.ROUTE_NAME);
+                                          },
+                                          text: 'Firma ed Esci',
+                                          options: FFButtonOptions(
+                                            width: 135,
+                                            height: 60,
+                                            color:
+                                                FlutterFlowTheme.primaryColor,
+                                            textStyle: FlutterFlowTheme
+                                                .subtitle2
+                                                .override(
+                                              fontFamily: 'Open Sans',
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                            borderSide: BorderSide(
+                                              color: Colors.transparent,
+                                              width: 1,
+                                            ),
+                                            borderRadius: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            });
+
                                     } else {
                                       showCustomDialog(
                                           context: context,

@@ -4,12 +4,14 @@ import 'package:checklist/blocs/get_model.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
 import 'package:checklist/model/user.dart';
+import 'package:checklist/page/homePage/home.dart';
 import 'package:checklist/repositories/repository.dart';
 import 'package:checklist/theme/color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../components/flutter_flow_icon_button.dart';
 import '../../main.dart';
 import '../../model/vehicle.dart';
 import '../section/section.dart';
@@ -68,7 +70,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Color(0xFFF5F5F5),
+      backgroundColor: Colors.black,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 1,
@@ -82,6 +84,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Container(
+                  margin: const EdgeInsets.only(top: 20.0),
                   width: MediaQuery.of(context).size.width,
                   height: 90,
                   decoration: BoxDecoration(
@@ -266,10 +269,10 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
               ),
             ),
             Text(
-              'Non sono state concluse queste schede',
+              'Checklist Non Completate',
               style: FlutterFlowTheme.bodyText1.override(
                 fontFamily: 'Open Sans',
-                color: Color.fromARGB(255, 226, 22, 22),
+                color: Colors.lightBlueAccent,
                 fontSize: 19,
               ),
             ),
@@ -394,12 +397,37 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                             ),
                           ],
                         ),
+                        
                       ),
                     );
                   }
                 }
               }),
-            )
+            ),
+            Align(
+                  alignment: AlignmentDirectional(0, 1),
+                  child:   FlutterFlowIconButton(
+                            borderColor: Colors.transparent,
+                            borderRadius: 30,
+                            borderWidth: 1,
+                            buttonSize: 60,
+                            fillColor: Colors.lightBlueAccent,
+                            icon: Icon(
+                              Icons.arrow_back_rounded,
+                              color: FlutterFlowTheme.tertiaryColor,
+                              size: 40,
+                            ),
+                            onPressed: () async {
+                             // check(section.id);
+                             Navigator.pushNamed(context, HomePageWidget.ROUTE_NAME);
+                            },                     
+                          ),
+                        
+                        
+                      
+                    ),
+                  
+                
           ],
         ),
       ),

@@ -584,9 +584,9 @@ class _SectionWidgetState extends State<SectionWidget> {
                                     } else {
                                       showCustomDialog(
                                           context: context,
-                                          type: CustomDialog.ERROR,
+                                          type: CustomDialog.WARNING,
                                           msg:
-                                              'Attenzione!\nselezionare un mezzo per continuare!');
+                                              'Selezionare un mezzo per continuare!');
                                     }
                                         
                                       },
@@ -920,7 +920,7 @@ showDialog(
                                     } else {
                                       showCustomDialog(
                                           context: context,
-                                          type: CustomDialog.ERROR,
+                                          type: CustomDialog.WARNING,
                                           msg:
                                               'Attenzione!\nselezionare un mezzo per continuare!');
                                     }

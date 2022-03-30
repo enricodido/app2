@@ -602,7 +602,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                         
                                       },
                                       
-                                      text: section.description +  section.control.toString(), 
+                                      text: section.description,
                                       options: section.control ? FFButtonOptions(
                                         width: double.infinity,
                                         height: 75,

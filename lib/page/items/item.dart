@@ -257,7 +257,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                           item.value =
                                               ActualValue ? 'true' : 'false';
                                           item.working =
-                                              !ActualValue ? '1' : '0';
+                                              !ActualValue ? '0' : '0';
                                         });
                                         dynamic response = await recordValue(item);
                                       },

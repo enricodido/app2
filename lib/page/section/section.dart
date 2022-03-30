@@ -109,6 +109,8 @@ class _SectionWidgetState extends State<SectionWidget> {
         .close(context, checklist_id.toString());
   }
 
+  
+
   Future<void> check(checklist_id) async {
     setState(() {
       isLoading = true;
@@ -512,7 +514,16 @@ class _SectionWidgetState extends State<SectionWidget> {
                               }
                             }
                             if (vehicles.isNotEmpty) {
-                              return DropdownButton<Vehicle>(
+                              return Container(
+                            margin: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 4),
+                            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.lightBlue),
+
+                            ),
+                            child: DropdownButton<Vehicle>(
                                 hint: Text('Seleziona Mezzo'),
                                 isExpanded: false,
                                 value: selectedVehicle,
@@ -548,7 +559,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                     ),
                                   );
                                 }).toList(),
-                              );
+                              ));
                             } else {
                               return Text('Nessun Mezzo');
                             }
@@ -569,8 +580,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                 padding: EdgeInsets.zero,
                                 itemCount: sections.length,
                                 itemBuilder: (context, index) {
-                                  final section = sections[index];
-
+                                  final section = sections[index];                                
                                   return Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         7, 30, 7, 0),
@@ -581,6 +591,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                             context, ItemWidget.ROUTE_NAME,
                                             arguments: ItemWidgetArg(
                                                 user: user, section: section, selectedVehicle: selectedVehicle!.description));
+                                                
                                     } else {
                                       showCustomDialog(
                                           context: context,
@@ -590,26 +601,47 @@ class _SectionWidgetState extends State<SectionWidget> {
                                     }
                                         
                                       },
-                                      text: section.description,
-                                      options: FFButtonOptions(
+                                      
+                                      text: section.description +  section.control.toString(), 
+                                      options: section.control ? FFButtonOptions(
                                         width: double.infinity,
                                         height: 75,
                                         color: Colors.white,                                 
                                         textStyle:                                        
                                           FlutterFlowTheme.subtitle2.override(
                                           fontFamily: 'Open Sans',
-                                          color: section.done ? Colors.green : Color(0xFF2CA4D4),
+                                          color: Color(0xFF2CA4D4), 
+                                          // Color(0xFF2CA4D4),
                                           fontSize: 20,
                                           fontWeight: FontWeight.w600,
                                         ),
                                         borderSide: BorderSide(
-                                          color: section.done ? Colors.green : Color(0xFF2CA4D4),
+                                          color: Color(0xFF2CA4D4),
+                                          width: 3,
+                                        ),
+                                        borderRadius: 15,
+                                      ) : FFButtonOptions(
+                                        width: double.infinity,
+                                        height: 75,
+                                        color: Colors.white,                                 
+                                        textStyle:                                        
+                                          FlutterFlowTheme.subtitle2.override(
+                                          fontFamily: 'Open Sans',
+                                          color: section.done ? Colors.green : Colors.red, 
+                                          // Color(0xFF2CA4D4),
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        borderSide: BorderSide(
+                                          color: section.done ? Colors.green :  Colors.red,
                                           width: 3,
                                         ),
                                         borderRadius: 15,
                                       ),
                                     ),
+                                    
                                   );
+                                  
                                 });
                           } else {
                             return Container(
@@ -779,7 +811,7 @@ onPressed: () async {
                                 FFButtonWidget(
                                   onPressed: () async {
                                     if (vehicleId != 'Non selezionato' && vehicleId != 'Seleziona Mezzo') {
-                                    //  check(checklist_id);
+                                      check(checklist_id);
 showDialog(
             context: context,
             builder: (AlertDialogContext) {
@@ -922,7 +954,7 @@ showDialog(
                                           context: context,
                                           type: CustomDialog.WARNING,
                                           msg:
-                                              'Attenzione!\nselezionare un mezzo per continuare!');
+                                              'Selezionare un mezzo per continuare!');
                                     }
                                   },
                                   text: 'Firma',

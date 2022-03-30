@@ -7,6 +7,7 @@ class Section {
     required this.description,
     required this.checklist_id,
     required this.done,
+    required this.control,
 
   });
 
@@ -14,6 +15,7 @@ class Section {
   final String description;
   final String checklist_id;
   final bool done;
+  final bool control;
 
 
   factory Section.fromData(Map<String, dynamic> data) {
@@ -22,7 +24,7 @@ class Section {
     final String description = data['description'].toString();
     final String checklist_id = data['checklist_model_id'].toString();
     final bool done = data['done'].toString() == 'true';
-
+    final bool control = data['control'].toString == 'true';
 
 
     return Section(
@@ -30,6 +32,7 @@ class Section {
       description: description,
       checklist_id: checklist_id,
       done: done,
+      control: control,
     );
 
   }

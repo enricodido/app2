@@ -54,7 +54,6 @@ dependencies:
   path_provider: ^2.0.2
   open_file: ^3.2.1
   universal_html: ^2.0.8
-  image_gallery_saver: ^1.6.8
   # per l'esempio bloc
 
 

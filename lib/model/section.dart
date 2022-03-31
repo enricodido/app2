@@ -24,7 +24,7 @@ class Section {
     final String description = data['description'].toString();
     final String checklist_id = data['checklist_model_id'].toString();
     final bool done = data['done'].toString() == 'true';
-    final bool control = data['control'] == 'true';
+    final bool control = data['control'] ;
 
 
     return Section(

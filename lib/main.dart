@@ -14,7 +14,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:checklist/page/homePage/home.dart';
-
 import 'blocs/get_checklist.dart';
 import 'blocs/get_item.dart';
 import 'blocs/get_model.dart';

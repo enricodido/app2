@@ -267,11 +267,10 @@ class _SectionWidgetState extends State<SectionWidget> {
         showCustomDialog(
           context: context,
           type: CustomDialog.WARNING,
-          msg: 'Non hai completato tutte le voci!',
+          msg: 'Ci sono delle voci non valorizzate, controllarle prima di Firmare!',
         );
       }
     } catch (error) {
-      print(error);
       showCustomDialog(
         context: context,
         type: CustomDialog.WARNING,

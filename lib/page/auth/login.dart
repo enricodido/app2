@@ -18,10 +18,10 @@ class LoginPageWidget extends StatefulWidget {
 class _LoginPageWidgetState extends State<LoginPageWidget> {
   bool isLoading = false;
 
-  TextEditingController textFieldEmailController = TextEditingController();
+  TextEditingController textFieldUsernameController = TextEditingController();
   TextEditingController textFieldPasswordController = TextEditingController();
 
-  String emailError = 'email richiesta.';
+  String usernameError = 'username richiesta.';
   String passwordError = 'Password richiesta.';
 
   bool textFieldPasswordVisibility = false;
@@ -30,10 +30,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   void onSubmit() async {
-    final email = textFieldEmailController.text.trim();
+    final username = textFieldUsernameController.text.trim();
     final password = textFieldPasswordController.text.trim();
 
-    if (email.isNotEmpty && password.isNotEmpty) {
+    if (username.isNotEmpty && password.isNotEmpty) {
       setState(() {
         isLoading = true;
       });
@@ -43,7 +43,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
         final jwt = await getIt
             .get<Repository>()
             .userRepository!
-            .login(context, email.toString(), password.toString());
+            .login(context, username.toString().toUpperCase(), password.toString());
         if(jwt != null) {
           Navigator.pushNamed(context, HomePageWidget.ROUTE_NAME);
         }
@@ -123,15 +123,15 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(30, 50, 30, 50),
                 child: TextFormField(
-                  controller: textFieldEmailController,
+                  controller: textFieldUsernameController,
                   obscureText: false,
                   decoration: InputDecoration(
-                    labelText: 'Email',
+                    labelText: 'Username',
                     labelStyle: FlutterFlowTheme.bodyText1.override(
                       fontFamily: 'Open Sans',
                       color: Color(0xFF707070),
                     ),
-                    hintText: 'Inserisci Email',
+                    hintText: 'Inserisci Username',
                     hintStyle: FlutterFlowTheme.bodyText1.override(
                       fontFamily: 'Open Sans',
                       color: Color(0xFF707070),

@@ -8,9 +8,9 @@ class UserRepository {
   Repository repository;
   UserRepository(this.repository);
 
-  Future<String?> login(context, String email, String password) async {
+  Future<String?> login(context, String username, String password) async {
     final response = await repository.http!.post(url: 'auth/login', bodyParameters: {
-      'email': email,
+      'username': username,
       'password': password,
     });
     final data = json.decode(response.body);

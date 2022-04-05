@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:checklist/blocs/get_item.dart';
@@ -174,6 +173,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                           Expanded(
                             child: Align(
                               alignment: AlignmentDirectional(1, 0),
+                              
                               child: Padding(
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),

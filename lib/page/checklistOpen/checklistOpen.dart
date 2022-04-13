@@ -311,8 +311,12 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                             color: Colors.black,
                                             fontFamily: 'Open Sans'             
                                             ),
-                                          children: <TextSpan>[
+                                          children: 
+                                          
+                                          <TextSpan>[
                                             new TextSpan(text: checklist.model, style: new TextStyle(fontWeight: FontWeight.bold, color: Colors.deepOrangeAccent)),
+                                       
+                                            // ignore: unnecessary_new
                                             new TextSpan(text:     
                                             '\n' +
                                             'Utente: ' + checklist.user.name  + ' ' + checklist.user.lastname + 
@@ -321,7 +325,8 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                             checklist.created_at +
                                             '\n' +
                                             'Mezzo: ' +
-                                            checklist.vehicle_id.toString() ,
+                                             checklist.vehicle_name! ,
+                                            
                                             ),
                                           ]
                                         ),
@@ -340,7 +345,8 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                                 arguments: SectionWidgetArg(
                                                     user: user,
                                                     checklist_id: checklist.id,
-                                                    selectedVehicle: checklist.vehicle_id));
+                                                    selectedVehicle: checklist.vehicle_name
+                                                    ));
                                           },
                                           text: 'Modifica',
                                           options: FFButtonOptions(

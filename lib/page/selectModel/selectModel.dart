@@ -3,6 +3,7 @@ import 'package:checklist/blocs/get_model.dart';
 import 'package:checklist/components/customDialog.dart';
 import 'package:checklist/components/flutter_flow_theme.dart';
 import 'package:checklist/components/flutter_flow_widget.dart';
+import 'package:checklist/model/checklist.dart';
 import 'package:checklist/model/selectModel.dart';
 import 'package:checklist/model/user.dart';
 import 'package:checklist/repositories/repository.dart';
@@ -66,8 +67,7 @@ class _SchedaControlliSceltaWidgetState
     getIt.get<Repository>().checklistModelRepository!.create(context,  user.id.toString(), model.id.toString());
     if(result != null) {
       Navigator.pushNamed(context, SectionWidget.ROUTE_NAME,
-          arguments: SectionWidgetArg(user: user, checklist_id: result, selectedVehicle: 'Seleziona Mezzo')
-         
+          arguments: SectionWidgetArg(user: user, checklist_id: result,selectedVehicle: 'Seleziona Mezzo')         
       );
        
       setState(() {

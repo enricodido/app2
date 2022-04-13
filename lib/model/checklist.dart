@@ -1,4 +1,5 @@
 import 'package:checklist/model/user.dart';
+import 'package:checklist/model/vehicle.dart';
 import 'package:intl/intl.dart';
 
 class ChecklistModel {
@@ -6,7 +7,8 @@ class ChecklistModel {
     required this.id,
     required this.model,
     required this.user,
-    required this.vehicle_id, 
+    required this.vehicle_name,
+
     required this.created_at,
     required this.signature,
 // this.vehicle
@@ -14,10 +16,10 @@ class ChecklistModel {
 
   final String id;
   final String model;
-  
-  final String? vehicle_id;
+ 
   final String created_at;
   final String signature;
+  final String? vehicle_name;
   final UserModel user;
 
 
@@ -26,7 +28,8 @@ class ChecklistModel {
     final String id = data['id'].toString();
     final String model = data['model'].toString();
     final String signature = data['signature'].toString();
-    final String? vehicle_id = data['vehicle_type_id'] != null?  data['vehicle_types']['description'].toString() : 'Non selezionato' ;
+    final String? vehicle_name = data['vehicle_id'] != null?  (data['vehicle']['model'].toString() + data['vehicle']['license_plate'].toString() ) : 'Non selezionato' ;
+    
     String created_at = '';
     if(data['created_at'].toString().substring(0,16).contains('T')) {
       created_at = DateFormat('dd-MM-yyy HH:mm').format(DateFormat('yyyy-MM-ddTHH:mm').parse(data['created_at'].toString().substring(0,16)).add(Duration(hours: 1)));
@@ -39,7 +42,8 @@ class ChecklistModel {
       id: id,
       model: model,
       user: user,
-      vehicle_id: vehicle_id,
+      vehicle_name: vehicle_name,
+     
       created_at: created_at,
       signature: signature
     );

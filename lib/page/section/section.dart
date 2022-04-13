@@ -506,7 +506,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                               String? val = vehicleId!;
                               if (vehicles.length > 0) {
                                 vehicles.forEach((vehicle) {
-                                  if (val == vehicle.description) {
+                                  if (val == vehicle.license_plate) {
                                     selectedVehicle = vehicle;
                                   }
                                 });
@@ -549,7 +549,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                   return DropdownMenuItem<Vehicle>(
                                     value: vehicle,
                                     child: Text(
-                                      vehicle.description,
+                                      vehicle.license_plate,
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -589,7 +589,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                      Navigator.pushNamed(
                                             context, ItemWidget.ROUTE_NAME,
                                             arguments: ItemWidgetArg(
-                                                user: user, section: section, selectedVehicle: selectedVehicle!.description));
+                                                user: user, section: section, selectedVehicle: selectedVehicle!.license_plate));
                                                 
                                     } else {
                                       showCustomDialog(

@@ -34,7 +34,7 @@ class ChecklistModelRepository {
     final response =
         await repository.http!.post(url: 'store/vehicle', bodyParameters: {
       'checklist_id': checklist_id,
-      'vehicle_type_id': vehicle_id,
+      'vehicle_id': vehicle_id,
     });
     final data = json.decode(response.body);
     if (response.statusCode == 200) {

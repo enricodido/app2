@@ -82,7 +82,7 @@ class _ItemWidgetState extends State<ItemWidget> {
       if (data) {
         Navigator.pushNamed(context, SectionWidget.ROUTE_NAME, arguments: SectionWidgetArg(
                                                     user: user,
-                                                    checklist_id: section.checklist.id,
+                                                    checklist_id: section.checklist_id,
                                                     selectedVehicle:  selectedVehicle));
          
         
@@ -783,7 +783,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                             onPressed: () async {
                              Navigator.pushNamed(context, SectionWidget.ROUTE_NAME, arguments: SectionWidgetArg(
                                                     user: user,
-                                                    checklist_id: section.checklist.id,
+                                                    checklist_id: section.checklist_id,
                                                     selectedVehicle:  selectedVehicle));
                             },                     
                           ),
@@ -796,7 +796,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                              // check(section.id);
                              Navigator.pushNamed(context, SectionWidget.ROUTE_NAME, arguments: SectionWidgetArg(
                                                     user: user,
-                                                    checklist_id: section.checklist.id,
+                                                    checklist_id: section.checklist_id,
                                                     selectedVehicle:  selectedVehicle));
                              
                             },

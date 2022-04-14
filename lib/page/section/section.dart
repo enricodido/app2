@@ -65,10 +65,9 @@ class _SectionWidgetState extends State<SectionWidget> {
             ModalRoute.of(context)!.settings.arguments as SectionWidgetArg;
         user = args.user;
         checklist_id = args.checklist_id!;
-        
-          
         vehicleId = args.selectedVehicle!;
-          print(vehicleId); 
+          print(vehicleId);
+          print(checklist_id); 
       });
       BlocProvider.of<GetSectionBloc>(context)
           .add(GetSectionBlocRefreshEvent());
@@ -589,7 +588,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                      Navigator.pushNamed(
                                             context, ItemWidget.ROUTE_NAME,
                                             arguments: ItemWidgetArg(
-                                                user: user, section: section, selectedVehicle: selectedVehicle!.license_plate));
+                                                user: user, section: section, selectedVehicle: selectedVehicle!.model + '(' + selectedVehicle!.license_plate + ')'));
                                                 
                                     } else {
                                       showCustomDialog(

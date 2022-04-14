@@ -5,7 +5,7 @@ class Section {
   Section({
     required this.id,
     required this.description,
-    required this.checklist,
+    required this.checklist_id,
     required this.done,
     required this.control,
 
@@ -13,7 +13,7 @@ class Section {
 
   final String id;
   final String description;
-  final ChecklistModel checklist;
+  final String checklist_id;
   final bool done;
   final bool control;
 
@@ -22,7 +22,7 @@ class Section {
 
     final String id = data['id'].toString();
     final String description = data['description'].toString();
-    final ChecklistModel checklist = ChecklistModel.fromData(data['checklist_model']);
+    final String checklist_id = data['checklist_model_id'].toString();
     final bool done = data['done'].toString() == 'true';
     final bool control =  data['control'] ;
 
@@ -30,7 +30,7 @@ class Section {
     return Section(
       id: id,
       description: description,
-      checklist: checklist,
+      checklist_id: checklist_id,
       done: done,
       control: control,
     );

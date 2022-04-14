@@ -28,7 +28,7 @@ class ChecklistModel {
     final String id = data['id'].toString();
     final String model = data['model'].toString();
     final String signature = data['signature'].toString();
-    final String? vehicle_name = data['vehicle_id'] != null?  (data['vehicle']['model'].toString() + data['vehicle']['license_plate'].toString() ) : 'Non selezionato' ;
+    final String? vehicle_name = data['vehicle_id'] != null?  (data['vehicle']['model'].toString() + '(' + data['vehicle']['license_plate'].toString() + ')' ) : 'Non selezionato' ;
     
     String created_at = '';
     if(data['created_at'].toString().substring(0,16).contains('T')) {

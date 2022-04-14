@@ -339,7 +339,6 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                             10, 5, 10, 0),
                                         child: FFButtonWidget(
                                           onPressed: () async {
-                                          //  Vehicle? selectedVehicle = await getIt.get<Repository>().vehicleRepository!.getSingle(checklist_id: checklist.id);
                                             Navigator.pushNamed(context,
                                                 SectionWidget.ROUTE_NAME,
                                                 arguments: SectionWidgetArg(
@@ -347,6 +346,7 @@ class _ChecklistAperteWidgetState extends State<ChecklistAperteWidget> {
                                                     checklist_id: checklist.id,
                                                     selectedVehicle: checklist.vehicle_name
                                                     ));
+                                                    
                                           },
                                           text: 'Modifica',
                                           options: FFButtonOptions(

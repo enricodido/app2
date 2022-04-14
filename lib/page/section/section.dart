@@ -506,7 +506,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                               String? val = vehicleId!;
                               if (vehicles.length > 0) {
                                 vehicles.forEach((vehicle) {
-                                  if (val == vehicle.license_plate) {
+                                  if (val == vehicle.model + '(' + vehicle.license_plate + ')') {
                                     selectedVehicle = vehicle;
                                   }
                                 });
@@ -549,7 +549,7 @@ class _SectionWidgetState extends State<SectionWidget> {
                                   return DropdownMenuItem<Vehicle>(
                                     value: vehicle,
                                     child: Text(
-                                      vehicle.license_plate,
+                                      vehicle.model + '(' + vehicle.license_plate + ')',
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
